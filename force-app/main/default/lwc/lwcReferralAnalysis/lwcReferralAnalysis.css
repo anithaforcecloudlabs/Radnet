@@ -1,0 +1,13 @@
+.datatableDiv{
+    padding: 10px;
+}
+.slds-th__action{
+    text-align: center;
+}
+.reffTable .slds-table tbody>tr>:nth-child(1) {
+    background-color: green;
+    font-weight: 900 !important;
+}
+.slds-table_header-fixed tbody tr:first-child td {
+    font-weight: 900 !important;
+}

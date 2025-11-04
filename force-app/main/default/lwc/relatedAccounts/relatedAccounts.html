@@ -1,0 +1,197 @@
+<template>
+	<template if:true={loadComp}>
+		<lightning-accordion allow-multiple-sections-open active-section-name={activeSections} class="accordionClass">
+			<lightning-accordion-section class="bg-accordion accordionClass" name="A" label="Related Accounts">
+				<div if:true={isLoading}>
+					<lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+					</lightning-spinner>
+				</div>
+				<div class="slds-p-vertical_large slds-p-horizontal_small">
+					<div class="slds-page-header">
+						<div class="slds-page-header__row">
+							<div class="slds-page-header__col-title">
+								<div class="slds-media">
+									<div class="slds-media__figure">
+										<span class="slds-icon_container slds-icon-standard-contact"
+											title="Related Accounts">
+											<svg class="slds-icon slds-icon_small" aria-hidden="true">
+												<use
+													xlink:href="/_slds/icons/standard-sprite/svg/symbols.svg#relationship">
+												</use>
+											</svg>
+											<span class="slds-assistive-text">accounts</span>
+										</span>
+									</div>
+									<div class="slds-media__body">
+										<h2 class="slds-card__header-title">
+											<a href="#" class="slds-card__header-link slds-truncate"
+												title="Related Accounts">
+												<span>{accountLabel}</span>
+											</a>
+										</h2>
+									</div>
+								</div>
+							</div>
+							<div class="slds-page-header__col-actions">
+								<template if:true={isWestSalesRepUser}></template>
+								<template if:false={isWestSalesRepUser}>
+									<lightning-button onclick={onRemoveBtnClick} label="Remove" title="Remove"
+										class="slds-m-left_x-small">
+									</lightning-button>
+									<lightning-button onclick={onMergeBtnClick} label="Merge" title="Merge"
+										class="slds-m-left_x-small">
+									</lightning-button>
+									<lightning-button onclick={handleAddRelation} variant="brand" label="Add Location"
+										title="Add Location" class="slds-m-left_x-small">
+									</lightning-button>
+								</template>
+							</div>
+						</div>
+						<div class="table-size slds-scrollable--y slds-p-top_medium slds-m-bottom_medium">
+							<template if:true={showComp}>
+								<template if:true={accountObjData}>
+									<template if:true={isWestSalesRepUser}>
+									<lightning-datatable 
+										key-field="Id"
+										data={accountObjData}
+										account-data={accountObjData.AccountId}
+										columns={westRepscolumns}
+										onsave={onSaveTableVals}
+										draft-values={draftValues}
+										onrowselection={getSelectedRecords}
+										onrowaction={handleRowAction}
+										sorted-by={sortBy}
+										onsort={handleSortData}
+										sorted-direction={sortDirection}
+										selected-rows={setSelectedRows}>
+									</lightning-datatable>
+									</template>
+									<template if:false={isWestSalesRepUser}>
+									<lightning-datatable 
+										key-field="Id"
+										data={accountObjData}
+										account-data={accountObjData.AccountId}
+										columns={columns}
+										onsave={onSaveTableVals}
+										draft-values={draftValues}
+										onrowselection={getSelectedRecords}
+										onrowaction={handleRowAction}
+										sorted-by={sortBy} 
+										onsort={handleSortData}
+										sorted-direction={sortDirection}
+										selected-rows={setSelectedRows}>
+									</lightning-datatable>
+									</template>
+								</template>
+								<template lwc:if={accountObjData.error}>
+									<!-- handle Apex error -->{error}
+								</template>
+							</template>
+						</div>
+					</div>
+				</div>
+			</lightning-accordion-section>
+		</lightning-accordion>
+		<template if:true={isShowFormModal}>
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+							title="Close" onclick={closeModal}>
+							<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+								size="small">
+							</lightning-icon>
+							<span class="slds-assistive-text">Close</span>
+						</button>
+						<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Update Accounts Name
+						</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" style="overflow-y: auto; max-height: 500px" id="modal-content-id-1">
+						<div class="slds-box">
+
+							<template for:each={selectedAccountsForRename} for:item="accountRecord" for:index="index">
+								<lightning-record-edit-form key={accountRecord.Id} object-api-name="Account"
+									record-id={accountRecord.Id}>
+									<lightning-messages> </lightning-messages>
+									<lightning-input-field field-name="Name" data-account-id={accountRecord.Id}
+										data-purpose="rename"></lightning-input-field>
+								</lightning-record-edit-form>
+
+							</template>
+							<div style="padding-left:2%;" class="slds-align_absolute-center slds-m-top_medium">
+								<button class="saveButton slds-button slds-button_brand slds-m-right_x-small"
+									onclick={handleSaveRename}>Save</button>
+								<button class="newButton slds-button slds-button_neutral"
+									onclick={closeModal}>Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</template>
+		<template if:true={isShowMergeModal}>
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+							title="Close" onclick={closeModal}>
+							<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+								size="small">
+							</lightning-icon>
+							<span class="slds-assistive-text">Close</span>
+						</button>
+						<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Select which
+							information to keep</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" style="overflow-y: auto; max-height: 500px" id="modal-content-id-02">
+						<div class="slds-box">
+							<lightning-radio-group class="slds-p-bottom--x-small" name="Name" label="Name"
+								options={arrName} value={value} onchange={handleChangeName} type="radio" required>
+							</lightning-radio-group>
+							<lightning-radio-group class="slds-p-bottom--x-small" name="Address" label="Address"
+								options={arrAddress} value={value} onchange={handleChangeAddress} type="radio" required>
+							</lightning-radio-group>
+							<lightning-radio-group class="slds-p-bottom--x-small" name="Owner" label="Owner"
+								options={arrOwner} value={value} onchange={handleChangeOwner} type="radio" required>
+							</lightning-radio-group>
+							<template if:true={arrPhoneExist}>
+								<lightning-radio-group class="slds-p-bottom--x-small" name="Phone" label="Phone"
+									options={arrPhone} value={value} onchange={handleChangePhone} type="radio">
+								</lightning-radio-group>
+							</template>
+							<template if:true={arrFaxExist}>
+								<lightning-radio-group class="slds-p-bottom--x-small" name="Fax" label="Fax"
+									options={arrFax} value={value} onchange={handleChangeFax} type="radio">
+								</lightning-radio-group>
+							</template>
+							<lightning-input type="text" onchange={handleInputChange} value={textCommentValue}
+								label="Enter comment">
+							</lightning-input>
+						</div>
+						<div style="padding-left:2%;" class="slds-align_absolute-center slds-m-top_medium">
+							<template if:true={showSaveButton}>
+								<!-- <button class="saveButton slds-button slds-button_brand slds-m-right_x-small"
+									onclick={handleMergeSubmit}>Merge
+								</button> -->
+								<button class="saveButton slds-button slds-button_brand slds-m-right_x-small"
+									onclick={onMergeSubmitBtnClick}>Merge
+								</button>
+							</template>
+							<button class="newButton slds-button slds-button_neutral"
+								onclick={closeModal}>Cancel</button>
+						</div>
+					</div>
+				</div>
+				</div>
+
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</template>
+	</template>
+</template>

@@ -1,0 +1,13 @@
+.slds-pill {
+    border-radius: 1rem;
+    max-width: 87%;
+}
+
+.pill_label {
+    font-size: 11px;
+}
+
+.pillContainerDisabled, .pillContainerDisabled button{
+    cursor: default;
+    background-color: #e8e8e8;
+}

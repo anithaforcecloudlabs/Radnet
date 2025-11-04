@@ -1,0 +1,14 @@
+<template>
+    <lightning-layout>
+        <template if:true={isGoLiveCal}>
+            <lightning-layout-item size="12">
+                <c-d-h_go-live-calendar></c-d-h_go-live-calendar>
+            </lightning-layout-item>
+        </template>
+        <template if:true={isSearchPhoneDir}>
+            <lightning-layout-item size="12">
+                <c-d-h_search-phone-directory></c-d-h_search-phone-directory>
+            </lightning-layout-item>
+        </template>        
+    </lightning-layout>
+</template>

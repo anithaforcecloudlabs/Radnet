@@ -1,0 +1,23 @@
+<!--
+*********************************************************
+Apex Class/ LWC Component Name    : dH_practiceOptions
+
+Created Date       : 3/30/2024
+
+@description       : Display practice options for each search for modality procedure search 
+
+@jiraid            : CC-105
+
+*********************************************************
+-->
+<template>
+    <template if:true={practiceOptions}>
+        <lightning-checkbox-group 
+                name="practiceCheckBoxes"
+                class="checkboxClass"
+                options={practiceOptions}
+                value={selectedPRVal}
+                onchange={handlePracticheChange}>
+        </lightning-checkbox-group>
+    </template>
+</template>

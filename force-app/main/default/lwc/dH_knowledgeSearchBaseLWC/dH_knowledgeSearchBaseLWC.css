@@ -1,0 +1,137 @@
+.background {
+    background-color: #F5F5F5;
+    min-height: 100%;
+}
+/*CC-1386 Start */
+.parentCheckandArticle{ 
+    display: flex;
+    align-items: center;
+    gap: 7px;
+} /*CC-1386 END  */
+.categbox {
+    width: 280px;
+    min-height: 110px ; 
+    padding-top: 10px;
+    padding-right: 10px; 
+    
+    position: absolute;
+
+    background-color:#ffffff;
+    box-shadow: 2px 2px 5px 1px #cccccc;
+}
+.catgtext{
+    font-weight: bold;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    
+}
+.subcatgtext{
+    font-weight: lighter;
+    cursor: pointer;
+    height: 20px;
+    width: 206px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;     
+}
+.subcatgtext:hover{
+    overflow: visible; 
+    white-space: normal;
+    height:auto;  
+    text-decoration: underline;
+}
+.pageHeading{
+    font-weight: bold;
+    font-size: 16px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-right: 5px;
+}
+.articleCount{
+    color: var(--Foundation-Gray-Neutral-20, #2E2E2E);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.clickables{
+    font-size: small;
+    font-weight: lighter;
+    padding-top: 10px;
+    /* text-indent: 20px; */
+}
+
+.icons{
+    --slds-c-icon-color-foreground-default: #0B5CAB;
+    fill: #0B5CAB;
+    background-color: #ffffff;
+}
+
+.container{
+    width: 280px;
+    height: 110px;
+    position: relative;
+
+    padding-top: 10px;
+    padding-right: 10px; 
+
+    margin-top: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+
+}
+.articleDetail{
+    height: auto;
+    width: auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 20px;
+}
+
+.stack-top{
+    z-index: 9;
+}
+.p0 { text-indent: 2em; }
+
+.showAllButton  {
+    
+    --sds-c-button-text-color:black;
+    --slds-c-button-outline-brand-color-border:black;
+  
+}
+
+.subCatgBtn{
+    
+    --sds-c-button-text-color:black;
+
+    --slds-c-button-outline-brand-color-border:black;
+
+}
+.content.mark { 
+    color: black; 
+    padding: 5px; 
+    font-weight:bold !important;
+    background-color: rgb(255, 240, 63) !important; 
+}
+.content.mark.a0 { 
+    color: black; 
+    padding: 5px; 
+    font-weight:bold !important;
+    background-color: rgb(255, 240, 63) !important; 
+}
+
+mark{
+    font-weight:bold !important;
+
+}
+/*CC-1386 Start */
+.custom-checkbox {  
+    margin-left: 500px;
+}/*CC-1386 END  */

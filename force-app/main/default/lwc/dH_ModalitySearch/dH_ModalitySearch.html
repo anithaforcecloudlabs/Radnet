@@ -1,0 +1,36 @@
+<!-- 
+* ***************************************************************************************************************************
+* LWC Component Name - dH_ModalitySearch.html
+* Created Date - 14-July-2024
+* Function - HTML class to provide the Modality Search functionality in the P360 view.
+* Modification Log :
+* ***************************************************************************************************************************
+* Jira#             Date                 Description
+* ********       **************      ***********************************************************************************
+* CC-488          14-July-2024         Added a button which when clicked opens the Modality Search in a new sub tab.
+* **********************************************************************************************************************************
+-->
+<template>
+    <div class="card-container">
+        <div class="card-header">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <!--To display the icon-->
+                <div class="slds-media__figure">
+                    <span
+                        class="icon slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_left">
+                        <lightning-icon icon-name="utility:search" size="small" title={label.ModalitySearch}
+                            class="iconposition slds-icon  slds-icon_medium slds-icon-text-default slds-icon-standard-search slds-icon_container"
+                            aria-hidden="true">
+                        </lightning-icon>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-card__header-title">{label.ModalitySearch}</h1>
+                </div>
+            </header>
+        </div>
+        <div class="card-body"> 
+            <button label="Click here" class="dH_customButton slds-button slds-button_neutral slds-button_stretch" onclick={handleClick}><label>Click here</label></button>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,278 @@
+<!-- 
+********************************************************************
+* LWC               :   goLiveCalendar
+* 
+* Created Date      :   13/06/2024
+* 
+* @description      :   HTML class of goLiveCalendar LWC component
+* 
+* @Jira Id          :   CC-103, CC-964
+* 
+********************************************************************
+-->
+<template>
+    <div class="slds-form slds-form_horizontal  slds-wrap slds-p-around_x-large ">
+        <lightning-layout>
+            <lightning-layout-item size="2">
+                <div class="slds-form">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label slds-p-left_x-small title"
+                            for="horizontal-input-id-01"><b>Title</b></label>
+                        <div class="slds-form-element__control">
+                            <lightning-input type="text" variant="label-hidden" label="Title" class=""
+                                onchange={handleTitleChange}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="3">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label slds-p-left_large title" for="horizontal-input-id-01"
+                        style="padding-left: 15px;"><b>Project Category</b></label>
+                    <div class="slds-form-element__control">
+                        <lightning-input type="text" variant="label-hidden" class="" label="Project Category"
+                            onchange={handleProjectCategoryChange}></lightning-input>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="3">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label slds-p-left_x-large title" for="horizontal-input-id-01"
+                        style="padding-left: 27px;"><b>Region</b></label>
+                    <div class="slds-form-element__control">
+                        <lightning-combobox class="" variant="label-hidden" name="Region" label="Region"
+                            options={regionNewOptions} value={selectedRegionValue} onchange={handleRegionChange}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="4">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label slds-p-left_x-large title"
+                        for="horizontal-input-id-01"><b>GoLiveDate</b></label>
+                    <div class="slds-form-element__control">
+                        <lightning-combobox class="" variant="label-hidden" name="GoLiveDate" label="Go Live date"
+                            options={goLiveDateOptions} value={selectedgoLiveDateValue}
+                            onchange={handleGoLiveDateChange}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </lightning-layout-item>
+
+        </lightning-layout>
+
+        <lightning-layout>
+            <lightning-layout-item class="slds-p-top_small">
+                <lightning-button class="table-buttons slds-p-around_x-small" variant="brand" label="Apply"
+                    onclick={handleApply}> </lightning-button>
+                <lightning-button if:true={showButton} class="table-buttons slds-p-around_x-small" variant="brand"
+                    label="Add New Event" onclick={handleAddNewEvet}> </lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+    <template if:true={isFormOpen}>
+        <div class="screenOne slds-p-around_x-large">
+            <lightning-layout>
+                <lightning-layout-item size="2">
+                    <div class="slds-form">
+                        <div class="slds-form-element slds-form-element_horizontal">
+                            <label class="slds-form-element__label slds-p-left_x-small title"
+                                for="horizontal-input-id-01"><b>Title</b></label>
+                            <div class="slds-form-element__control">
+                                <lightning-input type="text" name="title" variant="label-hidden" label="Title"
+                                    onchange={handleNewEventFormData}></lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="TitleErrorMessage errorMessage slds-hide">*Title cannot be empty</div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label slds-p-left_large title" for="goLivedate"><b>Date &
+                                Time</b></label>
+                        <div class="slds-form-element__control">
+                            <lightning-input type="datetime" name="goLivedate" variant="label-hidden"
+                                onchange={handleNewEventFormData}></lightning-input>
+                        </div>
+                    </div>
+                    <div class="DateErrorMessage errorMessage slds-hide">*Date & Time cannot be empty</div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3">
+                    <div class=" slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label slds-p-left_large  title"
+                            for="horizontal-input-id-01"><b>Category</b></label>
+                        <div class="slds-form-element__control">
+                            <lightning-input type="text" name="category" variant="label-hidden" label="Category"
+                                onchange={handleNewEventFormData}></lightning-input>
+                        </div>
+                    </div>
+                    <div class="CategoryErrorMessage errorMessage slds-hide">*Category cannot be empty</div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3">
+                    <div class=" slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label slds-p-left_large title"
+                            for="horizontal-input-id-01"><b>Region</b></label>
+                        <div class="slds-form-element__control">
+                            <lightning-combobox name="region" label="Region" value={value} placeholder=""
+                                variant="label-hidden" options={regionNewOptions} onchange={handleNewEventFormData}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                    <div class="RegionErrorMessage errorMessage slds-hide">*Region cannot be empty</div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout class="slds-p-top_small">
+                <lightning-button label="Save Event" onclick={handleSaveEvent} class="slds-float_left"
+                    variant="brand"></lightning-button>
+                <lightning-button label="Cancel" onclick={handleCancel} class="slds-float_left"
+                    style="margin-left:20px;"></lightning-button>
+            </lightning-layout>
+        </div>
+        <div class=" screenTwo slds-form slds-form_horizontal  slds-p-left_x-large slds-hide  ">
+            <p class="title slds-p-bottom_medium"><b>Upload files for {title}</b></p>
+            <lightning-layout>
+                <lightning-layout-item size="4">
+                    <lightning-file-upload class="uploadFileBox" name="fileUploader" accept={acceptedFormat}
+                        record-id={newRecordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" class="cancelButton">
+                    <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+    <lightning-layout>
+        <lightning-layout-item padding="around-small" size="12">
+            <div style="overflow: auto; ">
+                <template if:true={isDataAvailable}>
+                    <table class="slds-table slds-table_bordered ">
+                        <thead style="position: sticky; top: 0;">
+                            <tr class="trHeading">
+                                <th scope="col" data-column="Title" onclick={handleTitleSort} style="cursor: pointer;"
+                                    class="tdHeading">
+                                    <div class="slds-truncate" title="Title" data-column="Title">
+                                        Title
+                                        <span if:true={isTitleAsc}>
+                                            <span class="slds-icon_container slds-icon-utility-arrowdown" data-column="Title">
+                                                <svg class="slds-icon slds-icon-text-default sortArrow"
+                                                    aria-hidden="true" data-column="Title" >
+                                                    <use
+                                                        xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup" data-column="Title">
+                                                    </use>
+                                                </svg>
+                                            </span>
+                                        </span>
+                                        <span if:false={isTitleAsc}>
+                                            <span class="slds-icon_container slds-icon-utility-arrowdown" data-column="Title">
+                                                <svg class="slds-icon slds-icon-text-default sortArrow"
+                                                    aria-hidden="true" data-column="Title">
+                                                    <use
+                                                        xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown" data-column="Title">
+                                                    </use>
+                                                </svg>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th scope="col" onclick={handleGoLiveDateSort} style="cursor: pointer;"
+                                    data-column="GoLiveDate" class="tdHeading">
+                                    <div class="slds-truncate" title="Go Live Date" data-column="GoLiveDate">
+                                        Go Live Date
+                                        <span if:true={isDateAsc}>
+                                            <span class="slds-icon_container slds-icon-utility-arrowdown" data-column="GoLiveDate">
+                                                <svg class="slds-icon slds-icon-text-default sortArrow"
+                                                    aria-hidden="true" data-column="GoLiveDate">
+                                                    <use
+                                                        xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup" data-column="GoLiveDate">
+                                                    </use>
+                                                </svg>
+                                            </span>
+                                        </span>
+                                        <span if:false={isDateAsc}>
+                                            <span class="slds-icon_container slds-icon-utility-arrowdown" data-column="GoLiveDate">
+                                                <svg class="slds-icon slds-icon-text-default sortArrow"
+                                                    aria-hidden="true" data-column="GoLiveDate">
+                                                    <use
+                                                        xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown" data-column="GoLiveDate">
+                                                    </use>
+                                                </svg>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th scope="col" class="tdHeading">
+                                    <div title="Category">
+                                        Category
+                                    </div>
+                                </th>
+                                <th scope="col" class="tdHeading">
+                                    <div class="slds-truncate" title="Region">
+                                        Region
+                                    </div>
+                                </th>
+                                <th scope="col" class="tdHeading">
+                                    <div class="slds-truncate" title="Files">
+                                        Files
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={searchData} for:item="row" for:index="index">
+                                <tr key={row.Id} class="trData">
+                                    <td style="max-width: 240px;">
+                                        <div class="content rowPadding">
+                                            <template if:true={isGuestUser}>
+                                                {row.Name}
+                                            </template>
+                                            <template if:false={isGuestUser}>
+                                                <a data-id={row.Id} onclick={handleTitleClick}> {row.Name}</a>
+                                            </template>
+                                        </div>
+                                    </td>
+                                    <td style="max-width: 150px;">
+                                        <div class="content rowPadding"> 
+                                            <template if:true={isGuestUser}>
+                                                <lightning-formatted-date-time value={row.Go_Live_Date__c} year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                       weekday="short" minute="2-digit" time-zone="America/Los_Angeles" time-zone-name="short" hour12={ampm}></lightning-formatted-date-time>
+                                            </template>
+                                            <template if:false={isGuestUser}>
+                                                <lightning-formatted-date-time value={row.Go_Live_Date__c} year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                weekday="short" minute="2-digit" time-zone={timeZone} hour12={ampm}></lightning-formatted-date-time> 
+                                            </template>                                           
+                                        </div>
+                                    </td>
+                                    <td style="max-width: 150px;">
+                                        {row.Category__c}
+                                    </td>
+                                    <td>
+                                        <div class="content rowPadding">
+                                            {row.Region__c}
+                                        </div>
+                                    </td>
+                                    <td style="max-width: 200px;">
+                                        <a data-descid={row.Id} onclick={handlePreviewImage}>
+                                            <template lwc:if={row.RelatedDocumentName__c}>
+                                                <div class="content rowPadding" data-descid={row.Id} style="    padding: 5px;
+                                                border: 1px solid #ccc;
+                                                background: #fff;">
+                                                    {row.RelatedDocumentName__c}
+                                                </div>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+                <template if:false={isDataAvailable}>
+                    <div class="noRecFoundLabel">
+                        No record found!
+                    </div>
+                </template>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+
+</template>

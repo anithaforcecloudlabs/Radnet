@@ -1,0 +1,77 @@
+.slds-box {
+    padding: 1rem;
+    margin: 0;
+    border-radius: .25rem;
+    border: 1px solid lightgrey;
+}
+.block-contact {
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+}
+.col-input {
+    display:block;
+    padding:0 !important;
+}
+.col-contactname {
+    display:block;
+    padding: 10px 5px;
+    margin-right:auto;
+}
+.col-contactbudget {
+    display:block;
+    padding: 10px 5px;
+    color:chocolate;
+    margin-left: auto;
+}
+.col-contactbudgeterror{
+    padding:2px;
+    font-weight:400;
+    font-size:12px;
+    color:rgb(177, 50, 65);
+}
+.error {
+    color:rgb(177, 50, 65);
+    font-weight: 600;
+}
+.bg-color {
+    background: #F1F6FF;
+    color: #0070D2;
+    /*--sds-c-icon-color-background: */
+}
+.slds-icon-utility-info .slds-icon_container {
+    background-color: var(--slds-c-icon-color-background, var(--sds-c-icon-color-background, #0070D2));
+}
+.cost-icon {
+    --slds-c-icon-color-foreground-default: #0070D2;
+    /*--slds-c-icon-color-background: #0070D2;*/
+   /* --slds-icon-text-default : #0070D2;*/
+}
+
+.c-container {
+    margin: 1px 0 2px;
+}
+
+ .large {
+    height: 200px;
+}
+
+ .x-large {
+    height: 300px;
+    width:100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .block-contact {
+        width:100%;
+    }
+    .col-contactname {
+       width:100%;
+    }
+    .col-contactbudget {
+        width:100%;
+    }
+    .center-btn{
+        text-align:center;
+    }
+}

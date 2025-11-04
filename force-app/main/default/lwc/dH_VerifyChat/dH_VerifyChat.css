@@ -1,0 +1,92 @@
+.dH_noRecordFoundMessage{
+	display: flex;
+	justify-content: left;
+	align-items: left;
+	font: bold;
+	font-size: medium;
+	font-style: normal;
+	font-family: "Calibri (Body)";
+}
+.dH_customWidth{
+	width: 100%;
+}
+.message-color{
+	color: rgb(179, 17, 17);
+	font-size:  15px !important;
+	padding-left: 3px;
+	font-weight: 500;
+}
+.warning-icon {
+	margin-left: 10px; 
+	vertical-align: text-top;
+}
+.tableheader{
+	background-color: white;
+}
+.childcolor{
+	background-color: rgb(241, 241, 241);
+	padding-top: 5px;
+}
+.custom-border-table th,
+.custom-border-table td {
+   border-left: 1px solid #9b9b9b;
+   border-right: 1px solid #9b9b9b;
+   white-space: normal;
+   word-break: break-word;
+}
+.custom-border-table th{
+	border-top: 1px solid #9b9b9b;
+}
+.custom-border-table tbody tr:last-child td { 
+	padding-bottom: 20px;
+	border-bottom: 1px solid #9b9b9b; 
+}
+.table-spacing {
+	margin-bottom: 20px;
+ }
+ .subheader{
+	border-right: 1px solid #9b9b9b;
+	border-bottom: 1px solid #9b9b9b;
+ }
+ .recentOutreach{
+	background-color: var(--recent-Outreach);
+ }
+ .upcomingAppointment{
+	background-color:  var(--upcoming-Appointment);
+ }
+ .OpenEMR{
+	background-color:  var(--open-EMR);
+ }
+ .nonEMR{
+	background-color: var(--non-EMR);
+ }
+ .priorAppointment{
+	background-color:  var(--prior-Appointment);
+ }
+ td{
+	word-wrap: break-word;
+ }
+.parentWrapper{
+	--recent-Outreach : rgb(241, 241, 241);;
+	--open-EMR: rgb(241, 241, 241);
+	--non-EMR: rgb(241, 241, 241);
+	--prior-Appointment: rgb(241, 241, 241);
+	--upcoming-Appointment: rgb(241, 241, 241);
+}
+.parentTable{
+	background-color: white;
+}
+.displayFlex{
+	display:flex;
+}
+.parentDiv{
+	min-height: 50px;
+	max-height: 200px;
+	overflow-y: auto;
+}
+.dropDownButton{
+	padding-top:7px;
+}
+.radioButton{
+	padding:0px;
+}

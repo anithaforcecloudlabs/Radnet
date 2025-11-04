@@ -1,0 +1,128 @@
+<!--
+* ************************************************************************************************************************************************************************
+* LWC Component Name - dH_PatientEngagement.html
+* Created Date - 30-Aug-2024
+* Function - HTML class of Patient Engagement screen.
+* Modification Log :
+* *********************************************************************************************
+* Jira#             Date         Description
+* ****************     *************    *********************************
+* CC-702,534,527      30-Jul-2024     Added custom,standard logic for engagement data display.
+* CC-534,527        19-Aug-2024     Added custom,standard logic for displaying no Patient history message and Ui changes.
+* CC-1154          26-Aug-2024     Added Ui changes related to + button and related SMS Display.
+* CC-1483          09-Jan-2025     Added Ui changes for See More link in PE History
+* CC-1537          04-Apr-2025     Fixed patient engagement overflow issue
+* CC-1450.         04-Apr-2025     Added Scrollbar to patient engagement
+* **************************************************************************************************************************************************************************
+-->
+<template>
+  <div class="slds-card">
+    <lightning-layout class="slds-p-around_x-small">
+      <div class="HeadingContainer slds-p-around_x-small">
+        <div class="TitleContainer slds-p-around_x-small"><b><h1>Patient Engagement History</h1></b></div>
+        <div class="CollapsibleContainer"></div>
+      </div>
+    </lightning-layout><hr style="margin: 0;">
+    <lightning-layout class="scrollable-layout">
+      <div class="Container" style="width: 100%;">
+        <template if:true={showEngagementData}>
+          <template for:each={engagementDataList} for:item="data">
+            <template if:true={data.uniqueID}>
+              <lightning-layout key={data.uniqueID}>
+                <lightning-layout-item size="2" class="slds-p-around_x-small flex-center-baseline">
+                  <div class="iconBox box">
+                    <lightning-icon icon-name={data.iconVariant} alternative-text="feedback" title="feedback" size="medium"></lightning-icon>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="7" class="slds-p-around_x-small flex-center-baseline">
+                  <div class="messageBox box">
+                    <div class="subjectBox box">
+                      <template if:true={data.isExpanded}>
+                        <div>{data.subject}</div>
+                        <a href="javascript:void(0);" onclick={toggleSeeMore} data-id={data.uniqueID}>See less</a>
+                      </template>
+                      <template if:false={data.isExpanded}>
+                        <template if:true={data.showSeeMore}>
+                          <div class="truncate-two-lines">{data.subject}</div>
+                          <a href="javascript:void(0);" onclick={toggleSeeMore} data-id={data.uniqueID}>See more</a>
+                        </template>
+                        <template if:false={data.showSeeMore}>
+                          <div>{data.subject}</div>
+                        </template>
+                      </template>
+                    </div>
+                    <div class="sentByBox box">
+                      {data.description}
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-p-around_x-small flex-center">
+                  <div>
+                    <div class="timeBox box">
+                      {data.displayTime}
+                    </div>
+                    <div class="timeBox box">
+                      {data.displayDate}
+                    </div>
+                    <div class="buttonPosition">
+                      <template if:true={data.displayResponseList}>
+                        <template if:true={data.responseList}>
+                          <template if:false={data.inboundFlag}>
+                            <lightning-icon icon-name="utility:add" size="xx-small"
+                            data-id={data.uniqueID} label=""
+                            onclick={showInboundDropdown}></lightning-icon>
+                          </template>
+                          <template if:true={data.inboundFlag}>
+                            <lightning-icon icon-name="utility:dash" size="xx-small"
+                            data-id={data.uniqueID} label=""
+                            onclick={showInboundDropdown}></lightning-icon>
+                          </template>
+                        </template>
+                      </template>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              </lightning-layout>
+            </template>
+            <template if:true={data.inboundFlag}>
+              <template for:each={data.responseList} for:item="childData">
+                <template if:true={childData.uniqueID}>
+                  <lightning-layout key={childData.uniqueID}>
+                    <lightning-layout-item size="2" class="slds-p-around_x-small flex-center-baseline">
+                      <div class="iconBox box">
+                        <lightning-icon icon-name={childData.iconVariant} alternative-text="feedback" title="feedback" size="medium"></lightning-icon>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="7" class="slds-p-around_x-small flex-center-baseline">
+                      <div class="messageBox box">
+                        <div class="subjectBox box">
+                          {childData.subject}
+                        </div>
+                        <div class="subjectBox box">
+                          {childData.description}
+                        </div>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" class="slds-p-around_x-small flex-center">
+                      <div>
+                        <div class="timeBox box">
+                          {childData.displayTime}
+                        </div>
+                        <div class="timeBox box">
+                          {childData.displayDate}
+                        </div>
+                      </div>
+                    </lightning-layout-item>
+                  </lightning-layout>
+                </template>
+              </template>
+            </template>
+          </template>
+        </template>
+        <template if:false={showEngagementData}>
+          <h2 class="noRecords">{noEngagementHistory}</h2>
+        </template>
+      </div>
+    </lightning-layout>
+  </div>
+</template>

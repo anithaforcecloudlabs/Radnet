@@ -1,0 +1,23 @@
+lightning-tabset {
+    --slds-c-tabs-list-color-border: 4, #dddbda;
+    --slds-c-tabs-item-text-color: 30, #535659;
+    --slds-c-tabs-item-text-color-active: 10, #535659;
+    --slds-c-tabs-item-color-active: white;
+}
+
+lightning-tab {
+    --slds-c-tabs-list-color-border: 4, #dddbda;
+    --slds-c-tabs-item-text-color: 30, #535659;
+    --slds-c-tabs-item-text-color-active: 10, #535659;
+    --slds-c-tabs-item-color-border-hover: #8c1d1e;
+    --slds-c-tabs-item-color-border-active: #8c1d1e;
+    --slds-c-tabs-item-color-active: white;
+}
+
+:host {
+    --slds-c-tabs-item-color-background-active: red;
+}
+
+.background {
+    background-color: #F5F5F5;
+}

@@ -1,0 +1,16 @@
+.slds-m-around_medium p {
+    margin-bottom: 0.75rem;
+}
+
+.slds-text-color_error {
+    color: #e74c3c; 
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}

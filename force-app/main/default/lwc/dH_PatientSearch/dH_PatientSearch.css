@@ -1,0 +1,18 @@
+.errorFontColor{
+	color : red;
+	padding-bottom: 2px;
+}
+body {background-color: powderblue;}
+lightning-button-icon{
+	display: none;
+}
+.message-color{
+	color: rgb(179, 17, 17);
+	font-size:  15px !important;
+	padding-left: 3px;
+	font-weight: 500;
+}
+.warning-icon {
+	 margin-left: 10px; 
+	 vertical-align: text-top;
+	}

@@ -1,0 +1,131 @@
+<!--
+*********************************************************
+Apex Class/ LWC Component Name    : dH_MultiSelectPickList
+
+Created Date       : 4/14/2024
+
+@description       : Dynamic multiselect  picklist used for site search  
+
+@jiraid            : CC-231
+
+*********************************************************
+-->
+<template>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label">
+            <abbr if:true={required} title="required" class="slds-required">
+                *
+            </abbr>
+            {label}
+        </label>
+        <div class={pillContainerClass}>
+            <template if:true={showSelectedPill}>
+                <span class="slds-pill" onclick={handleClick} style="padding-right: 10px;margin-left: 5px;">
+                    <span class="slds-pill__label pill_label" title="Full pill label verbiage mirrored here"
+                        style="padding-left: 5px;">
+                        {placeholder}
+                    </span>
+                    <span class="slds-icon_container slds-pill__remove " title="Remove">
+                        <button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove"
+                            onclick={clearAll}>
+                            <svg class="slds-button__icon" aria-hidden="true">
+                                <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close">
+                                </use>
+                            </svg>
+                            <span class="slds-assistive-text">
+                                Remove
+                            </span>
+                        </button>
+                    </span>
+                </span>
+            </template>
+            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right " title="down"
+                onclick={showDropDown}>
+                <span class="slds-button_icon slds-input__icon slds-input__icon_right">
+                </span>
+                <svg class="slds-button__icon icon-down " aria-hidden="true">
+                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#down"> <!--slds-icon-text-light-->
+                    </use>
+                </svg>
+                <span class="slds-assistive-text">
+                    Clear
+                </span>
+            </button>
+        </div>
+        <template if:true={showDD}>
+            <div if:false={disabled} class="slds-dropdown slds-dropdown_length-10 slds-dropdown_fluid"
+                style="z-index:6">
+                <ul class="slds-listbox slds-listbox_vertical">
+                    <template if:false={showResult}>
+                        <li class="slds-listbox__item">
+                            <div class="slds-var-p-around_small">
+                                No result found
+                            </div>
+                        </li>
+                    </template>
+                    <template if:true={showResult}>
+                        <li class="slds-listbox__item">
+                            <div class="slds-var-p-around_small">
+                                <lightning-input type="search" placeholder="Quick Find" onchange={onSearch}
+                                    class="cmpl-input" variant="label-hidden">
+                                </lightning-input>
+                            </div>
+                        </li>
+                        <li class="slds-listbox__item">
+                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                onclick={onSelectAllFromRow}>
+                                <template if:true={showAll}>
+                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                        <template if:true={isSelectAll}>
+                                            <lightning-input type="checkbox" value='SelectAll' class='select-all'
+                                                checked onchange={onSelect}>
+                                            </lightning-input>
+                                        </template>
+                                        <template if:false={isSelectAll}>
+                                            <lightning-input type="checkbox" value='SelectAll' class='select-all'
+                                                onchange={onSelect}>
+                                            </lightning-input>
+                                        </template>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <div class="slds-truncate" title='Name'>
+                                            All
+                                        </div>
+                                    </span>
+                                </template>
+                            </div>
+                        </li>
+                        <template if:true={showOptList}>
+                            <template for:each={options} for:item="option">
+                                <template if:true={option.show}>
+                                    <li key={option.label} class="slds-listbox__item">
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            onclick={onSelectFromRow} data-label={option.label}>
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                <template if:true={option.checked}>
+                                                    <lightning-input type="checkbox" value={option.label} checked
+                                                        onchange={onSelect}>
+                                                    </lightning-input>
+                                                </template>
+                                                <template if:false={option.checked}>
+                                                    <lightning-input type="checkbox" value={option.label}
+                                                        onchange={onSelect}>
+                                                    </lightning-input>
+                                                </template>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate" title={option.label}>
+                                                    {option.label}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                </ul>
+            </div>
+        </template>
+    </div>
+</template>

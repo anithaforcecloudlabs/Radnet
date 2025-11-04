@@ -1,0 +1,31 @@
+<template>
+    <template if:true={file}>
+      <c-preview-file-modal
+        url={file.downloadUrl}
+        file-extension={file.Extension}
+        files={files}
+        pagenumber={pagenumber}
+      ></c-preview-file-modal>
+      <li
+        class="
+          slds-col
+          slds-var-p-vertical_x-small
+          slds-small-size_1-of-2
+          slds-medium-size_1-of-4
+          slds-large-size_1-of-6
+        "
+      >
+        <div
+          class="slds-file slds-has-title"
+          style="width: 14rem"
+          onclick={filePreview}
+        >
+          <div>
+            <a class="slds-file__crop slds-file__crop_4-by-3 slds-m-top_x-small">
+              <img src={thumbnail} alt={file.title} onclick={filePreview} height="100px" />
+            </a>
+          </div>
+        </div>
+      </li>
+    </template>
+  </template>

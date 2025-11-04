@@ -1,0 +1,407 @@
+<!--
+*********************************************************
+Apex Class/ LWC Component Name    : dH_modalityProcedureSearch
+
+Created Date       : 3/30/2024
+
+@description       : Display search results for procedure and special instructions records for modality procedure search 
+
+@jiraid            : CC-105
+
+*********************************************************
+-->
+
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="12">
+            <div class="bodyClass">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item size="12" class="slds-p-top_small slds-p-bottom_small">
+                        <span class = "practices"> 
+                            <b>
+                                Practices :
+                            </b>
+                        </span>
+                        <span class = "practice_options"> 
+                            <c-d-h_practice-options onpracticechange={handlePracticheChange}>
+                            </c-d-h_practice-options>
+                        </span>
+                        <span class="options_ClearAll"> 
+                            <a onclick={handlePracticeClear}>
+                                Clear All
+                            </a>
+                        </span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-p-top_small slds-p-bottom_small modalities_style" size="12">
+                    
+                        <span class = "modalities_span"> 
+                            <b>
+                                Modalities :
+                            </b>
+                        </span>
+                        <span class="practice_options"> 
+                            <c-d-h_modality-options onmodalitychange={handleModalityChange}>
+                            </c-d-h_modality-options>
+                        </span>
+                        <span class= "options_ClearAll"> 
+                            <a onclick={handleModalityClear}>
+                                Clear All
+                            </a>
+                        </span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-p-top_small slds-p-bottom_small modalities_style" size="12">
+                    
+                        <a onclick={handleModalityClearAll}>
+                            Clear All
+                        </a>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout multiple-rows class = "table_layout"> 
+                    <lightning-layout-item size="4" class="slds-p-left_small slds-p-right_small">
+                        <lightning-input varient="label-hidden" class="inputSearch" type="search"
+                        placeholder="Search in table" value={searchKey} onchange={handleSearchChange}>
+                        </lightning-input>
+                    </lightning-layout-item>        
+                  <lightning-input type= "checkbox" label="Exact Match Only" value="myValue" onchange={handleCheckboxChange} class="top-padding" data-id="exactMatchCheckbox" >
+                    </lightning-input>
+                    <lightning-layout-item padding="around-x-small" size="12">
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-p-top_medium slds-p-left_small proc_header" size="4">                   
+                        <span class="optionsHeader">
+                            Procedures
+                        </span>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="" size="8" class = "proc_header">  
+                        <template if:true={dataCountVisible}>
+                            <div class="procCount slds-p-bottom_x-small">
+                                Total Procedures : {dataCount}
+                            </div>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="" size="12" class="slds-p-top_x-small slds-p-left_small slds-p-right_small">
+                        <template if:true={showMPSpinner}>
+                            <lightning-spinner alternative-text="Loading" size="small">
+                            </lightning-spinner>
+                        </template>
+                        <div class="table_scroll"> 
+                            <table class="slds-table customTablCSS ">
+                                <thead class="header_Style"> 
+                                    <tr>
+                                        <th scope="col" data-name="practice" onclick={sortPractice} class="th_col1 highlightOuterBorder "> 
+                                            <span class="slds-truncate" title="Practice">
+                                                Practice Code(s)
+                                            </span>
+                                            <span if:true={isPracticeSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="modality" onclick={sortPractice} class="th_col2"> 
+                                            <span class="slds-truncate" title="Modality">
+                                                Modality Code(s)
+                                            </span>
+                                            <span if:true={isPicModalitySort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="name" onclick={sortPractice} class="th_col3"> 
+                                            <span title="Procedure Description">
+                                                Procedure Description
+                                            </span>
+                                            <span if:true={isPDSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="procedureCode" onclick={sortPractice} class="th_col4"> 
+                                            <span class="slds-truncate" title="Code">
+                                               Procedure Code(s)
+                                            </span>
+                                            <span if:true={isCodeSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="bodyParts" onclick={sortPractice} class="th_col5"> 
+                                            <span class="slds-truncate" title="Body Part(s)">
+                                                Body Part(s)
+                                            </span>
+                                            <span if:true={isBodyPartSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="specialInstructions" class="th_col6"> 
+                                            <div class="slds-truncate" title="Special Instructions">
+                                                Special Instructions
+                                            </div>
+                                        </th>
+                                        <th scope="col" data-name="Reason_for_Exam__c" class="th_col6"> 
+                                            <div class="slds-truncate" title="Reason for Exam">
+                                                Reason for Exam
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={dataVisible} for:item="row" for:index="index">
+                                        <tr key={row.id}>
+                                            <td class="row_Prac"> 
+                                                <div class="content rowPadding" >
+                                                    {row.practice}
+                                                </div>
+                                            </td>
+                                            <td class="row_Mod"> 
+                                                <div class="content rowPadding" >
+                                                    {row.modality}
+                                                </div>
+                                            </td>
+                                            <td class="row_Name"> 
+                                                <div class=" rowPadding hyprlink" data-descid={row.id} >
+                                                    <template if:true={isGuestUser}>
+                                                        <div class="content" data-descid={row.id}>
+                                                            {row.name}
+                                                        </div>
+                                                    </template>
+                                                    <template if:false={isGuestUser}>
+                                                        <a class="content" data-descid={row.id} onclick={handleDescClick}>
+                                                            {row.name}
+                                                        </a>
+                                                    </template>
+                                                    
+                                                </div>
+                                            </td>
+                                            <td class="row_Code"> 
+                                                <div class="content rowPadding" >
+                                                    <lightning-formatted-text value={row.procedureCode} class="content"></lightning-formatted-text>
+                                                    
+                                                </div>
+                                            </td>
+                                            <td class="row_BodyParts"> 
+                                                <div class="content rowPadding">
+                                                    <lightning-formatted-text value={row.bodyParts} class="content"></lightning-formatted-text>      
+                                                </div>
+                                            </td>
+                                            <td class="row_SpecIns"> 
+                                                <div class="content rowPadding">
+                                                    <lightning-formatted-rich-text value={row.specialInstructions} class="content">
+                                                    </lightning-formatted-rich-text>
+                                                </div>
+                                            </td>
+                                            <td class="row_SpecIns"> 
+                                                <div class="content rowPadding">
+                                                    <lightning-formatted-rich-text value={row.reasonForExam} class="content">
+                                                    </lightning-formatted-rich-text>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                           <template if:true={showNoData}>
+                                <div class="noResult slds-p-around_small slds-align_absolute-center">
+                                    No Result Found.
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="horizontal-small" size="12">
+                        <template if:true={searchData}>
+                            <c-d-h_search-pagination records={searchData} record-size="10" onupdate={updateRecordsHandler}
+                            class="slds-float_right">
+                            </c-d-h_search-pagination>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-x-small" size="12">
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-p-top_x-large slds-p-left_small proc_header" size="4"> 
+                    
+                        <span class="optionsHeader">
+                            Special Instructions
+                        </span>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="" size="8" class="slds-p-top_x-large proc_header"> 
+                        <template if:true={notesCountVisible}>
+                            <div class="slds-p-bottom_small instructCount">
+                                Total Special Instructions : {notesCount}
+                            </div>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="" size="12" class="slds-p-top_x-small slds-p-left_small slds-p-right_small">
+                        <div class="table_scroll"> 
+                            <table class="slds-table  customTablCSS">
+                                <thead class="header_Style2"> 
+                                    <tr>
+                                        <th scope="col" data-name="practiceCodes" onclick={sortSpecialInst}>
+                                            <span class="slds-truncate" title="Practice">
+                                                Practice Code(s)
+                                            </span>
+                                            <span if:true={isPracticeSP}>
+                                                <span if:true={isAscSP}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDscSP}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="modalityCodes" onclick={sortSpecialInst}>
+                                            <span class="slds-truncate" title="Modality">
+                                                Modality Code(s)
+                                            </span>
+                                            <span if:true={isModalitySP}>
+                                                <span if:true={isAscSP}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDscSP}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="specialInstructions" class="spec_Ins">
+                                            <div title="Notes">
+                                                Special Instructions
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template if:true={hasModality}>
+                                       
+                                        <template for:each={notesDataVisible} for:item="row" for:index="index">
+                                            <tr key={row.id}>
+                                                <td>
+                                                    <div class="content rowPadding">
+                                                        {row.practiceCodes}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="content rowPadding">
+                                                        {row.modalityCodes}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class=" rowPadding row_width"> 
+                                                        <lightning-formatted-rich-text value={row.specialInstructions} class="content">
+                                                        </lightning-formatted-rich-text>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <template if:true={showNoDataSpec}>
+                                <div class="noResult slds-p-around_small slds-align_absolute-center">
+                                    No Result Found.
+                                </div>
+                            </template>
+                        </div>
+                        <template if:true={showNotesSpinner}>
+                            <lightning-spinner alternative-text="Loading" size="small">
+                            </lightning-spinner>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <template if:true={notesData}>
+                            <c-d-h_search-pagination records={notesData} record-size="10" onupdate={updateNotesRecordsHandler}
+                            class="slds-float_right">
+                            </c-d-h_search-pagination>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

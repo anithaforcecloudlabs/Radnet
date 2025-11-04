@@ -1,0 +1,27 @@
+<template>
+    <template if:false={debug}>
+        <iframe height={iframeHeight} frameborder="0" src={baseUrl}></iframe>
+    </template>
+
+    <template if:true={debug}>
+        <lightning-card>
+            <template if:true={userClsRec}>
+                User Id: {userClsRec.userId}
+                <br />
+                User Name: {userClsRec.userName}
+                <br />
+                Session Id: {userClsRec.sessionId}
+                <br />
+                Org Id: {userClsRec.orgId}
+                <br />
+                Prod Val: {userClsRec.prodVal}
+                <br />
+                Record Id : {recordId}
+                <br />
+                Complete Url: {baseUrl}
+            </template>
+        </lightning-card>
+
+    </template>
+
+</template>

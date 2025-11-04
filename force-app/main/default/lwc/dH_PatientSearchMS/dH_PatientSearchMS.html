@@ -1,0 +1,66 @@
+<!--
+* ***************************************************************************************************************************
+* LWC Component Name - dH_PatientSearch.html
+* Created Date - 20-May-2024
+* Function - Contact center search additional patients in ris caller screen.
+* Modification Log :
+* ***************************************************************************************************************************
+* Jira#             Date                 Description
+* ********       **************      ***********************************************************************************
+* CC-430          20-May-2024          Added the code related to display the dynamic columns and logic to invoke handleSearch method.
+* CC-543          11-July-2024         Added the verification & error on fields.
+* CC-622          25-July-2024         Added changes related to showing error
+* CC-507          26-July-2024         Added changes related to apiErrorMessage and apiError
+* CC-1456         04-Feb-2025          Added validations for First Name and Last Name
+* CC-1457         04-Feb-2025          Added validations for Date of Birth
+* **********************************************************************************************************************************
+-->
+<template>
+    <lightning-modal-header label={searchPatientInRisModelName}></lightning-modal-header>      
+    <lightning-modal-body>
+        <template if:true={showError}>
+            <div>
+                <lightning-icon icon-name="utility:error" alternative-text="Error!" variant="error" size="x-small" class="warning-icon"></lightning-icon>
+                <span class="message-color slds-p-left_small">{emptyFieldsError}</span>
+            </div>
+        </template>
+        <template if:true={apiError}>
+            <div>
+                <lightning-icon icon-name="utility:error" alternative-text="Error!" variant="error" size="x-small" class="warning-icon"></lightning-icon>
+                <span class="message-color slds-p-left_small">{apiErrorMessage}</span>
+            </div>
+        </template>
+         <lightning-input
+            name="firstName"
+            type="text"
+            label="First Name"
+            value={firstName}
+            onchange={onInputChange}
+            class="slds-p-bottom_x-small">
+        </lightning-input>
+        <lightning-input
+            name="lastName"
+            type="text"
+            label="Last Name"
+            value={lastName}
+            onchange={onInputChange}
+            class="slds-p-bottom_x-small">
+        </lightning-input>
+        <template for:each={columnList} for:item="column">
+            <template if:true={column.DH_validationCheck__c}>
+                <lightning-input key={column.DH_AttributeName__c} class="slds-p-bottom_x-small" type= {column.DH_AttributeDataType__c} name= {column.DH_AttributeName__c} label= {column.DH_AttributeLabel__c}
+                onchange={onInputChange}>
+                </lightning-input>
+            </template>
+            <template if:false={column.DH_validationCheck__c} >
+                <lightning-input key={column.DH_AttributeName__c} class="slds-p-bottom_x-small" type= {column.DH_AttributeDataType__c} name= {column.DH_AttributeName__c} label= {column.DH_AttributeLabel__c} onchange={onInputChange}>
+                </lightning-input>
+            </template>
+        </template>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button variant="brand" label="Name Flip" onclick={handleFlipName} icon-name="utility:rotate"
+    icon-position="right" disabled={disableFlipButton} class="slds-m-left_x-small"></lightning-button>
+        <lightning-button variant="brand" label={searchPatientInRisModelName} onclick={handleSearch} class="slds-m-left_x-small" disabled={disableRisButton}></lightning-button>
+    </lightning-modal-footer>
+</template>

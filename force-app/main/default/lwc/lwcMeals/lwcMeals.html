@@ -1,0 +1,132 @@
+<template>  
+    <c-lwc-toast-params></c-lwc-toast-params>
+    <lightning-quick-action-panel header="Custom Task Creation">
+        <div if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+            </lightning-spinner>
+        </div> 
+        <div class="slds-p-horizontal_small slds-p-bottom_small">
+            <lightning-combobox
+            name="CallType"
+            label="Call Type"
+            value={callTypeValue}
+            placeholder="Select Call Type"
+            options={callTypeOptions}
+            required
+            disabled={userIsSalesRep}
+            onchange={handleTypeChange} >        
+        </lightning-combobox>
+        <div class="error">{callTypeError}</div>
+
+        <label class="slds-form-element__label slds-p-top_small">Objective</label>
+        <div class="slds-scrollable_y slds-box slds-p-bottom_small"  style="height:8rem;" tabindex="0">
+            <template for:each={objectiveOptions} for:item="objective">               
+                <div key={objective.label} class="block-contact">
+                    <div class="col-input">
+                    <lightning-input 
+                    type="checkbox-button"
+                    label={objective.label}
+                    value={objective.value}
+                    onchange={handleObjectiveChecked}>
+                </lightning-input>
+                </div>
+                <div class="col-contactname" >{objective.label}</div>
+                </div>         
+            </template>        
+        </div>
+
+        <lightning-input class="slds-form-element_stacked slds-p-top_small" 
+            onchange={handleDate} 
+            label="Date" 
+            type="date" 
+            name="taskDate" 
+            value={taskDateValue}
+        >
+        </lightning-input>
+            <div class="error">{taskDateError}</div>
+
+        <div class="slds-p-top_small slds-p-bottom_small">
+            <lightning-textarea class="slds-form-element_stacked" 
+                onchange={handleComment} 
+                label="Comment"
+                value={taskCommentValue}
+                name="comment">
+            </lightning-textarea>
+            <div class="error">{taskCommentError}</div>                
+        </div> 
+        <div class="slds-p-top_small">          
+        <lightning-input
+            label={costLabel}
+            type="number"
+            name={costLabel}  
+            value={budjetSpentValue}     
+            formatter="currency" 
+            step="0.01"
+            min="0.00"
+            onchange={handleCostChange}>
+        </lightning-input>
+        <div class="error slds-m-bottom_x-small">{costError}</div>
+        </div>
+
+        <template if:true={showAmounts}>        
+            <div class="slds-p-top_small slds-scoped-notification slds-media slds-media_center bg-color" role="status">
+                <div class="slds-media__figure">
+                    <lightning-icon class="cost-icon" icon-name="utility:info" alternative-text="info" title="info">
+                    </lightning-icon>            
+                </div>
+                <div class="slds-media__body">
+                <p>{spentCount} per contact  </p>
+                </div>
+            </div> 
+        </template> 
+        <label class="slds-form-element__label slds-p-top_small">Contacts</label>           
+            <div class="slds-scrollable_y slds-box" style="height:10rem;" tabindex="0">              
+                <template for:each={contactOptions} for:item="contact">                  
+                              
+                <div  key={contact.Contact.Id} class="block-contact">
+                    <div  class="col-input">
+                    <lightning-input                               
+                        type="checkbox-button"
+                        name={contact.contactId}
+                        label={contact.contactName}
+                        value={contact.contactId}
+                        data-budgetremaining={contact.budgetLeft}
+                        data-budgetspent={contact.budgetLeft}
+                        data-budgeterrorshow={contact.budgetErrorShow}
+                        disabled={contact.disabledAttr}
+                        onchange={handleContactChecked}>
+                </lightning-input>
+                </div>
+                <div class="col-contactname" > {contact.contactName}</div>
+                <div class="col-contactbudget"> {contact.budgetLeftMessage}</div>
+                <template if:true={contact.budgetErrorShow}>
+                    <span key={contact.Contact.Id} class="col-contactbudgeterror"> {contact.budgetErrorSum}</span>
+                </template>   
+                </div>
+                
+                </template>
+            </div>
+           </div>
+            <div class="error slds-m-bottom_x-small">{contactError}</div>
+            <div class="slds-p-top_small">
+                <lightning-input class="slds-form-element_stacked" 
+                onchange={handleOtherContact} 
+                value={otherContact}
+                label="Other Contact">
+                </lightning-input>
+            </div> 
+       
+        <div slot="footer" class="center-btn">
+            <lightning-button label="Clear" title="Clear" onclick={handleClear} class="slds-m-left_x-small"></lightning-button>  
+            <template if:false={showErrorSpent}>
+                <lightning-button label="Create Task" 
+                title="Create Task" 
+                variant="brand"
+                onclick={handleCreateTask} 
+                class="slds-m-left_x-small">
+            </lightning-button>
+            </template>          
+           
+        </div>
+</lightning-quick-action-panel>
+</template>

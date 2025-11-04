@@ -1,0 +1,97 @@
+<!-- /*
+*********************************************************
+ 
+LWC Component Name    : siteModalityRelatedList
+ 
+Created Date       : May 15, 2024
+ 
+@description       : This is component is used for refreshing site modalities when change event occurs
+ 
+@jiraid            : CC-104, CC-949
+ 
+*********************************************************
+*/ -->
+<template>
+    <template if:true={recordShow}>
+        <c-site-modality-refresh-component record-id={recordId} onforcerefresh={refreshcomp}>
+        </c-site-modality-refresh-component>
+        <lightning-card icon-name="standard:swarm_request" class="slds-border_top"
+        title={title}>
+            <template if:true={showBtn}>
+                <lightning-button-menu icon-size="small" alternative-text="Show menu"
+                slot="actions">
+                    <lightning-menu-item label="New" value="item1" onclick={newSiteModality}>
+                    </lightning-menu-item>
+                </lightning-button-menu>
+            </template>
+            <div class="slds-m-left_medium">
+                <template for:each={recordShow} for:item="siteMod">
+                    <template if:true={siteMod}>
+                        <div class="slds-border_top" key={siteMod.Id}>
+                            <lightning-card>
+                                <template if:true={siteMod.specialtyName}>
+                                    <template if:false={isGuestUser}>
+                                        <a slot="title" class="div1" data-id={siteMod.Id}
+                                        onclick={navigateToRecord}>
+                                            {siteMod.specialtyName}
+                                        </a>
+                                    </template>
+                                    <template if:true={isGuestUser}>
+                                        <div slot="title" class="div1" data-id={siteMod.Id}>
+                                            <b>{siteMod.specialtyName}</b>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:true={showEdit}>
+                                    <template if:true={showDelete}>
+                                        <lightning-button-menu icon-size="x-small" class="container" alternative-text="Show menu"
+                                        slot="actions">
+                                            <lightning-menu-item data-id={siteMod.Id} label="Edit" value="item3" onclick={editSiteModality}>
+                                            </lightning-menu-item>
+                                            <lightning-menu-item data-id={siteMod.Id} label="Delete" value="item4"
+                                            onclick={deleteSiteModality}>
+                                            </lightning-menu-item>
+                                        </lightning-button-menu>
+                                    </template>
+                                </template>
+                                <template if:true={showEdit}>
+                                    <template if:false={showDelete}>
+                                        <lightning-button-menu icon-size="x-small" class="container" alternative-text="Show menu"
+                                        slot="actions">
+                                            <lightning-menu-item data-id={siteMod.Id} label="Edit" value="item3" onclick={editSiteModality}>
+                                            </lightning-menu-item>
+                                        </lightning-button-menu>
+                                    </template>
+                                </template>
+                                <template if:false={showEdit}>
+                                    <template if:true={showDelete}>
+                                        <lightning-button-menu icon-size="x-small" class="container" alternative-text="Show menu"
+                                        slot="actions">
+                                            <lightning-menu-item data-id={siteMod.Id} label="Delete" value="item4"
+                                            onclick={deleteSiteModality}>
+                                            </lightning-menu-item>
+                                        </lightning-button-menu>
+                                    </template>
+                                </template>
+                                <template if:false={showEdit}>
+                                    <template if:false={showDelete}>
+                                    </template>
+                                </template>
+                            </lightning-card>
+                            <div class="slds-m-left_medium">
+                                <ul>
+                                    <li>
+                                        <div style="white-space: pre-line; font-size:12px;">
+                                            {siteMod.description}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <br>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </lightning-card>
+    </template>
+</template>

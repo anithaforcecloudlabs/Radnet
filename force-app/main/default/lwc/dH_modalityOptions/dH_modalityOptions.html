@@ -1,0 +1,21 @@
+<!--
+*********************************************************
+Apex Class/ LWC Component Name    : dH_modalityOptions
+
+Created Date       : 3/30/2024
+
+@description       : Display modality options for each search for modality procedure search 
+
+@jiraid            : CC-105
+
+*********************************************************
+-->
+<template>
+    <lightning-checkbox-group
+            name="modalityCheckBoxes"
+            class="checkboxClass"
+            options={modalitiesOptions}
+            value={selectedMDVal}
+            onchange={handleModalityheChange}>
+    </lightning-checkbox-group>
+</template>

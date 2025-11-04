@@ -1,0 +1,12 @@
+<!--
+  @description       : Component to show custom alert on Account record page 
+  @Jira : CC-949
+-->
+<template>
+    <div class="alert-section" if:true={alertData}><template  if:true={alertData}>
+        <lightning-icon icon-name='utility:warning' size='small' class='yellow-utility-icon'>
+        </lightning-icon>
+        &nbsp;<span class="yellowtext"><b>Alert:</b>&nbsp; </span>{alertData}
+      </template>
+      </div>
+</template>

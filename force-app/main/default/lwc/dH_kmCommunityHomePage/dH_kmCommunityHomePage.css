@@ -1,0 +1,154 @@
+.selectedtab {
+    background-color: #408bc7;
+    border-bottom: 3px solid;
+    border-bottom-color: #dbdbdb;
+    border-bottom-width: 4px;
+    color: #FFFFFF;
+}
+
+.containerbg {
+    background-color: #F5F5F5;
+}
+
+.headerpanel {
+    background-color: #0065B5;
+    height: 92px;
+}
+
+.logopanel {
+    background-color: #0176D3;
+    height: 50px;
+    box-shadow: 0px 5px 10px 0px #00000026;
+    display: flex;
+}
+
+.logoimg {
+    margin: 2px;
+    /* height: 50px;
+    width: 104px;
+    left: 8px; */
+    margin-left: 27px;
+}
+
+.coastheader {
+    margin-top: 24px;
+    margin-left: 93px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 3px solid white;
+}
+
+.afterlogo {
+    width: 68%;
+}
+
+.regionselection {
+    margin-top: 24px;
+    display: flex;
+}
+
+.label_ChangeRegion {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.label_regionMargin {
+    margin-left: 10px;
+}
+
+.tabList {
+    height: 45px;
+    padding-top: 0px !important;
+}
+
+.li_tablist {
+    height: inherit;
+    width: 160px;
+}
+
+.tabselection {
+    height: inherit;
+}
+
+.span_Tab {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 70%;
+}
+
+/* .mod_Tab{
+    color:#FFFFFF;
+    font-size:16px;
+    font-weight:400;
+    opacity: 70%;
+} */
+.tabcontainer {
+    min-height: 428px;
+    ;
+}
+
+.coming_SoonText {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.modal_Open {
+    border-bottom: 1px solid #CFCFCF;
+    padding-bottom: 50px;
+}
+
+.region_Selection {
+    padding-top: 40px;
+}
+
+.coast1 {
+    padding-top: 10px;
+}
+
+.coast2 {
+    color: #878787;
+}
+
+.handleWestClick {
+    padding-top: 45px;
+}
+
+.handleWestClick2 {
+    width: 170px;
+    height: 160px;
+    border: 3px solid #0176D3;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-right: 40px;
+    cursor: pointer;
+}
+
+.handleEastClick {
+    width: 170px;
+    height: 160px;
+    border: 3px solid #0176D3;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #0176D3;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.modalpadding {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.iframeclass {
+    border-style: none;
+    width: -webkit-fill-available;
+    height: 81vh;
+}

@@ -1,0 +1,390 @@
+<template>
+	<div if:true={isLoading}>
+		<lightning-spinner
+			alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+		</lightning-spinner>
+	</div>
+	<lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+		<lightning-accordion-section  name="A" label="Physicians">
+			<div class="slds-p-top_medium">
+				<div class="slds-page-header">
+					<div class="slds-page-header__row">
+						<div class="slds-page-header__col-title">
+							<div class="slds-media">
+								<div class="slds-media__figure">
+									<span class="slds-icon_container slds-icon-standard-contact" title="Physicians">
+										<svg class="slds-icon slds-icon_small" aria-hidden="true">
+										<use xlink:href="/_slds/icons/standard-sprite/svg/symbols.svg#relationship"></use>
+										</svg>
+										<span class="slds-assistive-text">Physicians</span>
+									</span>
+								</div>
+								<div class="slds-media__body">
+									<h2 class="slds-card__header-title">
+										<a href="#" class="slds-card__header-link slds-truncate" title="Physicians">
+											<span>{contactLabel}</span>
+										</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="slds-page-header__col-actions">
+							<template if:true={isWestSalesRepUser}></template>
+							<template if:false={isWestSalesRepUser}>
+								<lightning-button onclick={handleRename} label="Rename" title="Rename" class="slds-m-left_x-small">
+								</lightning-button>							
+								<lightning-button onclick={handleRemove} label="Remove" title="Remove" class="slds-m-left_x-small">
+								</lightning-button>	
+								<lightning-button onclick={handleMove} variant="brand" label="Move" title="Move" class="slds-m-left_x-small">
+								</lightning-button>						
+								<lightning-button onclick={handleAddRelation} variant="brand" label="Add Physician" title="Add Physician" class="slds-m-left_x-small">
+								</lightning-button>
+							</template>
+						</div>
+					</div>
+					<div class="table-size slds-scrollable--y slds-p-top_medium slds-m-bottom_medium">
+						<template if:true={showComp}>
+							<template if:true={contacts}>
+								<template if:true={isWestSalesRepUser}>
+								<lightning-datatable 
+									key-field="Id"
+									data={contacts}
+									columns={westcolumns}
+									onsave={handleSave}
+									draft-values={draftValues}
+									onrowselection={getSelectedRecords}
+									onrowaction={handleRowAction}
+									sorted-by={sortBy}
+									onsort={handleSortData}
+									sorted-direction={sortDirection}
+									selected-rows={setSelectedRows}
+									>
+								</lightning-datatable>
+								</template>
+								<template if:false={isWestSalesRepUser}>
+								<lightning-datatable 
+									key-field="Id"
+									data={contacts}
+									columns={columns}
+									onsave={handleSave}
+									draft-values={draftValues}
+									onrowselection={getSelectedRecords}
+									onrowaction={handleRowAction}
+									sorted-by={sortBy}
+									onsort={handleSortData}
+									sorted-direction={sortDirection}
+									selected-rows={setSelectedRows}
+									>
+								</lightning-datatable>
+								</template>
+							</template>
+						</template>
+					</div>
+				</div>
+			</div>
+		</lightning-accordion-section>
+	</lightning-accordion>
+	<template if:true={isShowFormModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+						<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+						</lightning-icon>
+						<span class="slds-assistive-text">Close</span>
+					</button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Rename Physicians</h2>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" style="overflow-y: auto; max-height: 500px" id="modal-content-id-1">
+					<div class="slds-box">
+						<template for:each={selectedRenameList} for:item="contact" for:index="index">
+							<lightning-record-edit-form key={contact.Id} object-api-name="Contact" record-id={contact.Id}>
+								<lightning-messages> </lightning-messages>
+								<div class="slds-grid slds-wrap slds-p-around--medium">
+									<div class="slds-col slds-size_6-of-12 slds-p-horizontal_small">
+										<lightning-input-field field-name="FirstName"></lightning-input-field>
+									</div>
+									<div class="slds-col slds-size_6-of-12 slds-p-horizontal_small">
+										<lightning-input-field field-name="LastName"></lightning-input-field>
+									</div>
+								</div>
+							</lightning-record-edit-form>
+						</template>
+						<div style="padding-left:2%;" class="slds-align_absolute-center slds-m-top_medium">
+							<button class="saveButton slds-button slds-button_brand slds-m-right_x-small" onclick={handleSaveRename}>Save</button>
+							<button class="newButton slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+	<template if:true={isShowRemoveModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_medium">
+			<div class="slds-modal__container">				
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+					<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+					</lightning-icon>
+					<span class="slds-assistive-text">Close</span>
+				</button>
+				<div class="slds-modal__header">
+					<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+						Removing a physician
+					</h2>
+				</div>
+				<div class="slds-modal__content slds-p-around_medium"  style="overflow-y: auto; max-height: 500px" id="modal-content-id-2">
+					<div class="slds-box">
+						<div slot="body">
+							<div class="slds-p-bottom_x-small">If the provider has moved to another please add 
+								that provider to the appropriate location
+							</div>
+						</div>
+						<form data-id="form-physician-remove-reason">
+						<template for:each={removePhysList} for:item="acr" for:index="index">							
+								<div key={acr.Id} data-id={acr.ContactId} class="slds-p-around--medium">									
+									<div class="slds-p-bottom_xx-small">
+									<div class="slds-p-left_small slds-p-bottom_xxx-small submitted-ris">{acr.Contact.FirstName} {acr.Contact.LastName}</div>
+										<lightning-radio-group
+											class="slds-p-left_small"
+											label="What is a reason for removing this physician?"
+											data-id={acr.ContactId}
+											data-field="reason"
+											options={options}
+											value={value}
+											required
+											type="radio">
+										</lightning-radio-group>
+									</div>									  
+									<div class="slds-p-bottom_xx-small">
+										<lightning-textarea 
+											data-field="comment"
+											data-id={acr.ContactId}
+											label="Comment">
+										</lightning-textarea>								
+									</div>
+								</div>							
+						</template>
+						</form>
+						<div slot="footer">
+							<div style="padding-left:2%;" class="slds-align_absolute-center slds-m-top_medium">
+								<button class="saveButton slds-button slds-button_brand slds-m-right_x-small" onclick={handleRemoveButton}>Remove</button>
+								<button class="newButton slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+
+	<template if:true={isShowExistRisRequestModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" 
+		 class="slds-modal slds-fade-in-open slds-modal_medium">
+			<div class="slds-modal__container">				
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+						<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+						</lightning-icon>
+						<span class="slds-assistive-text">Close</span>
+					</button>
+					<div class="slds-modal__header">
+					<h2 id="modal-heading-07" class="slds-text-heading_medium slds-hyphenate">
+						A RIS request was already submitted for this action, are you sure you want to proceed?
+					</h2>
+				</div>
+				<div class="slds-modal__content slds-p-around_medium"  style="overflow-y: auto; max-height: 500px" id="modal-content-id-7">
+					<div class="slds-box">
+						<div slot="body">
+							<div class="slds-p-bottom_x-small">
+								<template if:true={existShow}>
+								<h2></h2>
+									<template if:true={messageData} for:each={messageData} for:item="message">										
+										<p key={message}>
+											A RIS request was already submitted for this Physicians: <span class="submitted-ris">{message.Physicians}</span><br>
+											<lightning-formatted-url 
+											label={message.label}
+											value={message.url} 
+											tooltip="open Ris Request" 
+											target="_blank">
+										</lightning-formatted-url></p>
+									</template>
+								</template>
+							</div>
+							<template if:true={newShow}>								
+									<template if:true={messageNewData} for:each={messageNewData} for:item="message">
+																		
+										<p key={message}>
+											<strong>A RIS request was already created for these Physicians: </strong><span class="created-ris">{message.Physicians}</span><br>
+											<lightning-formatted-url 
+											label={message.label}
+											value={message.url} 
+											tooltip="open Ris Request" 
+											target="_blank">
+										</lightning-formatted-url></p>
+									</template>
+								</template>
+							
+						</div>						
+						<div slot="footer">
+							<div style="padding-left:2%;" class="slds-align_absolute-center slds-m-top_medium">
+								<button class="saveButton slds-button slds-button_brand slds-m-right_x-small" onclick={closeModal}>Ok</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+
+	<template if:true={isShowMoveModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" 
+		aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open slds-modal_medium">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+						<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+						</lightning-icon>
+						<span class="slds-assistive-text">Close</span>
+					</button>
+					<h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">
+						Request to move physicians to a new practice location account
+					</h2>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" style="overflow-y: auto; max-height: 500px" id="modal-content-id-3">
+					<template if:false={showMoveConfirm}>
+					<div class="slds-box">
+						<div slot="body">
+							<div class="slds-p-around--small">
+								Current practice location: <span class="address-location"> {street} {city} {country} {state}, {postalcode} </span>
+							</div>
+						</div>
+						<form data-id="form-physician-remove-reason">
+							<div class="slds-form-element slds-p-around--medium">
+								<div class="slds-form-element__control">
+									<div class="slds-combobox_container" if:false={isValueSelected}>
+										<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+											<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+												<lightning-input 
+												onchange={handleChange} 
+												type="search" autocomplete="off" 
+												label={labelSearchSelect}
+												required={required} 
+												field-level-help={helpText} 
+												placeholder={placeholder}
+												onblur={handleInputBlur}
+												></lightning-input>
+											</div>
+										</div>
+									</div>
+									<template if:true={isValueSelected}>
+										<label class="slds-form-element__label" for="combobox-id-5" id="combobox-label-id-35">{label}</label>
+										<template if:true={required}>
+											<span style="color:red">*</span>
+										</template>
+										<div tabindex="0" class="slds-combobox_container slds-has-selection">
+											<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click">
+												<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right"
+													role="none">
+													<span
+														class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon"
+														title="Account">
+														<lightning-icon icon-name={selectedIconName} alternative-text={selectedIconName}
+															size="x-small"></lightning-icon>
+													</span>
+													<button type="button"
+														class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+														aria-labelledby="combobox-label-id-34 combobox-id-5-selected-value"
+														id="combobox-id-5-selected-value" aria-controls="listbox-id-5" aria-expanded="false"
+														aria-haspopup="listbox">
+														<span class="slds-truncate" id="combobox-value-id-19">{selectedRecordName}</span>
+													</button>
+													<button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+														title="Remove selected option" onclick={handleCommit}>
+														<lightning-icon icon-name="utility:close" alternative-text="Remove selected option"
+															size="x-small"></lightning-icon>
+													</button>
+												</div>
+											</div>
+										</div>
+									</template>
+									<template if:true={showRecentRecords}>
+										<div id="listbox-id-4" tabindex="0" onblur={handleBlur} onmousedown={handleDivClick}
+											class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox" >
+											<ul class="slds-listbox slds-listbox_vertical" role="presentation">
+												<template for:each={recordsList} for:item="rec">
+													<li key={rec.Id} role="presentation" class="slds-listbox__item">
+														<div data-id={rec.id} data-recid={rec.id} 
+															data-mainfield={rec.mainField}
+															data-subfield={rec.subField}  
+														onclick={handleSelect} 
+														class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+															<span style="pointer-events: none;" class="slds-media__figure slds-listbox__option-icon" >
+															<span class="slds-icon_container" >
+																<lightning-icon icon-name={selectedIconName} size="small"  alternative-text={selectedIconName} ></lightning-icon>  
+															</span>
+															</span>
+															<span style="pointer-events: none;" class="slds-media__body" >
+															<span class="slds-listbox__option-text slds-listbox__option-text_entity">
+																<span>
+																	<mark>{rec.mainField}</mark>
+																</span>
+															</span>
+															<span class="slds-listbox__option-meta slds-listbox__option-meta_entity">
+																{objectLabel} {rec.subField}
+															</span>
+															</span>
+														</div>
+														</li>
+													
+												</template>
+											</ul>
+										</div>
+									</template>									
+									<template if:true={showNoRecentRecords}>
+										<li class="slds-listbox__item" style="text-align: center; font-weight: bold;">No Records Found....</li>
+									</template>
+								</div>
+							</div>
+						</form>
+						<!--suppress-bottom-bar=true-->
+						<template if:true={moveAcrsTable}>
+							<lightning-datatable 
+								hide-checkbox-column="true"
+								key-field="Id"								
+								data={moveAcrsTable}
+								columns={columns}												
+								draft-values={draftMoveValues}
+								onsave={moveSave}														  
+								>
+							</lightning-datatable>
+						</template>
+						<div slot="footer">
+							<div style="padding-left:2%;" class="slds-align_absolute-center slds-m-top_medium">
+								<button class="saveButton slds-button slds-button_brand slds-m-right_x-small" onclick={handleMoveButton}>Move</button>
+								<button class="newButton slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+							</div>
+						</div>
+						
+					</div>
+					</template>
+					<template if:true={showMoveConfirm}>
+						<div class="slds-box">
+							<div class="slds-p-around--small">
+								This action will remove the relationship with this location and add a relationship with the new location
+								<div style="padding-left:2%;" class="slds-align_absolute-center slds-m-top_medium">
+									<button class="saveButton slds-button slds-button_brand slds-m-right_x-small" onclick={handleMoveOk}>Ok</button>
+									<button class="newButton slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+								</div>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+</template>

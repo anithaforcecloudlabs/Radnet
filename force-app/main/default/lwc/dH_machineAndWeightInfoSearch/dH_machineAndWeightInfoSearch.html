@@ -1,0 +1,558 @@
+<!--
+*********************************************************
+
+Apex Class/ LWC Component Name    : dH_machineAndWeightInfoSearch
+
+Created Date       : 3/30/2024
+
+@description       : This class is used to fetch options of dropdown fields in Site Search
+
+@jiraid            : CC-21, CC-819
+
+*********************************************************
+-->
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item padding="horizontal-small" size="12">
+            <div class="bodyClass">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item class="slds-p-left_small  slds-p-top_medium" size="slds-size_1-of-5">
+                        <span class="optionsHeader">
+                            {siteOptTitle}
+                        </span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="siteSearchBar " size="4" >
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <div class="slds-combobox_container">
+                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                                    aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                        <template if:true={selectedValue}>
+                                            <div data-key="pilldiv" class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right"
+                                            role="none">
+                                                <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon"
+                                                title="object">
+                                                    <div class="slds-icon slds-icon_small" aria-hidden="true">
+                                                        <lightning-icon icon-name="standard:account" size="small">
+                                                        </lightning-icon>
+                                                    </div>
+                                                    <span class="slds-assistive-text">
+                                                        Record
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value inputSearch"
+                                                id="combobox-id-5" aria-controls="listbox-id-5" role="textbox" 
+                                                readonly value={selectedValue} />
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                                onclick={removeRecordOnLookup} title="Remove selected option">
+                                                    <span class="slds-button__icon" aria-hidden="true">
+                                                        <lightning-icon icon-name="utility:close" size="xx-Small" class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                        aria-hidden="true">
+                                                        </lightning-icon>
+                                                    </span>
+                                                    <span class="slds-assistive-text">
+                                                        Clear 
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </template>
+                                        <template if:false={selectedValue}>
+                                            <div data-key="searchdiv" class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                            role="none">
+                                                <input type="text" onfocusout={onLeave} value={searchKeySite} onkeyup={handleKeyChange}
+                                                onchange={handleKeyChange} class="slds-input slds-combobox__input slds-has-focus inputSearch"
+                                                id="combobox-id-2" aria-autocomplete="list" aria-controls="listbox-id-2"
+                                                role="textbox" placeholder="Enter Site Code here..."
+                                                />
+                                                <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                                    <lightning-icon icon-name="utility:search" size="xx-Small" class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                    aria-hidden="true">
+                                                    </lightning-icon>
+                                                </span>
+                                            </div>
+                                            <template if:true={siteList}>
+                                                <div id="listbox-id-3" data-key="dropdownresult" class="slds-show slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid"
+                                                role="listbox">
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <template if:true={message}>
+                                                            <center>
+                                                                {message}
+                                                            </center>
+                                                        </template>
+                                                        <template for:each={siteList} for:item="siteObj">
+                                                            <li key={siteObj.value} onclick={handleSiteSearchKeyword} data-name={siteObj.label}
+                                                            role="presentation" class="slds-listbox__item">
+                                                                <div data-key={siteObj.label} data-name={siteObj.label} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                role="option">
+                                                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                                                        <span class="slds-icon_container">
+                                                                            <lightning-icon icon-name="standard:account" size="small">
+                                                                            </lightning-icon>
+                                                                        </span>
+                                                                    </span>
+                                                                    <span class="slds-media__body">
+                                                                        <span data-key={siteObj.value} data-name={siteObj.label} class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                            {siteObj.label}
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </lightning-layout-item>
+                        
+                    <lightning-layout-item  size="12">
+                        <div class=" orText select1 slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <span>
+                                </span>
+                            </div>
+                            <div size="12" class=" select1 slds-col">
+                                <span>
+                                    OR
+                                </span>
+                            </div>
+                            <div class="slds-col">
+                                <span>
+                                </span>
+                            </div>
+                            <div class="slds-col">
+                                <span>
+                                </span>
+                            </div>
+                            <div class="slds-col">
+                                <span>
+                                </span>
+                            </div>
+                            <div class="slds-col">
+                                <span>
+                                </span>
+                            </div>
+                            <div class="slds-col">
+                                <span>
+                                </span>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" >
+                        <span class="optionsHeader" > {pracOptTitle} </span>
+                        <span class="optionClear">
+                            <c-d-h_practice-options onpracticechange={handlePracticheChange}>
+                            </c-d-h_practice-options>
+                        </span>
+                        <span class="optionClear">
+                            <a onclick={handlePracticeClear}>
+                                {clearAll}
+                            </a>
+                        </span>
+                    </lightning-layout-item>
+                    <template if:true={showModality}>
+                        <lightning-layout-item padding="around-small" size="12" >
+                            <span class="optionsHeader" > {modalityOptTitle}</span>
+                            <span class="optionClear">
+                                <c-d-h_modality-options onmodalitychange={handleModalityChange}>
+                                </c-d-h_modality-options>
+                            </span>
+                            <span class="optionClear">
+                                <a onclick={handleModalityClear}>
+                                    {clearAll}
+                                </a>
+                            </span>
+                        </lightning-layout-item>
+                    </template>
+                    <lightning-layout-item size="12" padding="around-small">
+                        <a onclick={handleClear}>
+                            {clearAll}
+                        </a>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout multiple-rows class="layoutbg">
+                    <lightning-layout-item size="12" padding="horizontal-small">
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-p-left_small slds-p-right_small slds-p-top_small"
+                    size="4">
+                        <lightning-input variant="label-hidden" class="inputSearch" type="search"
+                        placeholder="Search in table" value={searchKey} onchange={handleSearch} disabled={hideResult}>
+                        </lightning-input>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item class="slds-p-left_small slds-p-right_small slds-p-top_small"
+                    size="8">
+                    <lightning-input type= "checkbox" label="Exact Match Only" value="myValue" onchange={handleCheckboxChange} class="top-padding" data-id="exactMatchCheckbox" >
+                    </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item class=" optionsHeader slds-p-left_small slds-p-right_small slds-p-top_small"
+                    size="4">
+                        {tableTitle}
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" class="slds-p-left_small slds-p-right_small slds-p-top_small slds-text-align_center">
+                        <template if:true={dataCountVisible}>
+                            <div>
+                                Total Machine & Weight Info Records : {dataCount}
+                            </div>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <template if:true={showSpinner}>
+                            <lightning-spinner alternative-text="Loading" size="small">
+                            </lightning-spinner>
+                        </template>
+                        <div class="result">
+                            <table class=" customTablCSS">
+                                <thead >
+                                    <tr>
+                                        <th scope="col" data-name="siteCode" onclick={sortPractice}>
+                                            <span class="slds-truncate" title="Site Code">
+                                                Site Code
+                                            </span>
+                                            <span if:true={isSiteCodeSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th class="" scope="col" data-name="siteName" onclick={sortPractice}>
+                                            <span class="slds-truncate" title="Site Name">
+                                                Site Name
+                                            </span>
+                                            <span if:true={isSiteNameSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th class="" scope="col" data-name="practice" onclick={sortPractice}>
+                                            <span title="Practice">
+                                                Practice
+                                            </span>
+                                            <span if:true={isPracticeSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <template if:true={showXray}>
+                                            <th class="columnTitleCursor" scope="col" data-name="xRayWeight" >
+                                                <span class="slds-truncate" title="X Ray">
+                                                    X Ray
+                                                </span>
+                                            </th>
+                                        </template>
+                                        <template if:true={showFluoro}>
+                                            <th class="columnTitleCursor" scope="col" data-name="fluoroWeight" >
+                                                <span class="slds-truncate" title="Name">
+                                                    Fluoro
+                                                </span>
+                                            </th>
+                                        </template>
+                                        <template if:true={showDexa}>
+                                            <th class="columnTitleCursor" scope="col" data-name="dexaWeight" >
+                                                <span class="slds-truncate" title="Machine">
+                                                    Dexa
+                                                </span>
+                                            </th>
+                                        </template>
+                                        <template if:true={showUs}>
+                                            <th class="columnTitleCursor" scope="col" data-name="usWeight" >
+                                                <span class="slds-truncate" title="Weight">
+                                                    US
+                                                </span>
+                                            </th>
+                                        </template>
+                                        <template if:true={showMRI}>
+                                            <th class="columnTitleCursor" scope="col" data-name="mriRoom" >
+                                                <span class="slds-truncate" title="Weight">
+                                                    MRI Room
+                                                </span>
+                                            </th>
+                                            <th class="columnTitleCursor" scope="col" data-name="mriDescription" >
+                                                <span class="slds-truncate" title="MRI Description">
+                                                    MRI Description
+                                                </span>
+                                            </th>
+                                            <th class="columnTitleCursor" scope="col" data-name="mriWeight" >
+                                                <span class="slds-truncate" title="MRI Room">
+                                                    MRI
+                                                </span>
+                                            </th>
+                                            <th class="columnTitleCursor" scope="col" data-name="mriMachine" >
+                                                <span class="slds-truncate" title="Machine">
+                                                    MRI Machine
+                                                </span>
+                                            </th>
+                                        </template>
+                                        <template if:true={showCT}>
+                                            <th class="columnTitleCursor" scope="col" data-name="ctWeight" >
+                                                <span class="slds-truncate" title="Weight">
+                                                    CT
+                                                </span>
+                                            </th>
+                                            <th class="columnTitleCursor" scope="col" data-name="ctMachine" >
+                                                <span class="slds-truncate" title="Machine">
+                                                    CT Machine
+                                                </span>
+                                            </th>
+                                            <th class="columnTitleCursor" scope="col" data-name="ctSlice" >
+                                                <span class="slds-truncate" title="Slice">
+                                                    CT Slice
+                                                </span>
+                                            </th>
+                                        </template>
+                                        <template if:true={showNm}>
+                                            <th class="columnTitleCursor" scope="col" data-name="nmWeight" >
+                                                <span class="slds-truncate" title="Weight">
+                                                    NM
+                                                </span>
+                                            </th>
+                                        </template>
+                                        <template if:true={showPet}>
+                                            <th class="columnTitleCursor" scope="col" data-name="petctWeight" >
+                                                <span class="slds-truncate" title="CT Slice">
+                                                    PET
+                                                </span>
+                                            </th>
+                                        </template>
+                                    </tr>
+                                </thead>
+                                <template if:false={hideResult}>
+                                <tbody>
+                                    <template for:each={dataVisible} for:item="row" for:index="index">
+                                        <tr key={row.id}>
+                                            <td>
+                                                <div class="content rowPadding codeRow" data-scid={row.siteAccId}>
+                                                    <template if:false={isGuestUser}>
+                                                    <a class="content " data-scid={row.siteAccId} onclick={handleSiteCodeClick}>
+                                                        {row.siteCode}
+                                                    </a>
+                                                    </template>
+                                                    <template if:true={isGuestUser}>
+                                                        <div class="content" data-scid={row.siteAccId} >
+                                                            {row.siteCode}
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content rowPadding nameRow"  >
+                                                    {row.siteName}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class=" content rowPadding codeRow">
+                                                    {row.practice}
+                                                </div>
+                                            </td>
+                                            <template if:true={showXray}>
+                                                <td>
+                                                    <div class="content ">
+                                                        <template for:each={row.xRay} for:item="xr">
+                                                            <div key={xr.xRayWeight} class="innerColumn">
+                                                                {xr.xRayWeight}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                            <template if:true={showFluoro}>
+                                                <td>
+                                                    <div class="content  ">
+                                                        <template for:each={row.fluoro} for:item="f">
+                                                            <div key={f.fluoroWeight} class="innerColumn">
+                                                                {f.fluoroWeight}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                            <template if:true={showDexa}>
+                                                <td>
+                                                    <div class="content ">
+                                                        <template for:each={row.dexa} for:item="d">
+                                                            <div key={d.dexaWeight} class="innerColumn">
+                                                                {d.dexaWeight}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                            <template if:true={showUs}>
+                                                <td>
+                                                    <div class="content ">
+                                                        <template for:each={row.ultrasound} for:item="u">
+                                                            <div key={u.usWeight} class="innerColumn">
+                                                                {u.usWeight}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                            <template if:true={showMRI}>
+                                                <td>
+                                                    <div class="content ">
+                                                        <template for:each={row.mri} for:item="mr">
+                                                            <div class="content innerColumn" key={mr.mriRoom}>
+                                                                {mr.mriRoom}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="content ">
+                                                        <template for:each={row.mri} for:item="mr">
+                                                            <div class="content innerColumn" key={mr.mriDescription}>
+                                                                {mr.mriDescription}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="content ">
+                                                        <template for:each={row.mri} for:item="mr">
+                                                            <div class="content innerColumn" key={mr.mriWeight}>
+                                                                {mr.mriWeight}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="content">
+                                                        <template for:each={row.mri} for:item="mr">
+                                                            <div class="content innerColumn" key={mr.mriMachine}>
+                                                                {mr.mriMachine}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                            <template if:true={showCT}>
+                                                <td>
+                                                    <div class="content">
+                                                        <template for:each={row.ct} for:item="c">
+                                                            <div class="content innerColumn" key={c.ctWeight}>
+                                                                {c.ctWeight}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="content">
+                                                        <template for:each={row.ct} for:item="c">
+                                                            <div class="content innerColumn" key={c.ctMachine}>
+                                                                {c.ctMachine}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="content">
+                                                        <template for:each={row.ct} for:item="c">
+                                                            <div class="content innerColumn" key={c.ctSlice}>
+                                                                {c.ctSlice}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                            <template if:true={showNm}>
+                                                <td>
+                                                    <div class="content">
+                                                        <template for:each={row.nm} for:item="n">
+                                                            <div key={n.nmWeight} class="innerColumn">
+                                                                {n.nmWeight}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                            <template if:true={showPet}>
+                                                <td>
+                                                    <div class="content">
+                                                        <template for:each={row.petct} for:item="ptct">
+                                                            <div key={ptct.petctWeight} class="innerColumn">
+                                                                {ptct.petctWeight}
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </template>
+                            </table>
+                            <template if:true={hideResult}>
+                                <div class="slds-p-around_medium result">
+                                    <center>
+                                        <b>
+                                            {errorMessage}
+                                        </b>
+                                    </center>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                    <template if:true={searchData}>
+                        <lightning-layout-item padding="" size="4" class=" slds-p-right_small  ">
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4" class="slds-p-left_small slds-p-right_small  slds-text-align_center">
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="" size="4" class=" slds-p-right_small ">
+                            <c-d-h_search-pagination records={searchData} record-size="10" onupdate={updateRecordsHandler}
+                            class="slds-float_right">
+                            </c-d-h_search-pagination>
+                        </lightning-layout-item>
+                    </template>
+                    <lightning-layout-item padding="" size="12" class="layoutbg">
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

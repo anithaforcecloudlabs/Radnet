@@ -1,0 +1,143 @@
+.section {
+  display: block;
+}
+
+.parentClass {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.container {
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.crossbtn {
+  position: static;
+}
+
+.previous {
+  width: 10%;
+  padding: 15px;
+}
+
+.cross {
+  position: relative;
+  z-index: 999;
+  right: 0%;
+  float: right;
+  width: 100%;
+  top: 28px;
+  right: 2px;
+}
+
+.next {
+  width: 10%;
+  padding: 15px;
+}
+
+.image {
+  height: 100%;
+}
+
+.imageContainer {
+  width: auto;
+  height: auto;
+}
+
+lightning-button {
+  width: auto;
+  border-radius: 50%;
+}
+
+.imageInnerContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+table {
+  height: 100%;
+  width: 100%;
+}
+
+
+.closebtn {
+  border: 2px solid #747474;
+  border-radius: 50%;
+  background-color: white;
+  float: right;
+  height: 26px;
+  width: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftbtn {
+  border-radius: 50%;
+  background-color: white;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rightbtn {
+  border-radius: 50%;
+  background-color: white;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closebtn :hover {
+  color: grey;
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+/* .imageInnerContainer :hover{
+  cursor:ew-resize;
+} */
+
+.next :hover {
+  color: rgb(11, 11, 146);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.previous :hover {
+  color: rgb(11, 11, 146);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.nextdisabled {
+  width: 10%;
+  padding: 15px;
+  color: grey;
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.previousdisabled {
+  width: 10%;
+  padding: 15px;
+  color: grey;
+  opacity: 0.45;
+  cursor: not-allowed;
+}

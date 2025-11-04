@@ -1,0 +1,233 @@
+.make-this-dang-icon-blue {
+    color: blue;
+}
+.content.mark { 
+    color: black; 
+    padding: 5px; 
+    background-color: rgb(255, 240, 63) !important; 
+}
+.content.mark.a0 { 
+    color: black; 
+    padding: 5px; 
+    background-color: rgb(255, 240, 63) !important; 
+}
+.customTablCSS {
+    border: 1.4px solid #dbdbdb;
+}
+
+.customTablCSS tr:nth-child(even) {
+    background-color: #f1f1f1;
+    border-collapse: collapse;
+}
+
+.customTablCSS thead th {
+    line-height: 4ch;
+    background-color: #ffffff;    
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #dbdbdb !important;
+    padding-left:18px;
+    padding-right:18px;
+    text-align: left;
+    font-weight: initial;
+    cursor: pointer;
+    
+    
+}
+th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+
+.customTablCSS th:nth-child(even) {    
+    border-collapse: collapse;
+    border-right: 1px solid #dbdbdb;
+}
+
+lightning-input {
+    --slds-c-input-radius-border: 3rem; 
+}
+
+.optionsHeader {
+   font-weight: bold;
+}
+
+.bodyClass{
+  color: #535659;    
+   
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    border: 1.35px solid lightgray;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+.dot svg{
+    color: white;    
+    padding: 4px;
+    margin-top: -3px;
+    margin-left: -1px;
+   
+}
+
+.rowPadding {
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.sortArrow {
+    height: 10px;
+    fill:#bbbbbb;
+}
+
+.triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 70px solid transparent;
+	border-right: 70px solid transparent;
+    border-top: 50px solid white;
+    margin-top: -32px;
+}
+
+.inputSearch{
+    --slds-c-input-color-border: #dbdbdb;
+}
+
+.svgBgWhite{
+    background-color: white;
+}
+
+.svgBgRed {
+    background-color: #8B1C1D;
+}
+
+.procCount{
+    padding-left: 14rem;
+    padding-top: 1rem;
+}
+
+.instructCount{
+    padding-left: 14rem;
+}
+
+.noResult{
+    font-size: 16px;
+     font-weight:bold;
+}
+
+.practices{
+    padding-right: 15px;
+    display: inline-block;
+}
+
+.practice_options{
+    display: inline-block;
+}
+
+.options_ClearAll{
+    padding-left: 15px;display: inline-block;
+}
+
+.modalities_style{
+    padding-top:10px;
+    padding-bottom: 20px;
+}
+
+.modalities_span{
+    padding-right: 15px;
+    display: inline-block;
+}
+
+.table_layout{
+    background-color:#ffffff;
+}
+
+.proc_header{
+    border-bottom: 2px solid 4, #dddbda;
+}
+
+.th_col1{
+    width: 90px;
+}
+
+.th_col2{
+    width: 85px;
+}
+.th_col3{
+    width: 95px;
+}
+.th_col4{
+    width: 80px;
+}
+.th_col5{
+    width: 60px;
+}
+.th_col6{
+    cursor: default;
+    width: 350px;
+}
+.row_Prac{
+    width: 90px; 
+    word-wrap: break-word;
+    text-wrap: wrap;
+    word-break: break-word;
+}
+.row_Mod{
+    width: 85px; 
+    word-wrap: break-word;
+    text-wrap: wrap;
+    word-break: break-word;
+}
+.row_Name{
+    width: 95px; 
+    word-wrap: break-word;
+    text-wrap: wrap;
+    word-break: break-word;
+}
+.row_Code{
+    width: 80px; 
+    word-wrap: break-word;
+    text-wrap: wrap;
+    word-break: break-word;
+}
+.row_BodyParts{
+    width: 60px; 
+    word-wrap: break-word;
+    text-wrap: wrap;
+    word-break: break-word;
+}
+.row_SpecIns{
+    width: 350px;
+    word-wrap: break-word;
+    text-wrap: wrap;
+}
+.spec_Ins{
+    border-right: none;
+    cursor: default;
+}
+
+.row_width{
+    max-width: 800px;
+    word-wrap: break-word;
+    text-wrap: wrap;
+}
+.table_scroll{
+    overflow: auto;
+}
+.header_Style{
+    overflow: auto;
+}
+.header_Style2{
+    position: sticky; 
+    top: 0;
+}
+.top-padding {
+    padding-top: 23px; /* CC-649 */
+}

@@ -1,0 +1,34 @@
+<template>
+    <div class="slds-grid slds-wrap slds-gutters">
+        <div class="slds-col slds-size_8-of-12 slds-p-vertical_medium">
+            <div class="slds-grid slds-wrap slds-gutters">
+                <template if:true={metrics} for:each={metrics} for:item="metric">
+                    <div key={metric.label}  class="slds-col slds-size_6-of-12 slds-p-vertical_medium">
+                        <lightning-card title={metric.title} icon-name={metric.icon}>   
+                            <div lwc:if={metric.metrics} class="slds-m-around_medium">
+                                <template for:each={metric.metrics} for:item="item">
+                                    <p key={item.label}>{item.label}: {item.value}</p>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div class="slds-col slds-size_4-of-12 slds-p-vertical_medium">
+            <div class="slds-grid slds-wrap slds-gutters">
+                <template if:true={element}>
+                    <div class="slds-col slds-size_12-of-12 slds-p-vertical_medium">
+                        <lightning-card title={element.title} icon-name={element.icon}>   
+                            <div lwc:if={element.metrics} class="slds-m-around_medium">
+                                <template for:each={element.metrics} for:item="item">
+                                    <p key={item.label}>{item.label}: {item.value}</p>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

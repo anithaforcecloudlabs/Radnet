@@ -1,0 +1,395 @@
+.make-this-dang-icon-blue {
+    color: blue;
+}
+
+.content.mark {
+    color: black;
+    padding: 5px;
+    background-color: rgb(255, 240, 63) !important;
+}
+
+.content.mark.a0 {
+    color: black;
+    padding: 5px;
+    background-color: rgb(255, 240, 63) !important;
+}
+
+.customTablCSS {
+    border: 1.4px solid #dbdbdb;
+}
+
+.customTablCSS tr:nth-child(even) {
+    background-color: #f1f1f1;
+    border-collapse: collapse;
+}
+
+.customTablCSS thead th {
+    line-height: 4ch;
+    background-color: #ffffff;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #dbdbdb !important;
+    padding-left: 18px;
+    padding-right: 18px;
+    text-align: left;
+    font-weight: initial;
+    cursor: pointer;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+
+.customTablCSS th:nth-child(even) {
+    border-collapse: collapse;
+    border-right: 1px solid #dbdbdb;
+}
+
+.optionsHeader {
+    font-weight: bold;
+}
+
+.bodyClass {
+    color: #535659;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    border: 1.35px solid lightgray;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot svg {
+    color: white;
+    padding: 4px;
+    margin-top: -3px;
+    margin-left: -1px;
+}
+
+.rowPadding {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sortArrow {
+    height: 10px;
+    fill: #bbbbbb;
+}
+
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    border-top: 50px solid white;
+    margin-top: -32px;
+}
+
+.inputSearch {
+    --slds-c-input-color-border: #dbdbdb;
+}
+
+.svgBgWhite {
+    background-color: white;
+}
+
+.svgBgRed {
+    background-color: #8B1C1D;
+}
+
+.procCount {
+    padding-left: 14rem;
+    padding-top: 1rem;
+}
+
+.instructCount {
+    padding-left: 14rem;
+}
+
+.noResult {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.nopadding {
+    width: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.css-content-align {
+    display: grid;
+    grid-template-columns: max-content max-content auto;
+}
+
+.css-content-align-text::before {
+    content: " : ";
+}
+
+.alertText-utility-icon {
+    --sds-c-icon-color-foreground-default: #F38303;
+}
+
+.alertText {
+    color: #F38303 !important;
+    vertical-align: middle;
+}
+
+.customComboBoxDisable {
+    background-color: rgb(243, 243, 243);
+    float: right;
+    padding: 0px;
+}
+
+.gray-utility-icon {
+    --sds-c-icon-color-foreground-default: #BEBEBE;
+}
+
+.signPostSelected {
+    fill: rgba(65, 148, 249, 1);
+    --sds-c-icon-color-foreground-default: rgba(65, 148, 249, 1);
+}
+
+.div1 {
+    margin-top: 20px;
+}
+
+.div2 {
+    padding: 0px;
+    border-right: 0.5px solid rgb(201, 201, 201);
+}
+
+.span_sortDistance {
+    padding-right: 10px;
+    padding-left: 10px;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.div3 {
+    padding: 0px;
+}
+
+.action_button {
+    vertical-align: sub;
+    height: 25px;
+}
+
+.div4 {
+    overflow: auto;
+    height: 400px;
+}
+
+.slds-table {
+    margin-left: auto;
+    margin-right: auto;
+    table-layout: auto;
+}
+
+.thead1 {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background-color: #F38303 !important;
+}
+
+.col_select {
+    color: black;
+    width: 5%;
+}
+
+.col_sites {
+    color: black;
+    width: 35%;
+    cursor: pointer;
+    padding-left: 22px;
+}
+
+.col_modality {
+    color: black;
+    width: 30%;
+}
+
+.col_spanModality {
+    padding: inherit;
+}
+
+.td1 {
+    width: 5%;
+    padding-right: 5px;
+    vertical-align: top;
+    white-space: break-spaces;
+}
+
+.td2 {
+    width: 35%;
+    vertical-align: top;
+    white-space: break-spaces;
+}
+
+.div5 {
+    white-space: break-spaces;
+}
+
+.div6 {
+    padding-right: 5px;
+    color: #747171;
+}
+
+.div7 {
+    white-space: break-spaces;
+    max-width: 360px;
+}
+
+.div8 {
+    white-space: break-spaces;
+    padding-top: 2px;
+}
+
+.td3 {
+    width: 30%;
+    white-space: break-spaces;
+    vertical-align: top;
+}
+
+.div9 {
+    width: max-content;
+}
+
+.div10 {
+    margin-top: 10px;
+    position: absolute;
+    margin-left: 21px;
+}
+
+.div11 {
+    background: darkgray;
+    cursor: pointer;
+}
+
+.div12 {
+    height: 400px;
+    width: 98%;
+}
+
+.div13 {
+    position: absolute;
+    margin-left: 21px;
+    margin-top: -148px;
+    border-radius: 4px;
+    border: 1px solid var(--Foundation-Gray-Neutral-80, #C9C9C9);
+    background: var(--Foundation-Gray-Neutral-100, #FFF);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.div14 {
+    padding-top: 5px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.div15 {
+    z-index: 5;
+}
+
+.div16 {
+    margin-top: 2px;
+}
+
+.div17 {
+    margin-top: -19px;
+}
+
+.div18 {
+    padding-top: 3px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.div20 {
+    margin-top: 2px;
+    fill: #BA0517;
+}
+
+.div21 {
+    position: absolute;
+    margin-left: 21px;
+    cursor: pointer;
+    margin-top: -41px;
+    background-color: white;
+    border-radius: 11%;
+}
+
+.div22 {
+    padding: 7px;
+    border: 1px solid;
+}
+
+.div23 {
+    position: absolute;
+    margin-left: 55px;
+    cursor: pointer;
+    margin-top: -41px;
+}
+
+.div24 {
+    padding: 0px;
+    border-right: 0.5px solid rgb(201, 201, 201);
+    padding-right: 13px;
+}
+
+.div25 {
+    padding-right: 10px;
+    padding-left: 10px;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.div26 {
+    padding: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.div27 {
+    vertical-align: sub;
+    height: 25px;
+}
+
+.div28 {
+    position: absolute;
+    margin-left: 153px;
+    cursor: pointer;
+    margin-top: -41px;
+}
+
+.div29 {
+    border-top: 1px solid #c9c9c9;
+}
+
+.div30 {
+    float: left;
+    font-weight: bold;
+}
+
+.div31 {
+    float: right
+}
+
+.slds-table thead th {
+    background-color: #f3f3f3 !important;
+}
+
+.alert_padding {
+    padding-top: 1.3px;
+}
+
+.top-padding {
+    padding-top: 23px;
+    /* Adjust the value as needed */
+}

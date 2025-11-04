@@ -1,0 +1,372 @@
+<!-- 
+***********************************************************
+LWC               :   DH_specialAccomodationAndBillSearch
+
+Created Date      :   3/30/2024
+
+@description      :   USED FOR SPECIAL BILL & ACCOMMODATION IN MODALITY SEARCH TAB
+
+@jiraId           :   CC-22
+
+***********************************************************
+-->
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item padding="horizontal-small" size="12">
+            <div class="bodyClass">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <span style="padding-right: 15px;display: inline-block;">
+                            <b>
+                                Regions :
+                            </b>
+                        </span>
+                        <span style="display: inline-block;">
+                            <c-d-h_region-options onregionchange={handleRegionsChangeEvent}>
+                            </c-d-h_region-options>
+                        </span>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout multiple-rows style="background-color: #ffffff">
+                    <lightning-layout-item size="4" class="slds-p-left_small slds-p-right_small" >
+                        <lightning-input varient="label-hidden" class="inputSearch" type="search"
+                        placeholder="Search in table" value={searchKey} onchange={handleSearchSPAP}>
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-input type= "checkbox" label="Exact Match Only" value="myValue" onchange={handleCheckboxChange} class="top-padding" data-id="exactMatchCheckbox">
+                    </lightning-input> 
+                    <lightning-layout-item padding="around-x-small" size="12">
+                    </lightning-layout-item>
+                    <span class="optionsHeader slds-p-around_small">
+                        Special Bills Details
+                    </span>
+                    <template if:true={dataCountVisible}>
+                        <div class="slds-p-bottom_xx-small slds-align_absolute-center">
+                            Total Special Bills : {dataCount}
+                        </div>
+                    </template>
+                    <lightning-layout-item class="" size="12">
+                        <template if:true={showSpinner}>
+                            <lightning-spinner alternative-text="Loading" size="small">
+                            </lightning-spinner>
+                        </template>
+                        <div style="overflow: auto">
+                            <table class="slds-table customTablCSS highlightOuterBorder">
+                                <thead style="position: sticky; top: 0">
+                                    <tr class="highlightOuterBorder">
+                                        <th scope="col" data-name="payerName" onclick={sortBillName}>
+                                            <span class="slds-truncate " title="Special Bill Name">
+                                                Special Bill Name
+                                            </span>
+                                            <span if:true={isBillNameSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="regionName" onclick={sortBillName}>
+                                            <span class="slds-truncate" title="Region">
+                                                Region
+                                            </span>
+                                            <span if:true={isRegionSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="carrierCode" onclick={sortBillName}>
+                                            <span title="Carrier Code in RIS">
+                                                Carrier Code in RIS
+                                            </span>
+                                            <span if:true={isCarrierCodeSort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="modalityDescription" onclick={sortBillName}>
+                                            <span title="Modality">
+                                                Modality Description
+                                            </span>
+                                            <span if:true={isModalitySort}>
+                                                <span if:true={isAsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDsc}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" style="cursor: default;">
+                                            <span class="slds-truncate" title="Exam Covered">
+                                                Exam Covered
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={dataVisible} for:item="row" for:index="index">
+                                        <tr key={row.id}>
+                                            <td>
+                                                <div class="rowPadding" data-descid={row.id} style="
+                                                max-width: 400px;
+                                                min-width: 240px;
+                                                word-wrap: break-word;
+                                                text-wrap: wrap;
+                                                ">
+                                                <template if:true={isGuestUser}>
+                                                    <div class="content" data-descid={row.id}>
+                                                        {row.payerName}
+                                                    </div>
+                                                </template>
+                                                <template if:false={isGuestUser}>
+                                                    <a class="content" data-descid={row.id} onclick={handleDescClick}>
+                                                        {row.payerName}
+                                                    </a>
+                                                </template>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content rowPadding">
+                                                    {row.regionName}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content rowPadding">
+                                                    {row.carrierCode}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content rowPadding" style="
+                                                max-width: 400px;
+                                                min-width: 240px;
+                                                word-wrap: break-word;
+                                                text-wrap: wrap;">
+                                                    <lightning-formatted-rich-text value={row.modalityDescription} class="content">
+                                                    </lightning-formatted-rich-text>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content rowPadding" style="
+                                                max-width: 400px;
+                                                min-width: 240px;
+                                                word-wrap: break-word;
+                                                text-wrap: wrap;
+                                                ">
+                                                    <lightning-formatted-rich-text value={row.examCovered} class="content">
+                                                    </lightning-formatted-rich-text>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <template if:true={showNoDataSpecialBill}>
+                                <div class=" noResult slds-p-around_small slds-align_absolute-center ">
+                                    No Result Found.
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <c-d-h_search-pagination records={searchDataSpecial} record-size="10"
+                        onupdate={updateRecordsHandler} class="slds-float_right">
+                        </c-d-h_search-pagination>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+                   
+                <lightning-layout-item padding="around-small" size="12">
+                </lightning-layout-item>
+                <lightning-layout multiple-rows style="background-color: #ffffff">
+                    <template if:true={showPractice}>
+                        <lightning-layout-item size="12" class="slds-p-left_small slds-p-top_medium">
+                            <span style="padding-right: 15px;display: inline-block;">
+                                <b>
+                                    Practices :
+                                </b>
+                            </span>
+                            <span style="display: inline-block;">
+                                <c-d-h_practice-options onpracticechange={handlePractticheChange}>
+                                </c-d-h_practice-options>
+                            </span>
+                            <span style="padding-left: 15px;display: inline-block;">
+                                <a onclick={handleClearPractices}>
+                                    Clear All
+                                </a>
+                            </span>
+                        </lightning-layout-item>
+                    </template>
+                    <lightning-layout-item padding="around-small" size="12">
+                    </lightning-layout-item>
+                    <span class="optionsHeader slds-p-around_small">
+                        Special Accommodation Details
+                    </span>
+                    <template if:true={dataCountVisible1}>
+                        <div class="slds-p-bottom_xx-small slds-align_absolute-center">
+                            Total Special Accommodations : {dataCount1}
+                        </div>
+                    </template>
+                    <lightning-layout-item padding="" size="12">
+                        <div style="overflow: auto">
+                            <table class="slds-table customTablCSS highlightOuterBorder">
+                                <thead style="position: sticky; top: 0">
+                                    <tr class="highlightOuterBorder">
+                                        <th scope="col" data-name="practice" onclick={sortPractice}>
+                                            <span class="slds-truncate" title="Practice">
+                                                Practice
+                                            </span>
+                                            <span if:true={isPracticeSort}>
+                                                <span if:true={isAscSP}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDscSP}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" data-name="accprotocol" onclick={sortPractice}>
+                                            <span class="slds-truncate" title="Protocol Description">
+                                                Protocol Description
+                                            </span>
+                                            <span if:true={isProtocolDescSort}>
+                                                <span if:true={isAscSP}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span if:true={isDscSP}>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default sortArrow" aria-hidden="true">
+                                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th scope="col" style="cursor: default;">
+                                            <span title="Notes">
+                                                Notes
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={dataVisible1} for:item="row" for:index="index">
+                                        <tr key={row.Id}>
+                                            <td>
+                                                <div class="content rowPadding">
+                                                    {row.practice}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content rowPadding" data-specialaccid={row.Id}>
+                                                    <template if:true={isGuestUser}>
+                                                        <div class="content" data-specialaccid={row.Id}>
+                                                            {row.accprotocol}
+                                                        </div>
+                                                    </template>
+                                                    <template if:false={isGuestUser}>
+                                                        <a class="content" data-specialaccid={row.Id} onclick={handleSpecialAccClick}>
+                                                            {row.accprotocol}
+                                                        </a>
+                                                    </template>    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="content rowPadding" style="
+                                                max-width: 500px;
+                                                min-width: 240px;
+                                                word-wrap: break-word;
+                                                text-wrap: wrap;
+                                                ">
+                                                    <lightning-formatted-rich-text value={row.Notes__c} class="content">
+                                                    </lightning-formatted-rich-text>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <template if:true={showNoDataSpeAcc}>
+                                <div class="noResult slds-p-around_small slds-align_absolute-center">
+                                    No Result Found.
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                    <template if:true={AccData}>
+                        <lightning-layout-item padding="around-small" size="12">
+                            <c-d-h_search-pagination records={AccData} record-size="10" onupdate={updateRecordsHandlerAcc}
+                            class="slds-float_right">
+                            </c-d-h_search-pagination>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

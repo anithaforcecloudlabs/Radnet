@@ -1,0 +1,52 @@
+.card-container {
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0px;
+    background-color: #fff;
+}
+
+.card-header {
+    background-color: #f0f0f0;
+    padding: 23px 8px;
+    border-bottom: 1px solid #dcdcdc;
+    border-radius: 4px 4px 0 0;
+	font-weight: bold;
+    padding-top: 16px;
+    padding-left: 8px;
+}
+.card-header h1 {
+    padding-left: 8px;
+    padding-top: 4px;
+    font-size: 18px;
+}
+.card-body {
+    padding: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.card-body input {
+    width: 100%;
+}
+.icon {  
+    width: 20px;
+    height: 15px;
+    top: 15px;
+    padding-left: 3px;
+    padding-right: 2px;
+} 
+.iconposition{
+    width: 29px;
+    height: 28px;
+    --slds-c-icon-color-foreground-default: #ffffff;
+    fill: #1cb2ee;
+    pointer-events: all;
+    padding-left: 2px;
+    padding-top: 2px;
+}
+.iconposition:hover{
+    filter: brightness(120%);
+}
+.dH_customButton{
+    color: #575555;
+}

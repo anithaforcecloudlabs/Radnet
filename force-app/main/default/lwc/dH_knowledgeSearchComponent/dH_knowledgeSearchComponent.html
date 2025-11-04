@@ -1,0 +1,116 @@
+<!-- 
+* ***************************************************************************************************************************
+* LWC Component Name - dH_KnowledgeSearchComponent.html
+* Version - 0.1
+* Created Date - 20-May-2024
+* Function - USED FOR SEARCH FUNCTIONALITY FOR KNOWLEDGE ARTICLES TAB.
+* Modification Log :
+* ***************************************************************************************************************************
+* Jira#                Date                 Description
+* ***********     ******************     *****************************************************************************************
+* CC-331             20-May-2024         For type ahead  functionality in Knowledge search bar.
+* CC-490             29-May-2024         Added custom labels and external CSS.
+* *****************************************************************************************************************************
+-->
+<template>
+  <div class="slds-form-element">
+    <label class="slds-form-element__label" for="combobox-id-2">{lookupLabel}</label>
+    <div class="slds-form-element__control">
+      <div class="dH_divClassOne slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true"
+          aria-haspopup="listbox" role="combobox">
+          <!--For displaying the Recently Viewed Articles for the logged in user-->
+          <div data-key="searchdiv" class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+            role="none">
+      
+            <input type="text" onclick={showRecentlyViewedArticles} onfocusout={onLeave} value={searchKey} onkeyup={handleKeyChange}
+              onkeypress={handleEnter} onchange={handleKeyChange} class="slds-input slds-combobox__input slds-col inputbox"
+              id="combobox-id-2" aria-autocomplete="list" aria-controls="listbox-id-2" role="textbox"
+              placeholder={label.SearchAnArticleHere} />
+              <!--For handling search icon-->
+              <span class=" icon slds-icon_container slds-icon-standard-search slds-input__icon slds-input__icon_right slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center">
+                <lightning-icon onclick={handleIconClick} icon-name="standard:search" size="medium"
+                  class="  iconposition slds-icon  slds-icon_medium slds-icon-text-default slds-icon-standard-search slds-icon_container"
+                  aria-hidden="true">
+                </lightning-icon>
+              </span>
+              <!--For handling remove the entered text-->
+              <template if:true={showcross}>
+                <button class=" cross slds-button slds-button_icon slds-input__icon"
+                  onclick={removeRecordOnLookup} title="Remove selected option">
+                  <span class=" slds-button__icon" aria-hidden="true">
+                    <lightning-icon icon-name="utility:clear" size="xx-Small"
+                      class=" slds-icon slds-icon slds-icon_xx-small slds-icon-text-default"
+                      aria-hidden="true">
+                    </lightning-icon>
+                  </span>
+                  <span class="slds-assistive-text">{label.RemoveSelectedRecord}</span>
+                </button>
+              </template>
+          </div>
+
+          <!--To display list of Recently Viewed Articles-->
+          <template if:true={showRecentArticles}>
+            <template if:false={hasRecords}>
+              <template if:true={showDropdownForRectlyView}>
+                <div id="listbox-id-1-venu" data-key="dropdownresult"
+                  class="slds-show slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                  <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                    <span class="dH_spanClassTwo">
+                      {label.RecentlyViewedArticles}
+                    </span>
+                    <div class="dH_divClass">
+                    </div>
+                    <template for:each={recentlyViewedArticlesList} for:item="record">
+                      <li id={record.Id} key={record.Id} onclick={onRecordSelection} role="presentation"
+                        class="slds-listbox__item">
+                        <div data-key={record.Id} data-name={record.Name}
+                          class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                          role="option">
+                          <span class="slds-media__body">
+                            <span data-key={record.Id} data-name={record.Name}
+                              class="slds-listbox__option-text slds-listbox__option-text_entity">{record.Name}
+                            </span>
+                          </span>
+                        </div>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </template>
+            </template>
+          </template>
+          <!--To display list of Most Viewed Articles-->
+          <template if:true={hasRecords}>
+            <template if:true={showDropdown}>
+              <div id="listbox-id-2-venu" data-key="dropdownresult"
+                class="slds-show slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                  <span class="dH_spanClassTwo">
+                    {label.MostViewedArticles} 
+                  </span>
+                  <div class="dH_divClass">
+                  </div>
+                  <template for:each={recordsList} for:item="record"><!--if record list is empty recently viewed articles are shown-->
+                    <li id={record.id} key={record.id} onclick={onRecordSelection} role="presentation"
+                          class="slds-listbox__item">
+                      <div data-key={record.id} data-name={record.title}
+                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                            role="option">
+                        <span class="slds-media__body">
+                          <span data-key={record.id} data-name={record.title}
+                            class="slds-listbox__option-text slds-listbox__option-text_entity">{record.title} 
+                          </span>
+                        </span>
+                      </div>
+                    </li>
+                  </template>
+                </ul>
+              </div>
+            </template>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,19 @@
+.action-item {
+    cursor: pointer;
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    margin-bottom: 12px;
+}
+
+.action-item:hover {
+    background-color: #f8f8f8;
+    border : 2px solid black;
+}
+
+.label{
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 2;
+}

@@ -1,0 +1,22 @@
+<!-- 
+***********************************************************
+LWC               :   DH_mostViewedArticles
+
+Created Date      :   06/03/2024
+
+@description      :   USED TO DISPLAY TOP 5 MOST SEARCHED ARTICLES ON HOME PAGE
+
+@jiraId           :   CC-331
+
+***********************************************************
+-->
+<template>                             
+    <!-- </lightning-card> -->
+    <lightning-card title='Top 5 Searched Articles'>
+        <template for:each={mostViewedArticles} for:item="row">
+            <div key={row.Id} style="padding-left:2px;padding-bottom:6px;" >
+                <a key={row.Id} style="color: #084880;font-weight:bold;padding-left:20px;padding-bottom:6px;"  data-knowledgearticleid={row.Id} onclick={handleArticleClick}>{row.Title}</a>
+            </div>  
+        </template>
+    </lightning-card>    
+</template>

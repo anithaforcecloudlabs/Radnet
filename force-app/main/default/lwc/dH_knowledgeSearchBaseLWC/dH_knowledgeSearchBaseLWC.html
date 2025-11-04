@@ -1,0 +1,295 @@
+<!-- 
+********************************************************************
+* LWC               :   dH_knowledgeSearchBaseLWC
+* 
+* Created Date      :   17/05/2024
+* 
+* @description      :   HTML class of Knowledge Articles LWC component
+* 
+* @Jira Id          :   CC-328, CC-964
+* 
+********************************************************************
+-->
+<template>
+    <div style="background-color: white; min-height: 100%">
+    <!--   <lightning-layout>
+        <lightning-layout-item size="12">
+        </lightning-layout-item>
+  
+      </lightning-layout>  -->
+      <lightning-layout multiple-rows style="background-color: #ffffff;justify-content: center; " padding="around-small">
+
+        <div style="background-color: #F3F3F3;width:100%;display:flex;justify-content:space-between;align-items:center">      
+          <lightning-layout-item size="2">
+            <div style="background-color: #F3F3F3;width: -webkit-fill-available;display: inline-flex;">
+              <span style="padding: 10px">
+                <lightning-icon icon-name="standard:knowledge" alternative-text="Knowledge Articles" size="medium"
+                  title="Knowledge Articles">
+                </lightning-icon>
+              </span>
+              <span style="padding: 10px">
+                <h1>
+                  <span class="slds-page-header__title slds-truncate" title="Knowledge Articles" style="font-weight: bold" >Knowledge Articles</span>
+                </h1>
+              </span>   
+            </div>           
+          </lightning-layout-item>
+         <!-- knowledge search bar starts -->
+ <!-- CC-1386 Exact match check box-->
+ <div class="parentCheckandArticle">
+         <template if:false={showArticle}>
+ <div> 
+      <lightning-input type= "checkbox" label="Exact Match" value="myValue"  onchange={handleCheckboxChange}  data-id="exactMatchCheckbox"  checked={isChecked} >
+       </lightning-input>
+ </div>
+  </template> 
+
+  <template if:true={showArticle}>
+ <!-- <lightning-layout-item size="6">
+    </lightning-layout-item> -->
+  </template>
+
+         <template if:false={showArticle}>
+              <span style=" margin-top: -10px;float: right;margin-right: 13px;">
+                  <c-d-h_knowledge-search-component lwc:ref="siteName" lookup-label="" object-api-name="Knowledge__kav" selectedcoast={selectedcoast}
+                  icon-name="standard:Knowledge__kav" onremoveemptyerrorpage={clearEmptyErrorPage} 
+                  onrecordselection={onArticleSelection}
+                  onshowtilesparentbaselwccomponent={showTilesParentBaseLWCComponent}
+  
+                  onallrecord={onEnterHandle} >
+                  </c-d-h_knowledge-search-component >
+              </span>
+      </template>
+        </div>
+       <!-- knowledge search bar ends -->
+          <template if:true={showArticle}>
+            <lightning-layout-item size="4">
+              <span style=" float: right; padding: 10px;">
+                <lightning-button variant="Brand" label="Back" onclick={handleBack}></lightning-button>
+              </span>
+            </lightning-layout-item>
+          </template>
+        </div>
+        <template if:false={showResultOnHandleEnter}>
+          <template if:false={showError}>
+          <template if:false={showArticle}>
+            <lightning-layout-item
+              class="slds-p-left_small slds-p-right_small slds-p-top_medium slds-p-bottom_medium  pageHeading" size="12">
+              Categories ({catgCount})
+              
+            </lightning-layout-item>
+            <template if:true={catgOptions}>
+              <template for:each={catgOptions} for:item="ctg">
+                <div key={ctg.label} class="container">
+                  <lightning-tile data-scid={ctg.label} class="categbox catgtext " type="media" size="3">
+  
+                    <lightning-icon slot="media" class="slds-icon slds-icon-text-default icons"
+                      size="medium size (default)" icon-name={ctg.labelIcon}></lightning-icon>
+                    <div if:false={ctg.zeroFlag}>{ctg.label} ({ctg.valLen}) </div>
+                    <div if:true={ctg.zeroFlag}>{ctg.label} </div>
+  
+                    <div if:false={ctg.zeroFlag}>
+                      <template for:each={ctg.values} for:item="subctg">
+                        <div class="subcatgtext" key={subctg} data-subctg={subctg} onclick={handleSubctgClick}>
+                          {subctg}
+                        </div>
+                      </template>
+                      <div if:true={ctg.viewMoreFlg}>
+                        <a class="clickables" data-descid={ctg.label} onclick={handleViewAllClick}>View All</a>
+                      </div>
+                      <div if:true={ctg.viewLessFlg}>
+                        <a class="clickables" data-descid={ctg.label} onclick={handleViewLessClick}>View Less</a>
+                      </div>
+                    </div>
+                    <div if:true={ctg.zeroFlag}>
+                      <a class="subcatgtext" data-subctg={ctg.label} onclick={handleViewArticleClick}>
+                        View All Articles</a>
+                    </div>
+                  </lightning-tile>
+                </div>
+              </template>
+            </template>
+          </template>
+          <template if:true={showArticle}>
+            <lightning-layout-item class="slds-p-left_small slds-p-right_small slds-p-top_medium slds-p-bottom_medium pageHeading" size="10">
+              <span>{subctgLabel} </span>
+              <span class="articleCount">{articleCount} Articles</span></lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="2">
+  
+                <div class="slds-col slds-float_right slds-size_4-of-10">
+                  <div lwc:ref="sorby" class="slds-pill_container centered-text customComboBoxDisable"
+                  aria-disabled=true style="float: right;padding: 0px;">
+                      <div style="padding: 0px;border-right: 0.5px solid rgb(201, 201, 201);">
+                          <span style="padding-right: 10px; padding-left: 10px; vertical-align: -webkit-baseline-middle;">
+                              Sort: {sortValue}
+                          </span>
+                      </div>
+                      <div style="padding: 0px;">
+                          <lightning-button-menu alternative-text="Action" onselect={handleSortArticles}
+                          variant="bare" disabled={disableSortOrder} menu-alignment="right" style="vertical-align: sub;height: 25px;">
+                              <template for:each={sortArticleOptions} for:item="action">
+                                  <lightning-menu-item id={action.id} label={action.label} value={action.value}
+                                  key={action.label}>
+                                  </lightning-menu-item>
+                              </template>
+                          </lightning-button-menu>
+                      </div>
+                  </div>
+              </div>
+  
+              </lightning-layout-item>
+  
+            <lightning-layout-item class="slds-p-left_medium slds-p-right_medium slds-p-bottom_medium" size="12"
+              style="min-height: 180px;">
+              <div if:true={noArticleError} style="padding-left: 20px;"> No Articles Found</div>
+              <div if:false={noArticleError}>
+  
+                <template for:each={articleList} for:item="art">
+                  <article key={art.id} class="slds-card" style="background:#F3F3F3">
+                    <div class="slds-card__header slds-grid">
+                      <header class="slds-media slds-media_center slds-has-flexi-truncate">      
+                        <div class="slds-media__body">
+                          <p style=" font-size: 16px; font-weight: 500;"> {art.title} </p>
+                        </div>
+                      </header>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class=" content rowPadding" style="width: auto;
+                                        word-wrap: break-word;text-wrap: clip;">
+                        <p class="content">{art.articleDescription}</p>
+                        <div style=" font-weight:400; padding:2px">
+                        <a data-scid={art.id} style="color: #1589EE !important; text-decoration-line: underline;" onclick={handleArticleClick}>View More</a>
+                        <a style="color: #1589EE !important;"> &#11106;</a>
+                    </div>
+                    </div>
+                    </div>
+                  </article>
+                </template>
+              </div>
+            </lightning-layout-item>
+          </template>
+        </template>
+        </template>
+  
+           <!-- knowledge search starts -->
+          <template if:true={showResultOnHandleEnter}>
+              <lightning-layout-item size="12" padding="around-small" >
+                  <h1 style="font-weight:bold;font-size:1.2em;padding:1vh 1vh 1vh 2vh;">Search results for "{searchTextValue}" ({allArticlesCount}) </h1> 
+              <lightning-layout >
+                  <lightning-layout-item class="slds-size_1-of-4" padding="around-small" > 
+                    
+                    <div style="height:100%;box-shadow: 1px 1px 7px 0px grey;background-color: white;padding-bottom:20px">
+                        <h1 style="font-weight:bold;font-size:1.2em;padding:1.5vh;padding-left:3.5vh;">Filter By Category</h1>
+                        <div style="margin-top: 2vh;padding-left:1.5vh;">
+                            <lightning-button  variant="brand-outline" label={showAllLabel}  onclick={handleShowAll} class="slds-m-left_x-small showAllButton"></lightning-button>
+                        </div>
+                        <template for:each={allSubCategory} for:item="catg" for:index="index">
+                            <template if:true={catg}>
+                                <div  key={catg.name} style="padding-top:1.5vh;padding-left:1.5vh;" >
+                                    <lightning-button data-id={catg.name}  variant="brand-outline" label={catg.displayName} name={catg.name} onclick={handleClick} class="slds-m-left_x-small subCatgBtn"></lightning-button>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                </lightning-layout-item>  
+                <lightning-layout-item class="slds-size_3-of-4" padding="around-small"> 
+                    <template if:false={hasLoaded}>
+                        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                    </template>      
+                    <template if:true={hasLoaded}>                
+                        <template if:true={showCatgData}>
+                            <template for:each={category} for:item="row" for:index="index">
+                                <template for:each={row.knowledgeSearchWrapper} for:item="knowledge" for:index="index">
+                                    <article key={knowledge.id} class="slds-card" style="background:#F3F3F3">
+                                        <div class="slds-card__header slds-grid">
+                                            <header class="slds-media slds-media_center slds-has-flexi-truncate">      
+                                            <div class="slds-media__body">
+                                                <h4 class="slds-card__header-title" >
+                                                <a style="color: black !important; text-decoration-line: underline;" data-knowledgearticleid={knowledge.id} onclick={handleViewMoreClick}><span class="content" style="color: black;font-style:medium;">{knowledge.title}</span></a><a style="color: black !important;"> &#11106;</a>
+                                                </h4>
+                                            </div>
+                                            </header>
+                                        </div>
+                                        <div class="slds-card__body slds-card__body_inner">
+                                            <div class=" content rowPadding" style="min-width: 100%;  overflow-x:auto; word-wrap: break-word;text-wrap: clip;">
+                                                <div if:true={knowledge.seeLess}>
+                                                    <lightning-formatted-rich-text value={knowledge.detailsTrimmed} class="content"></lightning-formatted-rich-text>
+                                                    <div style="padding:2px"></div>
+                                                    <a onclick={handleSeeMoreCategory} data-id={knowledge.id}>See More</a>
+
+                                                </div>
+                                                <div if:false={knowledge.seeLess}>
+                                                    <lightning-formatted-rich-text value={knowledge.richTextDetails} class="content"></lightning-formatted-rich-text>
+                                                    <div style="padding:2px"></div>
+                                                    <a onclick={handleSeeMoreCategory} data-id={knowledge.id}>See Less</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </template>
+                            </template>
+                        </template>
+                                <template if:false={showCatgData}>
+                                    <template for:each={records} for:item="row" for:index="index">
+                                        <article key={row.id} class="slds-card" style="background:#F3F3F3;">
+                                            <div class="slds-card__header slds-grid">
+                                              <header class="slds-media slds-media_center slds-has-flexi-truncate">      
+                                                <div class="slds-media__body">
+                                                  <h4 class="slds-card__header-title">
+                                                    <a style="color: black; text-decoration-line: underline;" data-knowledgearticleid={row.id} onclick={handleViewMoreClick}><span class="content" style="color: black;">{row.title}</span></a><a style="color: black !important;"> &#11106;</a>
+                                                  </h4>
+                                                </div>
+                                              </header>
+                                            </div>
+                                            <div class="slds-card__body slds-card__body_inner">
+                                                <div class=" content rowPadding" style="min-width: 100%; padding:5px; overflow-x:auto; word-wrap: break-word; text-wrap: clip;">
+                                                    <div if:true={row.seeLess}>
+                                                        <lightning-formatted-rich-text value={row.detailsTrimmed} class="content"> </lightning-formatted-rich-text>
+                                                        <div style="padding:2px"></div>
+                                                        <a onclick={handleSeeMoreRecords} data-id={row.id}>See More</a>
+                                                    </div>
+                                                    <div if:false={row.seeLess}>
+                                                        <lightning-formatted-rich-text value={row.richTextDetails} class="content"> </lightning-formatted-rich-text>
+                                                        <div style="padding:2px"></div>
+                                                        <a onclick={handleSeeMoreRecords} data-id={row.id}>See Less</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                        
+                                    </template>
+                                </template>
+                        </template>   
+                                
+                </lightning-layout-item>
+            </lightning-layout>
+            </lightning-layout-item>
+        </template>
+        <template if:true={showError}>
+            <div style="justify-content: center;padding-top:95px">
+                <img src={tableImage} style="max-height: 200px" /><br />
+                <div style="padding: 10px;"></div>
+                <div class="slds-align_absolute-center">
+                    <div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Your Search -<strong>{searchTextValue}</strong>- did not match any
+                        documents.
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Suggestions:
+                    </div>
+                </div>
+                <div class="slds-text-longform slds-align_absolute-center">
+                    <ul class="slds-list_dotted">
+                    <li>Make sure that all words are spelled correctly.</li>
+                    <li>Try different keywords.</li>
+                    <li>Try more general keywords.</li>
+                    </ul>
+                </div>
+            </div>
+        </template>
+         <!-- knowledge search ends -->
+  
+        <lightning-layout-item style=" margin:10px; padding: 10px;" size="12"></lightning-layout-item>
+  
+      </lightning-layout>
+    </div>
+  </template>

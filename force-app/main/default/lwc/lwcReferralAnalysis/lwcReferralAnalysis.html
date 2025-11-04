@@ -1,0 +1,151 @@
+<template>
+    <lightning-card variant="narrow" title="Referral Analysis" icon-name="custom:custom94">
+        <lightning-layout horizontal-align="space" multiple-rows>
+            <lightning-layout-item>
+                <lightning-input label="Start Date" data-input-id="startDateInput" type="Date" value={startDate}
+                    onchange={handleFilterChanges}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <lightning-input label="End Date" data-input-id="endDateInput" type="Date" value={endDate}
+                    onchange={handleFilterChanges}></lightning-input>
+            </lightning-layout-item>
+            <template if:true={accountObj}>
+                <lightning-layout-item>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="combobox-id-6"
+                            id="combobox-label-id-132">Physician(s)
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container">
+                                <div data-selection-type="physician"
+                                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-close">
+                                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                        role="none">
+                                        <button type="button" data-button-type="physician"
+                                            class="slds-input_faux slds-combobox__input slds-has-focus slds-combobox__input-value"
+                                            aria-haspopup="listbox" onclick={handleComboboxButtonClick}>
+                                            <span class="slds-truncate"
+                                                id="combobox-value-id-95">{numberOfSelectedReferralsLabel}
+                                            </span>
+                                        </button>
+                                        <span
+                                            class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                            <lightning-icon icon-name="utility:down" size=" x-small"
+                                                alternative-text="down" title="down">
+                                            </lightning-icon>
+                                        </span>
+                                    </div>
+                                    <div id="listbox-id-7"
+                                        class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox">
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                            <template for:each={listPhysicians} for:item="phy">
+                                                <li data-id={phy.PHYNAME} key={phy.PHYNPI} role="presentation"
+                                                    class="slds-listbox__item">
+                                                    <div aria-checked="true" id={phy.PHYNPI}
+                                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                        role="option">
+                                                        <span class="slds-media__body">{phy.NAME}
+                                                            <lightning-input checked={phy.selected} type="checkbox"
+                                                                data-input-id="phyCheckbox" label={phy.PHYNAME}
+                                                                name={phy.PHYNAME}
+                                                                onchange={handlePhysicianFilterSelection}>
+                                                            </lightning-input>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </template>
+            <template if:true={contactObj}>
+                <lightning-layout-item size="3">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="combobox-id-site"
+                            id="combobox-label-id-site">Site(s)</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container">
+                                <div data-selection-type="site"
+                                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-close">
+                                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                        role="none">
+                                        <button type="button" data-button-type="site"
+                                            class="slds-input_faux slds-combobox__input slds-has-focus slds-combobox__input-value"
+                                            aria-haspopup="listbox" onclick={handleComboboxButtonClick}>
+                                            <span class="slds-truncate"
+                                                id="combobox-value-id-site">{numberOfSelectedSitesLabel}</span>
+                                        </button>
+                                        <span
+                                            class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                            <lightning-icon icon-name="utility:down" size=" x-small"
+                                                alternative-text="down" title="down">
+                                            </lightning-icon>
+                                        </span>
+                                    </div>
+                                    <div id="listbox-id-site"
+                                        class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                            <template for:each={listSites} for:item="siteRec">
+                                                <li data-id={siteRec.MASTERLOCATIONNAME}
+                                                    key={siteRec.MASTERLOCATIONNAME} role="presentation"
+                                                    class="slds-listbox__item">
+                                                    <div aria-checked="true" id={siteRec.MASTERLOCATIONNAME}
+                                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                        role="option">
+                                                        <span class="slds-media__body">
+                                                            <lightning-input checked={siteRec.selected} type="checkbox"
+                                                                data-input-id="siteCheckbox"
+                                                                label={siteRec.MASTERLOCATIONNAME}
+                                                                name={siteRec.MASTERLOCATIONNAME}
+                                                                onchange={handleSiteRecFilterSection}>
+                                                            </lightning-input>
+                                                        </span>
+                                                    </div>
+
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+
+        <div class="datatableDiv">
+            <div class="slds-is-relative slds-align_absolute-center" if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading..." variant="brand">
+                </lightning-spinner>
+            </div>
+            <lightning-layout horizontal-align="space">
+                <lightning-layout-item size="12">
+                    <div class="reffTable">
+                        <template if:false={showTable}>
+                            <lightning-datatable key-field="physicianId" data={listReferralFilteredTableData}
+                                columns={listReferralTableColumns} wrap-text-max-lines="1" min-column-width="100"
+                                hide-checkbox-column show-row-number-column>
+                            </lightning-datatable>
+                            <div class="slds-p-vertical_xx-small slds-text-align_center">
+                                <lightning-button variant="brand" label="Show All" title="Show All"
+                                    onclick={handleShowClick} class="slds-m-left_x-small">
+                                </lightning-button>
+                            </div>
+                        </template>
+                        <template if:true={showTable}>
+                            <lightning-datatable key-field="physicianId" data={listReferralFilteredTableData}
+                                columns={listReferralTableColumns} wrap-text-max-lines="1" min-column-width="80"
+                                hide-checkbox-column show-row-number-column column-widths-mode="fixed">
+                            </lightning-datatable>
+                        </template>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </lightning-card>
+</template>

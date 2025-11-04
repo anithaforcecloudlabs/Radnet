@@ -1,0 +1,205 @@
+<template>
+	<template lwc:if={isScreenAction}>
+        <lightning-modal-header label="Rename / Merge Practice Location"></lightning-modal-header>
+        <lightning-modal-body>
+            <template if:true={showForm}>
+                <template if:true={showMessage}>
+                    <div class="">
+                        {messageResults} {messageString}
+                        <template for:each={messageExistsData} for:item="risrequest">
+            
+                            <div class="slds-p-around_medium" key={risrequest}>
+                                <p>
+                                    <lightning-formatted-url value={risrequest.url} tooltip="View Ris Request"
+                                        label={risrequest.label} target="_blank">
+                                    </lightning-formatted-url> {risrequest.Locations}
+                                </p>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <template if:true={showRenameProcess}>
+                    <div style="display:block;min-height: 300px">
+                        <h3 class="slds-text-heading_small">Current Practice Location <strong>{practiceLocationName}</strong></h3>
+                        <p><span>{locationStreet}</span></p>
+                        <p><span>{locationCity}</span></p>
+                        <form data-id="form-rename-account">
+                            <div class="slds-form-element slds-p-around--medium">
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container" if:false={isValueSelected}>
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                role="none">
+                                                <lightning-input style="height:50px;" onchange={handleChange} type="search"
+                                                    autocomplete="off" label={labelSearchSelect} required={required}
+                                                    field-level-help={helpText} placeholder={placeholder} onblur={handleInputBlur}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template if:true={isValueSelected}>
+                                        <label class="slds-form-element__label" for="combobox-id-1" id="combobox-label-id-1">Rename
+                                            to {selectedRecordName}</label>
+                                        <template if:true={required}>
+                                            <span style="color:red">*</span>
+                                        </template>
+                                        <div tabindex="0" class="slds-combobox_container slds-has-selection">
+                                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                                                    <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title="Account">
+                                                        <lightning-icon icon-name={selectedIconName} alternative-text={selectedIconName} size="x-small"></lightning-icon>
+                                                    </span>
+                                                    <button type="button"
+                                                        class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                                                        aria-labelledby="combobox-label-id-1 combobox-id-1-selected-value"
+                                                        id="combobox-id-1-selected-value" aria-controls="listbox-id-1"
+                                                        aria-expanded="false" aria-haspopup="listbox">
+                                                        <span class="slds-truncate" id="combobox-value-id-1">{selectedRecordName}</span>
+                                                    </button>
+                                                    <button
+                                                        class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                                        title="Remove selected option" onclick={handleCommit}>
+                                                        <lightning-icon icon-name="utility:close"
+                                                            alternative-text="Remove selected option"
+                                                            size="x-small"></lightning-icon>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template if:true={showRecentRecords}>
+                                        <div id="listbox-id-4" tabindex="0" onblur={handleBlur} onmousedown={handleDivClick}
+                                            class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                                            role="listbox">
+                                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                <template for:each={practiceOverviewList} for:item="rec">
+                                                    <li key={rec.Id} role="presentation" class="slds-listbox__item">
+                                                        <div data-id={rec.id} data-recid={rec.id} data-mainfield={rec.mainField}
+                                                            data-subfield={rec.subField} onclick={handleSelect}
+                                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                            role="option">
+                                                            <span style="pointer-events: none;"
+                                                                class="slds-media__figure slds-listbox__option-icon">
+                                                                <span class="slds-icon_container">
+                                                                    <lightning-icon icon-name={selectedIconName} size="small"
+                                                                        alternative-text={selectedIconName}></lightning-icon>
+                                                                </span>
+                                                            </span>
+                                                            <span style="pointer-events: none;" class="slds-media__body">
+                                                                <span
+                                                                    class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                    <span>
+                                                                        <mark>{rec.mainField}</mark>
+                                                                    </span>
+                                                                </span>
+                                                                <span
+                                                                    class="slds-listbox__option-meta slds-listbox__option-meta_entity">
+                                                                    {objectLabel} {rec.subField}
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+            
+                                                </template>
+                                            </ul>
+                                        </div>
+                                    </template>
+            
+                                    <template if:true={showMessageForSelectedLocation}>
+                                        <div class="italic-text slds-text-color_weak">
+                                            There is no matching Latitude and Longitude for the selected {selectedRecordName}
+                                            account.
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <template if:true={showMatchingLocations}>
+                                <lightning-datatable 
+                                data-id="datatable" 
+                                    key-field="Id" 
+                                    data={matchingAccountList} 
+                                    columns={columns}
+                                    selected-rows={selectedRows}
+                                    onrowselection={getSelectedRecords}>
+                                </lightning-datatable>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+                <template if:true={showMergeKeepCmp}>
+                    <template if:true={showErrorMessage}>
+            
+                        <template if:true={messageProfileUsers}>
+                            <h1>You do not have permission to complete this action</h1>
+                        </template>
+                        <template if:true={countMergeRecords}>
+                            <h1>Minimum accounts for merge is 2 and maximum is 3.</h1>
+                        </template>
+                        <template if:true={messageRecordTypesRecords}>
+                            <h1>It is not possible to merge a practice overview or RadNet location record types.
+                                Please choose a practice location and try again.</h1>
+                        </template>
+            
+            
+                        <button class="newButton slds-button slds-button_neutral" onclick={returnToPrevious}>Return</button>
+                    </template>
+            
+                    <template if:true={isShowMergeModal}>
+                        <lightning-radio-group class="slds-p-bottom--x-small" name="Name" label="Name" options={arrName}
+                            value={value} onchange={handleChangeName} type="radio" required>
+                        </lightning-radio-group>
+                        <lightning-radio-group class="slds-p-bottom--x-small" name="Address" label="Address" options={arrAddress}
+                            value={value} onchange={handleChangeAddress} type="radio" required>
+                        </lightning-radio-group>
+                        <lightning-radio-group class="slds-p-bottom--x-small" name="Owner" label="Owner" options={arrOwner}
+                            value={value} onchange={handleChangeOwner} type="radio" required>
+                        </lightning-radio-group>
+                        <template if:true={arrPhoneExist}>
+                            <lightning-radio-group class="slds-p-bottom--x-small" name="Phone" label="Phone" options={arrPhone}
+                                value={value} onchange={handleChangePhone} type="radio">
+                            </lightning-radio-group>
+                        </template>
+                        <template if:true={arrFaxExist}>
+                            <lightning-radio-group class="slds-p-bottom--x-small" name="Fax" label="Fax" options={arrFax}
+                                value={value} onchange={handleChangeFax} type="radio">
+                            </lightning-radio-group>
+                        </template>
+                        <lightning-input type="text" onchange={handleInputChange} value={textCommentValue}
+                            label="Enter comment"></lightning-input>
+                    </template>
+                </template>
+                <template if:true={isNewPracticeName}>
+                    <lightning-input type="text" onchange={handleNewNameChange} value={renameInput}
+                        label="Enter New Practice Overview Name"></lightning-input>
+                </template>
+            </template>
+        </lightning-modal-body>
+        <lightning-modal-footer>
+            <template if:false={showRename}>
+                Rename to {selectedRecordName}
+                <lightning-button onclick={handleRenameAccounts} label="Rename" title="Rename" class="slds-m-left_x-small">
+                </lightning-button>
+            </template>
+            <template if:true={showMergeButton}>
+                <lightning-button onclick={handleMergeAccounts} label="Merge" title="Merge" class="slds-m-left_x-small">
+                </lightning-button>
+            </template>
+            <template if:true={showSaveButton}>
+                <lightning-button variant="brand" onclick={handleMergeSubmit} label="Merge" title="Merge" class="slds-m-left_x-small">
+                </lightning-button>
+            </template>
+            <template if:true={isCreateNewPractice}>
+                <lightning-button variant="neutral" onclick={handleCreateNewPractice} label="New Practice" title="New Practice" class="slds-m-left_x-small">
+                </lightning-button>
+            </template>
+            <template if:true={isSaveNewPractice}>
+                <lightning-button variant="brand" onclick={handleSaveNewPractice} label="Save" title="Save" class="slds-m-left_x-small">
+                </lightning-button>
+            </template>
+            <lightning-button variant="neutral" onclick={closeModal} label="Cancel" title="Cancel" class="slds-m-left_x-small">
+            </lightning-button>
+        </lightning-modal-footer>
+    </template>
+</template>

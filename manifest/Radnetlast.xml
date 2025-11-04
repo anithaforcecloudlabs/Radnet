@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	
+	
+	<types>
+		<members>Case-DH_ContactCenterCasePageForChat</members>
+		<members>Task-Task Layout</members>
+		<name>Layout</name>
+	</types>
+	  <types>
+        <members>DH_CaseRecordPageForChat</members>
+        <name>FlexiPage</name>
+    </types>
+	<types>
+		<members>Case_Management</members>
+		<name>PermissionSet</name>
+	</types>
+	<types>
+		<members>RadNet Manager East</members>
+		<members>RadNet Manager West</members>
+		<members>RadNet Scheduler East</members>
+		<members>RadNet Scheduler West</members>
+		<name>Profile</name>
+	</types>
+    
+	
+	<version>65.0</version>
+</Package>

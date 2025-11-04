@@ -1,0 +1,129 @@
+<!--
+*********************************************************
+Apex Class/ LWC Component Name    : dH_siteSearch
+
+Created Date       : 4/14/2024
+
+@description       : Table and Map for site search
+
+@jiraid            : CC-232, CC-233, CC-489, CC-945, CC-646
+
+*********************************************************
+-->
+<template>
+    <article class="slds-card">
+        <div class="slds-card__body">
+            <lightning-breadcrumbs class="slds-p-left_small">
+                <lightning-breadcrumb label="Home" href="" onclick={navigateToHomePage}>
+                </lightning-breadcrumb>
+                <lightning-breadcrumb label="Site Search" href="" onclick={handleClearAll}>
+                </lightning-breadcrumb>
+                <template if:true={showSSRBreadCrumb}>
+                    <lightning-breadcrumb label="Site Search Result" href="">
+                    </lightning-breadcrumb>
+                </template>
+            </lightning-breadcrumbs>
+        </div>
+    </article>
+    <article class="slds-card card">
+        <div class="slds-card__body">
+            <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+                <lightning-accordion-section name="A" label="Site Search">
+                    <lightning-layout class="dropdown_layout" multiple-rows>
+                        <lightning-layout-item size="3" padding="around-small">
+                            <c-d-h_-multi-select-pick-list lwc:ref="rislist" onvaluechange={handleRISChange}
+                                label="RIS Instance/RIS System">
+                            </c-d-h_-multi-select-pick-list>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" padding="around-small">
+                            <c-d-h_-multi-select-pick-list lwc:ref="practicelist" onvaluechange={handlePracticeChange}
+                                label="Practice">
+                            </c-d-h_-multi-select-pick-list>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" padding="around-small">
+                            <c-d-h_-multi-select-pick-list lwc:ref="regionlist" onvaluechange={handleRegionChange}
+                                label="Site Group/Region">
+                            </c-d-h_-multi-select-pick-list>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" padding="around-small">
+                            <!--added by P360 for CC-489-->
+                            <c-d-h_site-search-custom-lookup lwc:ref="siteName" selected-value={siteCodeOrName}
+                                lookup-label="Site Code/Site Name" object-api-name="account"
+                                icon-name="standard:account" selected-coast={selectedcoast}
+                                onrecordselection={onSiteSelection}>
+                            </c-d-h_site-search-custom-lookup>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="3" padding="around-small">
+                            <div class="slds-form-element">
+                                <lightning-input type="search" label="Address" value={inputAddressVal}
+                                    onchange={handleAddressChange} onfocus={showAddressOptions}>
+                                </lightning-input>
+                                <template if:true={hasSearchAddress}>
+                                    <div if:true={searchAddressResult}
+                                        class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation"
+                                            onfocusout={onLeaveAddressBox}>
+                                            <template for:each={searchAddressResult} for:item="searchResult">
+                                                <li key={searchResult.display_name}
+                                                    data-longitude={searchResult.location.longitude}
+                                                    data-latitude={searchResult.location.latitude}
+                                                    data-address={searchResult.display_name}
+                                                    onclick={selectSearchResultAddress} class="slds-listbox__item">
+                                                    <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small "
+                                                        role="option">
+                                                        <span class="slds-media__body">
+                                                            <span class="slds-truncate"
+                                                                title={searchResult.display_name}>
+                                                                {searchResult.display_name}
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" padding="around-small">
+                            <c-d-h_-multi-select-pick-list lwc:ref="modalitylist"
+                                onpicklistvisible={handlePicklistVisible} onvaluechange={handleModalityChange}
+                                selected-options={selectedModalities} label="Modalities">
+                            </c-d-h_-multi-select-pick-list>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" padding="around-small">
+                            <c-d-h_-multi-select-pick-list lwc:ref="subModalities" disabled={isSubmodalityDisabled}
+                                label="Sub-Modalities" onvaluechange={handleSubModalityChange}
+                                selected-options={selectedSubModalities} class="slds-hide">
+                            </c-d-h_-multi-select-pick-list>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" padding="around-small">
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <lightning-button variant="brand" label="Search" title="Search" onclick={getSearchData}
+                                class="slds-m-left_x-small slds-float_right">
+                            </lightning-button>
+                            <lightning-button variant="base" label="Clear All" title="Clear All"
+                                onclick={handleClearAll} disabled={disableClearAll}
+                                class="slds-m-left_x-small slds-float_right slds-p-right_small">
+                            </lightning-button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </div>
+    </article>
+    <article class="slds-card card">
+        <div class="slds-card__body">
+            <c-d-h_site-search-table lwc:ref="searchtable" records={searchData}
+                initialsearchrecords={initialSearchRecords} vf-root={vfOrigin} inputaddressobject={inputAddressObject}
+                onradiusvalue={handleRadiusValue} guest-user={isGuestUser}
+                onshowaccountdetailpage={handleshowDetailPage} ondatachanged={handledataChanged}>
+            </c-d-h_site-search-table>
+        </div>
+    </article>
+</template>

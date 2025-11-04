@@ -1,0 +1,535 @@
+<!-- /*
+*********************************************************
+ 
+LWC Component Name    : DH_siteSearchTable
+ 
+Created Date       : May 15, 2024
+ 
+@description       : This is component is used for showing site search table which is child component of dH_siteSerch
+ 
+@jiraid            : CC-232, CC-946, CC-646
+ 
+*********************************************************
+*/ -->
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="12" class="slds-var-p-left_small slds-p-right_small slds-p-top_small">
+            <h2 class="slds-text-title_bold">
+                Site Search Results
+            </h2>
+        </lightning-layout-item>
+        <lightning-layout-item size="4" class="slds-var-p-left_small slds-p-right_small slds-p-bottom_small">
+            <lightning-input varient="label-hidden" type="search" placeholder="Search within results here"
+                value={searchKey} onchange={handleSearchChange}>
+            </lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item size="3" class="slds-var-p-right_small ">
+            <lightning-input type="checkbox" label="Exact Match Only" value="myValue" onchange={handleCheckboxChange}
+                class="top-padding" data-id="exactMatchCheckbox">
+            </lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item size="5" class="slds-var-p-right_small ">
+            <div class="slds-grid slds-gutters slds-var-p-right_small slds-float_right div1 ">
+                <div class="slds-col slds-float_right slds-size_4-of-10">
+                    <div lwc:ref="sorby" class="slds-pill_container centered-text customComboBoxDisable"
+                        aria-disabled=true>
+                        <div class="div2">
+                            <span class="span_sortDistance">
+                                Sort: {sortDistance}
+                            </span>
+                        </div>
+                        <div class="div3">
+                            <lightning-button-menu class="action_button" alternative-text="Action"
+                                onselect={handleSortDistance} variant="bare" disabled={disableSortOrder}
+                                menu-alignment="right">
+                                <template for:each={sortDistanceOptions} for:item="action">
+                                    <lightning-menu-item id={action.id} label={action.label} value={action.value}
+                                        key={action.label}>
+                                    </lightning-menu-item>
+                                </template>
+                            </lightning-button-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-float_right slds-size_4-of-10">
+                    <div lwc:ref="cbcount" class="slds-pill_container centered-text customComboBoxDisable"
+                        aria-disabled=true style="float: right;padding: 0px;">
+                        <div class="div2">
+                            <span class="span_sortDistance">
+                                View: {noRecords}
+                            </span>
+                        </div>
+                        <div class="div3">
+                            <lightning-button-menu class="action_button" alternative-text="Action"
+                                onselect={handleNoRecChange} variant="bare" disabled={disableCBCount}
+                                menu-alignment="right">
+                                <template for:each={perpage} for:item="action">
+                                    <lightning-menu-item id={action.id} label={action.label} value={action.value}
+                                        key={action.label}>
+                                    </lightning-menu-item>
+                                </template>
+                            </lightning-button-menu>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" class="slds-p-left_small slds-p-right_small">
+            <div class="slds-grid slds-gutters">
+                <template if:true={showTable}>
+                    <div class="slds-col slds-size_2-of-3">
+                        <div class="div4">
+                            <template if:true={hideTableImage}>
+                                <template if:false={showSpinner}>
+                                    <table class="slds-table slds-no-row-hover slds-table_bordered">
+                                        <thead class="thead1">
+                                            <tr>
+                                                <th scope="col" class="col_select">
+                                                    Select
+                                                </th>
+                                                <th scope="col" class="col_sites" data-name="Name" onclick={sortSite}>
+                                                    <span class="slds-truncate" title="Sites">
+                                                        Sites
+                                                    </span>
+                                                    <span if:true={isAsc}>
+                                                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                            <svg class="slds-icon slds-icon-text-default sortArrow"
+                                                                aria-hidden="true">
+                                                                <use
+                                                                    xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowup">
+                                                                </use>
+                                                            </svg>
+                                                        </span>
+                                                    </span>
+                                                    <span if:true={isDsc}>
+                                                        <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                            <svg class="slds-icon slds-icon-text-default sortArrow"
+                                                                aria-hidden="true">
+                                                                <use
+                                                                    xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                                </use>
+                                                            </svg>
+                                                        </span>
+                                                    </span>
+                                                </th>
+                                                <th scope="col" data-name="modality" class="col_modality">
+                                                    <span class="slds-truncate col_spanModality" title="Modality">
+                                                        Modalities & Sub Modalities
+                                                    </span>
+                                                </th>
+                                                <th scope="col" data-name="Name" class="col_modality">
+                                                    <span title="Details" class="col_spanModality">
+                                                        Details
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <template if:true={dataCountVisible}>
+                                            <tbody>
+                                                <template for:each={dataVisible} for:item="row" for:index="index">
+                                                    <tr key={row.Id}>
+                                                        <template if:true={row.ShippingLongitude}>
+                                                            <template if:true={row.ShippingLongitude}>
+                                                                <td class="td1">
+                                                                    <lightning-input class="MapCheckBoxSelector"
+                                                                        type="checkbox" value={row.Name}
+                                                                        data-id={row.Id}
+                                                                        data-latitude={row.ShippingLatitude}
+                                                                        data-shippingstreet={row.ShippingStreet}
+                                                                        data-shippingcity={row.ShippingCity}
+                                                                        data-shippingstate={row.ShippingState}
+                                                                        data-shippingpostalcode={row.ShippingPostalCode}
+                                                                        data-longitude={row.ShippingLongitude}
+                                                                        onchange={handleCheckboxSelect}
+                                                                        disabled={row.checkdisable}
+                                                                        checked={row.checkedbox}>
+                                                                    </lightning-input>
+                                                                </td>
+                                                            </template>
+                                                        </template>
+                                                        <template if:false={row.ShippingLongitude}>
+                                                            <template if:false={row.ShippingLongitude}>
+                                                                <td class="td1">
+                                                                    <input name=".." type="checkbox" disabled
+                                                                        value="1" />
+                                                                </td>
+                                                            </template>
+                                                        </template>
+                                                        <td class="td2">
+                                                            <div class="content rowPadding div5">
+                                                                <div class="div5" data-descid={row.Id}>
+                                                                    <a class="content" data-descid={row.Id}
+                                                                        onclick={handleSiteLinkNav}>
+                                                                        {row.Name}
+                                                                    </a>
+                                                                </div>
+                                                                <div class="css-content-align content div5">
+                                                                    <div class="div6">
+                                                                        Site Group
+                                                                    </div>
+                                                                    <div class="content css-content-align-text div5">
+                                                                    </div>
+                                                                    <div class="content div5">
+                                                                        {row.siteGroup}
+                                                                    </div>
+                                                                    <div class="div6">
+                                                                        Address
+                                                                    </div>
+                                                                    <div class="content css-content-align-text div5">
+                                                                    </div>
+                                                                    <div class="content div5 ">
+                                                                        <span>
+                                                                            {row.ShippingStreet} {row.ShippingCity},
+                                                                            {row.ShippingState} {row.ShippingPostalCode}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <template if:true={row.distances}>
+                                                                    <div class="div7">
+                                                                        {row.distances} miles from searched address
+                                                                    </div>
+                                                                </template>
+                                                                <template if:true={row.alert}>
+                                                                    <div class="content css-content-align div5">
+                                                                        <div class="div6 alert_padding">
+                                                                            <span>
+                                                                                <lightning-icon
+                                                                                    icon-name='utility:warning'
+                                                                                    size='x-small'
+                                                                                    class="content alertText-utility-icon">
+                                                                                </lightning-icon>
+                                                                            </span>
+                                                                            &nbsp;
+                                                                            <span class="alertText">
+                                                                                Alert
+                                                                            </span>
+                                                                        </div>
+                                                                        <div
+                                                                            class="content css-content-align-text div8">
+                                                                        </div>
+                                                                        <div class="content div8">
+                                                                            <span>
+                                                                                {row.alert}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </td>
+                                                        <td class="td3">
+                                                            <div class="content rowPadding">
+                                                                <div class="css-content-align content div5">
+                                                                    <div class="div6">
+                                                                        Modalities
+                                                                    </div>
+                                                                    <div class="content css-content-align-text div5">
+                                                                    </div>
+                                                                    <div class="content div5">
+                                                                        {row.modality}
+                                                                    </div>
+                                                                    <div class="div6">
+                                                                        Sub Modalities
+                                                                    </div>
+                                                                    <div class="content css-content-align-text div5">
+                                                                    </div>
+                                                                    <div class="content div5">
+                                                                        {row.submodality}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="td3">
+                                                            <div class=" rowPadding hyprlink" data-descid={row.Id}>
+                                                                <div class="css-content-align">
+                                                                    <div class="div6">
+                                                                        Phone
+                                                                    </div>
+                                                                    <div class="content css-content-align-text">
+                                                                    </div>
+                                                                    <div class="content div5">
+                                                                        {row.phone}
+                                                                    </div>
+                                                                    <div class="div6">
+                                                                        Fax
+                                                                    </div>
+                                                                    <div class="content css-content-align-text">
+                                                                    </div>
+                                                                    <div class="content div5">
+                                                                        {row.fax}
+                                                                    </div>
+                                                                    <div class="div6">
+                                                                        Site Front Desk Hours
+                                                                    </div>
+                                                                    <div class="content css-content-align-text">
+                                                                    </div>
+                                                                    <div class="content div5">
+                                                                        {row.schedulingHours}
+                                                                    </div>
+                                                                    <div class="div6">
+                                                                        X-Ray Hours
+                                                                    </div>
+                                                                    <div class="content css-content-align-text">
+                                                                    </div>
+                                                                    <div class="content div5">
+                                                                        <template if:true={row.xRayHours} >
+                                                                             <template lwc:if={row.showLink}>
+                                                                                <a href={row.xRayHours} target="_blank">{row.xrLinkLabel}&nbsp;</a>
+                                                                                    <template if:true={checkEditVisible}>
+                                                                                        <lightning-button-icon variant="bare" icon-name="utility:edit" data-row={index} name="edit" onclick={handleEdit} alternative-text="Edit"></lightning-button-icon>            
+                                                                                    </template>        
+                                                                             </template>
+                                                                             <template lwc:else>
+                                                                                        <lightning-input type="text" variant="label-hidden" value={row.xrLinkLabel} data-row={index} data-id={index} required message-when-value-missing="Value should not be empty"></lightning-input>
+                                                                                        <lightning-button-icon icon-name="utility:success" name="success" data-row={index} data-rowid={row.Id}  onclick={handleEdit} alternative-text="Success" class="slds-m-around_medium"></lightning-button-icon>     
+                                                                             </template>
+                                                                        </template>
+                                                                        <template lwc:if={row.isLoading} >
+                                                                            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                                                        </template>
+                                                                    </div>
+                                                                    <template if:false={row.showmore}>
+                                                                        <a onclick={handleShowMore}
+                                                                            data-descid={row.Id}>
+                                                                            See More
+                                                                        </a>
+                                                                    </template>
+                                                                    <template if:true={row.showmore}>
+                                                                        <div class="div6">
+                                                                            Tax ID
+                                                                        </div>
+                                                                        <div class="content css-content-align-text">
+                                                                        </div>
+                                                                        <div class="content div5">
+                                                                            {row.taxID}
+                                                                        </div>
+                                                                        <div class="div6">
+                                                                            NPI
+                                                                        </div>
+                                                                        <div class="content css-content-align-text">
+                                                                        </div>
+                                                                        <div class="content div5">
+                                                                            {row.npi}
+                                                                        </div>
+                                                                        <div class="div6">
+                                                                            Site Manager
+                                                                        </div>
+                                                                        <div class="content css-content-align-text">
+                                                                        </div>
+                                                                        <div class="content div5">
+                                                                            {row.siteManager2}
+                                                                        </div>
+                                                                        <a onclick={handleShowMore}
+                                                                            data-descid={row.Id}>
+                                                                            See Less
+                                                                        </a>
+                                                                    </template>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </template>
+                                    </table>
+
+                                    <template if:false={dataCountVisible}>
+                                        <div class="noResult slds-p-around_small slds-align_absolute-center div9">
+                                            No Result found. Refine your search and please try again.
+                                        </div>
+                                    </template>
+                                </template>
+                            </template>
+                            <template if:false={hideTableImage}>
+                                <img src={tableImage} />
+                            </template>
+                            <template if:true={showSpinner}>
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+                <div lwc:ref="fullmap" class="slds-col slds-size_1-of-3 ">
+                    <div class="div10">
+                        <lightning-icon icon-name='action:map' size='x-small'
+                            class="content alertText-utility-icon div11" onclick={handleShowHideTable}>
+                        </lightning-icon>
+                    </div>
+                    <div>
+                        <iframe class="div12" id="vfIframe" src={mapUrl}></iframe>
+                    </div>
+                    <template if:true={showMapInput}>
+                        <div class="div13">
+                            <div class="div14">
+                                <div class="slds-form-element">
+                                    <div
+                                        class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right div15">
+                                        <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default div16"
+                                            aria-hidden="true">
+                                            <use
+                                                xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#routing_offline">
+                                            </use>
+                                        </svg>
+                                        <lightning-input class="div17" type="text" title={mapInput1}
+                                            placeholder="Type Address…" value={mapInput1}
+                                            onchange={handleMapAddressChange1} onfocus={showAddressOptions1}>
+                                        </lightning-input>
+                                        <template if:true={hasMapInput1}>
+                                            <div if:true={mapInputResult1}
+                                                class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                                                role="listbox">
+                                                <ul class="slds-listbox slds-listbox_vertical" role="presentation"
+                                                    onfocusout={onLeaveMapAddressBox1}>
+                                                    <template for:each={mapInputResult1} for:item="searchResult">
+                                                        <li key={searchResult}
+                                                            data-longitude={searchResult.location.longitude}
+                                                            data-latitude={searchResult.location.latitude}
+                                                            data-address={searchResult.display_name}
+                                                            onclick={selectSearchResultAddress1}
+                                                            class="slds-listbox__item">
+                                                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small "
+                                                                role="option">
+                                                                <span class="slds-media__body">
+                                                                    <span class="slds-truncate"
+                                                                        title={searchResult.display_name}>
+                                                                        {searchResult.display_name}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                        <template if:true={mapInput1}>
+                                            <button
+                                                class="slds-button slds-button_icon slds-input__icon slds-input__icon_right div16"
+                                                title="Clear" onclick={clearAdress1}>
+                                                <svg class="slds-button__icon slds-icon-text-light" aria-hidden="true">
+                                                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#clear">
+                                                    </use>
+                                                </svg>
+                                                <span class="slds-assistive-text">
+                                                    Clear
+                                                </span>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="div18">
+                                <div class="slds-form-element">
+                                    <div
+                                        class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right">
+                                        <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default div20"
+                                            aria-hidden="true">
+                                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#checkin">
+                                            </use>
+                                        </svg>
+                                        <lightning-input class="div17" type="text" title={mapInput2}
+                                            placeholder="Type Address…" value={mapInput2}
+                                            onchange={handleMapAddressChange2} onfocus={showAddressOptions2}>
+                                        </lightning-input>
+                                        <template if:true={hasMapInput2}>
+                                            <div if:true={mapInputResult2}
+                                                class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                                                role="listbox">
+                                                <ul class="slds-listbox slds-listbox_vertical" role="presentation"
+                                                    onfocusout={onLeaveMapAddressBox2}>
+                                                    <template for:each={mapInputResult2} for:item="searchResult2">
+                                                        <li key={searchResult2}
+                                                            data-longitude={searchResult2.location.longitude}
+                                                            data-latitude={searchResult2.location.latitude}
+                                                            data-address={searchResult2.display_name}
+                                                            onclick={selectSearchResultAddress2}
+                                                            class="slds-listbox__item">
+                                                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small "
+                                                                role="option">
+                                                                <span class="slds-media__body">
+                                                                    <span class="slds-truncate"
+                                                                        title={searchResult2.display_name}>
+                                                                        {searchResult2.display_name}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                        <template if:true={mapInput2}>
+                                            <button
+                                                class="slds-button slds-button_icon slds-input__icon slds-input__icon_right div16"
+                                                title="Clear" onclick={clearAdress2}>
+                                                <svg class="slds-button__icon slds-icon-text-light" aria-hidden="true">
+                                                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#clear">
+                                                    </use>
+                                                </svg>
+                                                <span class="slds-assistive-text">
+                                                    Clear
+                                                </span>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <lightning-button variant="base" label="Clear" title="Non-primary action"
+                                    onclick={handleMapInputClear} disabled={clearBtnDisable}
+                                    class="slds-m-left_x-small slds-align_absolute-center">
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="div21">
+                        <lightning-icon lwc:ref="signpost" icon-name='utility:signpost' size='x-small'
+                            class="content div22" onclick={handleShowHideMapPopup} onmouseover={signpostMouseOver}
+                            onmouseout={signpostMouseOut}>
+                        </lightning-icon>
+                    </div>
+                    <div class="div23">
+                        <span>
+                            <div lwc:ref="radious" class="slds-pill_container centered-text div3" aria-disabled=true>
+                                <div class="div24">
+                                    <span class="div25">
+                                        {distanceRadiusLabel}
+                                    </span>
+                                </div>
+                                <div class="div26">
+                                    <lightning-button-menu class="div27" alternative-text="Action"
+                                        onselect={onRadiusChange} variant="bare" menu-alignment="right"
+                                        disabled={disableRadius}>
+                                        <template for:each={milesOptions} for:item="action">
+                                            <lightning-menu-item data-lbl={action.label} id={action.id}
+                                                label={action.label} value={action.value} key={action.label}>
+                                            </lightning-menu-item>
+                                        </template>
+                                    </lightning-button-menu>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="div28">
+                        <lightning-button label="Satellite" title="Satellite" onclick={handleClick} disabled
+                            class="slds-m-left_x-small">
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item class="div29" padding="horizontal-small" size="12">
+            <template if:true={records}>
+                <template if:true={dataCountVisible}>
+                    <div class="slds-m-around_small div30">
+                        {pageCountmessage}
+                    </div>
+                </template>
+                <div class="div31">
+                    <c-d-h_site-search-pagination totalrecordsm={records.length} perpagem={noRecords} records={records}
+                        onupdate={updateRecordsHandler} class="slds-float_right">
+                    </c-d-h_site-search-pagination>
+                </div>
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

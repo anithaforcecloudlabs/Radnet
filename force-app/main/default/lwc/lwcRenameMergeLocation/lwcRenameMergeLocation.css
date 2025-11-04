@@ -1,0 +1,10 @@
+.slds-modal__container {
+    /* transform: translate(0, 0); */
+    /* transition: transform var(--lwc-durationQuickly, 0.1s) linear, opacity var(--lwc-durationQuickly, 0.1s) linear; */
+    -webkit-transform: none !important;
+    transform: none !important;
+    transition : none !important;
+}
+.italic-text {
+    font-style: italic;
+}

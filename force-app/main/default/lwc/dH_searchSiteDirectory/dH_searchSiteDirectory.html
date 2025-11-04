@@ -1,0 +1,151 @@
+<!-- 
+********************************************************************
+* LWC               :   DH_searchSiteDirectory
+* 
+* Created Date      :   20/03/2025
+* 
+* @description      :   HTML class of DH_searchSiteDirectory LWC component
+* 
+* @Jira Id          :   CC-1519
+* 
+********************************************************************
+-->
+<template>
+	
+	<lightning-card>
+		<div class = "Border divColor">
+				
+		<div class="slds-align_absolute-center custom_center">RadNet</div><br/>
+		<div class="slds-align_absolute-center custom_center slds-p-bottom_large"> *** Site Directory with Ring Group DIDs *** </div>
+
+
+		<div class="slds-grid_align-center slds-size_2-of-4 slds-align_absolute-center">
+						<lightning-input type="search" variant="label-inline" style="font-weight: bold;"  label="Filtered The Phone Directory: " onchange={handleChange} placeholder="Enter Street name, town, zipcode, etc to filter data"></lightning-input>
+					</div>
+				<div class="slds-align_absolute-center slds-p-bottom_large"> INSTRUCTIONS: Use the field to filter the list displayed. When entering #Numbers they have to be entered in exact format: (xxx)xxx-xxxx. </div>
+			</div>
+
+			
+		
+					<div class="slds-p-around_small slds-text-align_center">
+					<lightning-button class="table-buttons" variant="brand" label="Reset Filter" onclick={handleClear}> </lightning-button>
+					<lightning-button class="table-buttons" variant="brand" label="Print Results" onclick={print}> </lightning-button>
+					<lightning-button class="table-buttons" variant="brand" label="Location Legend" onclick={handleShow}> </lightning-button>
+					
+					<template if:true={callChild}>
+						<c-d-h-_search-site-directory-l-l onclosemodal={handleClose}></c-d-h-_search-site-directory-l-l>
+
+					</template>
+					<!-- <lightning-button class="table-buttons" variant="brand" label="Other Phone Directories" onclick={handleShow1}> </lightning-button> -->
+					</div>
+					
+						<!--<lightning-button variant="brand" label="Search" title="Search input" onclick={handleClick}>
+						</lightning-button>-->
+
+					<div if:true={showResult}>
+						<p>No result to display.</p>
+					</div>
+					<div if:true={isConnected} >
+						<div if:true={searchData}>
+						<!--<div class="searchInput slds-grid slds-p-around_small slds-grid_align-end"> <class="searchInput slds-col slds-p-around_small slds-size_1-of-4"-->
+						<!--<lightning-input type="search"  placeholder="Search in table" onchange={handleSearch}></lightning-input>-->
+						</div>
+					</div>
+					<div class = "Border">
+					<div class="dataTable " style="display:block; ">
+						<lightning-datatable  
+											data={searchData} 
+											columns={columns} 
+											key-field="id" 
+											hide-checkbox-column="true"
+											>
+						</lightning-datatable>
+					</div>
+				</div>
+					<!--<div class="slds-m-top_small">
+						<lightning-button-group>
+							<lightning-button label="First" onclick={handleFirst} disabled={isFirstDisabled}></lightning-button>
+							<lightning-button label="Previous" onclick={handlePrevious} disabled={isPreviousDisabled}></lightning-button>
+							<lightning-button label="Next" onclick={handleNext} disabled={isNextDisabled}></lightning-button>
+							<lightning-button label="Last" onclick={handleLast} disabled={isLastDisabled}></lightning-button>
+						</lightning-button-group>
+					</div>-->
+	
+</lightning-card>
+<!--<template if:true={showModal}>
+<section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open slds-modal_large"
+    >
+      <div class="slds-modal__container" style="width: 900px;">
+        
+        <header class="slds-modal__header">
+          <lightning-button-icon
+            class="slds-modal__close"
+            title="Close"
+            icon-name="utility:close"
+            icon-class="slds-button_icon-inverse"
+            onclick={handleClose1}
+          ></lightning-button-icon>
+
+          <h2 class="slds-text-heading_large slds-hyphenate header-string">
+          </h2>
+        </header>
+        
+        <div
+          class="slds-modal__content slds-p-around_large"
+          id="modal-content-id-1"
+          style="overflow-x: auto;"
+        >
+        
+		<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width: 840px; ">
+            <thead>
+            <tr class="slds-line-height_reset">
+            <th scope="col" >REGION</th>
+            <th scope="col" >LINK</th>
+            </tr>
+            </thead>
+            <tbody>
+				<tr>
+					<td >East HQ BECO Tower Phone Directory</td>
+					<td><a href="\\mastorage\departments2\IT\Software\Web Links\Ambassador Phone Directory.html" target="_blank">Click here to open Phone Directory</a></td>
+				</tr>				
+					<td>ARS & CRA</td>
+					<td><a href="\\mastorage\departments2\IT\Software\Web Links\ARS&CRA Phone Directory.html" target="_blank">Click here to open Phone Directory</a></td>
+				</tr>
+				<tr>
+					<td>Advanced Radiology</td>
+					<td><a href="\\mastorage\departments2\IT\Software\Web Links\ADV Phone Directory.html" target="_blank">Click here to open Phone Directory</a></td>
+				</tr>
+				<tr>
+					<td>Delaware Imaging Network (DIN)</td>
+					<td><a href="\\mastorage\departments2\IT\Software\Web Links\DIN Phone Directory.html" target="_blank">Click here to open Phone Directory</a></td>
+				</tr>
+				<tr>
+					<td>NY Metropolitan Area including HVRA</td>
+					<td><a href="http://10.110.90.50/phonedirectory/?page_id=17823" target="_blank">Click here to open Phone Directory</a></td>
+				</tr>
+				<tr>
+					<td>Rochester NY</td>
+					<td><a href="http://10.110.90.50/phonedirectory/?page_id=12971" target="_blank">Click here to open Phone Directory</a></td>
+				</tr>
+				<tr>
+					<td>New Jersey Phone Directory</td>
+					<td><a href="http://10.110.90.50/phonedirectory/?page_id=17825" target="_blank">Click here to open Phone Directory</a></td>
+				</tr>
+            </tbody>
+            </table>
+            
+            <template if:true={error}>
+            <p>Error: {error.body.message}</p>
+            </template>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>-->
+</template>

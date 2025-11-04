@@ -1,0 +1,140 @@
+.make-this-dang-icon-blue {
+    color: blue;
+}
+
+.content.mark {
+    color: black;
+    padding: 5px;
+    background-color: rgb(255, 240, 63) !important;
+}
+
+.content.mark.a0 {
+    color: black;
+    padding: 5px;
+    background-color: rgb(255, 240, 63) !important;
+}
+
+.customTablCSS {
+    border: 1.4px solid #dbdbdb;
+}
+
+.customTablCSS tr:nth-child(even) {
+    background-color: #f1f1f1;
+    border-collapse: collapse;
+}
+
+.customTablCSS thead th {
+    line-height: 4ch;
+    background-color: #ffffff;
+    border-top: 0.3px solid #ccc;
+    border-bottom: 0.3px solid #ccc;
+    border-right: 0.3px solid #dbdbdb !important;
+    padding-left: 18px;
+    padding-right: 5px;
+    text-align: left;
+    font-weight: initial;
+    cursor: pointer;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.customTablCSS th:nth-child(even) {
+    border-collapse: collapse;
+    border-right: 1px solid #dbdbdb;
+}
+
+lightning-input {
+    --slds-c-input-radius-border: 3rem;
+}
+
+.optionsHeader {
+    font-weight: bold;
+}
+.proc_header{
+    border-bottom: 2px solid 4, #dddbda;
+}
+
+.bodyClass {
+    color: #535659;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    border: 1.35px solid lightgray;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot svg {
+    color: white;
+    padding: 4px;
+    margin-top: -3px;
+    margin-left: -1px;
+}
+
+.rowPadding {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sortArrow {
+    height: 10px;
+    fill: #bbbbbb;
+}
+
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    border-top: 50px solid white;
+    margin-top: -32px;
+}
+
+.inputSearch {
+    --slds-c-input-color-border: #dbdbdb;
+}
+
+.svgBgWhite {
+    background-color: white;
+}
+
+.svgBgRed {
+    background-color: #8B1C1D;
+}
+
+.noResult {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.dataCount {
+    font-weight: bold;
+}
+.top-padding { 
+    padding-top: 23px;
+}
+
+
+.highlightOuterBorder {
+  border: 2px solid #000000; /* Red outer border for the entire table */
+  border-collapse: collapse; /* Ensure borders collapse into a single line */
+  width: 100%; /* Ensure table spans the full width */
+}
+
+
+.highlightOuterBorder td {
+  border: 1px solid #000000; /* Black border for cells to match the outer border */
+  padding: 8px; /* Add padding inside cells for spacing */
+}
+.highlightOuterBorder th {
+  border: 1px solid #000000; /* Black border for cells to match the outer border */
+  padding: 8px; /* Add padding inside cells for spacing */
+}

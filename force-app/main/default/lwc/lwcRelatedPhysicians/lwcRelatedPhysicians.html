@@ -1,0 +1,65 @@
+<template>
+	<div if:true={isLoading}>
+        <lightning-spinner
+            alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+
+	<template if:true={showComp}>
+	<lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+		<lightning-accordion-section  name="A" label={contactLabel}>
+			<div class="slds-p-top_medium">
+				<div class="slds-page-header">
+					<div class="slds-page-header__row">
+						<div class="slds-page-header__col-title">
+							<div class="slds-media">
+								<div class="slds-media__figure">
+									<span class="slds-icon_container slds-icon-standard-contact" title="Physicians">
+										<svg class="slds-icon slds-icon_small" aria-hidden="true">
+										<use xlink:href="/_slds/icons/standard-sprite/svg/symbols.svg#groups"></use>
+										</svg>
+										<span class="slds-assistive-text">Physicians</span>
+									</span>
+								</div>
+								<div class="slds-media__body">
+									<h2 class="slds-card__header-title">
+										<a href="#" class="slds-card__header-link slds-truncate" title="Physicians">
+											<span>{contactLabel}</span>
+										</a>
+									</h2>
+								</div>
+							</div>
+						</div>						
+					</div>
+					<div class="table-size slds-scrollable--y slds-p-top_medium slds-m-bottom_medium" style="max-height: 240px">
+						<template if:true={showWarningMessage}>
+							<div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+								<span class="slds-assistive-text">error</span>
+								<h2>There are too many physicians to load for this account.</h2>
+							</div>
+						</template>
+						<template if:true={contacts}>
+							<lightning-datatable 
+								key-field="Id"
+								hide-checkbox-column="true"
+								data={contacts}
+								columns={columns}
+								sorted-by={sortBy}									
+								onsort={handleSortData}
+								sorted-direction={sortDirection}									
+							></lightning-datatable>
+						</template>
+					</div>
+					<!--<template if:true={showBar}>					
+							<div style="display:block; background: rgb(243, 243, 243);margin:auto;">
+								<lightning-button onclick={viewAll}
+								label="View All" title="View All" class="slds-m-left_x-small">
+								</lightning-button>														
+							</div>					
+					</template>  -->
+				</div>
+			</div>
+		</lightning-accordion-section>
+	</lightning-accordion>
+	</template>
+</template>

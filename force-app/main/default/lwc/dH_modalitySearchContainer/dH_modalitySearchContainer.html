@@ -1,0 +1,39 @@
+<!--
+*********************************************************
+Apex Class/ LWC Component Name    : dH_modalitySearchContainer
+
+Created Date       : 3/31/2024
+
+@description       : Container/Parent component to hold all 3 searches related to modality procedure search
+
+@jiraid            : CC-105
+
+*********************************************************
+-->
+<template>
+    <div class="background">
+        <lightning-layout>
+            <lightning-layout-item padding="horizontal-small" size="12">
+                <lightning-tabset class="tabSet slds-small">
+                    <lightning-tab class="tab" label="Modality Procedure" title="Modality Procedure">
+                        <c-d-h_modality-procedure-search>
+                        </c-d-h_modality-procedure-search>
+                    </lightning-tab>  
+                    <lightning-tab label="Special Bill &amp; Accommodation" title="Special Bill &amp; Accommodation">
+                        <c-d-h_special-accomodation-and-bill-search>
+                        </c-d-h_special-accomodation-and-bill-search>
+                    </lightning-tab>
+                    <lightning-tab label="Machine &amp; Weight Info" title="Machine &amp; Weight Info">
+                        <c-d-h_machine-and-weight-info-search>
+                        </c-d-h_machine-and-weight-info-search>
+                    </lightning-tab>                    
+                    <template lwc:if={isTabVisible}>
+                        <lightning-tab label="Administration" title="File Upload">
+                            <iframe id="LWCWithVFPage" src="/apex/excelFileVisualforce" width="100%" height="265px"> </iframe>
+                        </lightning-tab>
+                    </template>
+                </lightning-tabset>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

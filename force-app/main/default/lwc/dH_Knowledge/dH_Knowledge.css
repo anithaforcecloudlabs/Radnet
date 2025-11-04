@@ -1,0 +1,201 @@
+.background {
+    background-color: #F5F5F5;
+    min-height: 100%;
+
+}
+.headingSection{
+    background-color: #ffffff;
+    width:100%;
+}
+.headingSectionTwo{
+    background-color: #f0f0f0;
+    width:100%;
+    height:64px;
+}
+.knowledgeIconSpan{
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 4px;
+}
+.searchBarSection{
+    background-color: #ffffff;
+    width:100%;
+    padding-top: 8px;
+}
+.layoutItemClass{
+    padding:10px;
+    width:100%;
+}
+.layoutItemClassTwo{
+    width:100%;
+}
+.dataSpan{
+    padding-left:12px;
+    color:#747474;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+.divClass{
+    height:10px;
+    width:100%;
+}
+.dataSpanTwo{
+    padding-left:12px;
+    color:#747474;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+.categbox {
+    width: 280px;
+    min-height: 110px ; 
+    padding-top: 10px;
+    padding-right: 10px;    
+    position: absolute;
+    background-color:#ffffff;
+    box-shadow: 2px 2px 5px 1px #cccccc;
+}
+.catgtext{
+    font-weight: bold;
+    padding-bottom: 20px;
+    padding-left: 20px;   
+}
+.subcatgtext{
+    font-weight: lighter;
+    cursor: pointer;
+    height: 20px;
+    width: 206px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;     
+}
+.subcatgtext:hover{
+    overflow: visible; 
+    white-space: normal;
+    height:auto;  
+    text-decoration: underline;
+}
+.pageHeading{
+    font-weight: bold;
+    font-size: 16px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-right: 5px;
+}
+.articleCount{
+    color: var(--Foundation-Gray-Neutral-20, #2E2E2E);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.clickables{
+    font-size: small;
+    font-weight: lighter;
+    padding-top: 10px;
+}
+.container{
+    width: 280px;
+    height: 110px;
+    position: relative;
+    padding-top: 10px;
+    padding-right: 10px; 
+    margin-top: 0px;
+    margin-right: 10px;
+    margin-left: 0px;
+    margin-bottom: 10px;
+}
+.articleDetail{
+    height: auto;
+    width: auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 20px;
+}
+.stack-top{
+    z-index: 9;
+}
+.p0 { text-indent: 2em; }
+.showAllButton  {  
+    --sds-c-button-text-color:black;
+    --slds-c-button-outline-brand-color-border:black;
+}
+.subCatgBtn{   
+    --sds-c-button-text-color:black;
+    --slds-c-button-outline-brand-color-border:black;
+}
+.content.mark { 
+    color: black; 
+    padding: 5px; 
+    font-weight:bold !important;
+    background-color: rgb(255, 240, 63) !important; 
+}
+.content.mark.a0 { 
+    color: black; 
+    padding: 5px; 
+    font-weight:bold !important;
+    background-color: rgb(255, 240, 63) !important; 
+}
+mark{
+    font-weight:bold !important;
+}
+.icon {
+    width: 20px;
+    height: 15px;
+    top: 15px;
+}
+.cross {
+    right: 2.3rem;
+}
+
+.inputText{
+    padding-right: 20%;
+}
+.slds-truncate {
+    padding-left: 12px;
+}
+.card-header {
+    background-color: #f0f0f0;
+    padding: 23px 8px;
+    border-bottom: 1px solid #dcdcdc;
+    border-radius: 4px 4px 0 0;
+	font-weight: bold;
+    padding-top: 16px;
+    padding-left: 8px;
+}
+.card-header h1 {
+    padding-left: 10px;
+    padding-top: 4px;
+    font-size: 18px;
+}
+.card-body {
+    padding: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.icon {  
+    width: 20px;
+    height: 15px;
+    top: 15px;
+    padding-left: 3px;
+    padding-right: 2px;
+} 
+.iconposition{
+    width: 29px;
+    height: 28px;
+    --slds-c-icon-color-foreground-default: #ffffff;
+    fill: #1cb2ee;
+    pointer-events: all;
+    padding-left: 2px;
+    padding-top: 2px;
+}
+.iconposition:hover{
+    filter: brightness(120%);
+}

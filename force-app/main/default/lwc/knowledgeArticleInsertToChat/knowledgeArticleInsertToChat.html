@@ -1,0 +1,33 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-09-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="Insert Knowledge Article into Conversation">
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+                name="article"
+                label="Select Knowledge Article"
+                value={selectedArticleId}
+                options={articleOptions}
+                onchange={handleArticleChange}>
+            </lightning-combobox>
+
+            <lightning-button 
+                label="Insert into Conversation" 
+                onclick={insertArticle} 
+                class="slds-m-top_small">
+            </lightning-button>
+
+            <template if:true={insertedText}>
+                <div class="slds-box slds-m-top_small">
+                    <strong>Inserted Text:</strong>
+                    <p>{insertedText}</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

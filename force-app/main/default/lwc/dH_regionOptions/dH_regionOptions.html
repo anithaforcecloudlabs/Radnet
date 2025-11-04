@@ -1,0 +1,30 @@
+<!--
+*********************************************************
+Apex Class/ LWC Component Name    : dH_regionOptions
+
+Created Date       : 3/30/2024
+
+@description       : Display region options for each search for modality procedure search 
+
+@jiraid            : CC-105
+
+*********************************************************
+-->
+<template>
+    <template if:true={regionOptions}>
+        <span style="display: inline-block;">
+            <lightning-checkbox-group
+                    name="regionCheckBoxes"
+                    class="checkboxClass"
+                    options={regionOptions}
+                    value={selectedRGVal}
+                    onchange={handleRegionsChange}>
+             </lightning-checkbox-group>
+        </span>
+        <span style="padding-left: 15px;display: inline-block;">
+            <a onclick={handleClear}>
+                Clear All
+            </a>
+        </span>
+    </template>
+</template>

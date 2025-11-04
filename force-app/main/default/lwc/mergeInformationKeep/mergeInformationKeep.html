@@ -1,0 +1,131 @@
+<template>
+	<div if:true={isLoading}>
+		<lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+		</lightning-spinner>
+	</div>
+	<template if:true={showErrorMessage}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-3" aria-modal="true" aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+						<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+						</lightning-icon>
+						<span class="slds-assistive-text">Close</span>
+					</button>
+					<h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Error</h2>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+					<template if:true={messageProfileUsers}>
+						<h1>You do not have permission to complete this action</h1>
+					</template>
+					<template if:true={countMergeRecords}>
+						<h1>Minimum accounts for merge is 2 and maximum is 3.</h1>
+					</template>
+					<template if:true={messageRecordTypesRecords}>
+						<h1>It is not possible to merge a practice overview or RadNet location record types. 
+							Please choose a practice location and try again.</h1>
+					</template>
+				</div>
+			</div>
+	
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+	
+<template if:true={showMessage}>
+	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-04" aria-modal="true" aria-describedby="modal-content-id-4" class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container">
+			<header class="slds-modal__header">
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+					<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+					</lightning-icon>
+					<span class="slds-assistive-text">Close</span>
+				</button>
+				<h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate">Merge Results</h2>
+			</header>
+			<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-04">	
+				
+				{messageResults}	
+						
+			</div>
+		</div>
+		</div>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+<template if:true={isShowMergeModal}>
+	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container">
+			<header class="slds-modal__header">
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+					<lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+					</lightning-icon>
+					<span class="slds-assistive-text">Close</span>
+				</button>
+				<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Select which information to keep</h2>
+			</header>
+			<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-03">
+				<div class="slds-box">
+					<lightning-radio-group class="slds-p-bottom--x-small" name="Name"							
+						label="Name"
+						options={arrName}
+						value={value}
+						onchange={handleChangeName}
+						type="radio"
+						required>
+					</lightning-radio-group>
+					<lightning-radio-group class="slds-p-bottom--x-small" name="Address"
+						label="Address"
+						options={arrAddress}
+						value={value}
+						onchange={handleChangeAddress}
+						type="radio"
+						required>
+					</lightning-radio-group>
+					<lightning-radio-group class="slds-p-bottom--x-small" name="Owner"
+						label="Owner"
+						options={arrOwner}
+						value={value}
+						onchange={handleChangeOwner}
+						type="radio"
+						required>
+					</lightning-radio-group>
+					<template if:true={arrPhoneExist}>
+						<lightning-radio-group class="slds-p-bottom--x-small" name="Phone"
+						label="Phone"
+						options={arrPhone}
+						value={value}
+						onchange={handleChangePhone}
+						type="radio">
+					</lightning-radio-group>	
+					</template>			
+					<template if:true={arrFaxExist}>
+					<lightning-radio-group class="slds-p-bottom--x-small" name="Fax"
+						label="Fax"
+						options={arrFax}
+						value={value}
+						onchange={handleChangeFax}
+						type="radio">
+					</lightning-radio-group>	
+					</template>	
+					<lightning-input type="text" onchange={handleInputChange} value={textCommentValue} label="Enter comment"></lightning-input>					
+				</div>					
+				<div style="padding-left:2%;" class="slds-align_absolute-center slds-m-top_medium">
+					<template if:true={showSaveButton}>
+						<button class="saveButton slds-button slds-button_brand slds-m-right_x-small" onclick={handleMergeSubmit}>Merge</button>
+					</template>
+					<button class="newButton slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+				</div>
+				</div>
+		</div>
+		</div>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+
+</template>

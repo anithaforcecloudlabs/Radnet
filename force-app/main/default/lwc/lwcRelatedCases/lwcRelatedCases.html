@@ -1,0 +1,31 @@
+<template>
+    <div if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    
+        <lightning-card title="Related RIS Requests">
+        <template if:true={showData}>
+            <lightning-button onclick={handleInReview} slot="actions" label="Mark Status as In Review" title="Mark Status as In Review" class="slds-m-left_x-small">
+            </lightning-button>         
+            <lightning-button onclick={handleClosed} slot="actions" label="Mark Status as Complete" title="Mark Status as Complete" class="slds-m-left_x-small">
+            </lightning-button>  
+        <template lwc:if={displayColumns}>
+          <div class="slds-m-around_medium">
+            <lightning-datatable
+                key-field="Id"								
+                data={displayColumns}		
+                columns={columns}
+                onrowselection={getSelectedRecords}
+                selected-rows={setSelectedRows}
+			></lightning-datatable>
+          </div>
+        </template>
+        </template>
+        <!--<template if:false={showData}>
+            <p>There are no related RIS Requests</p>
+        </template>-->
+       
+    </lightning-card>
+
+</template>

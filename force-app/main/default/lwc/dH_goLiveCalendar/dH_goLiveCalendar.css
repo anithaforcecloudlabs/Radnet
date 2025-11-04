@@ -1,0 +1,69 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+.trHeading{
+    height: 50px;
+    background-color: #eee;
+    border-top: none;
+    border-bottom:none;
+}
+.tdHeading{
+    border: 1px solid white;
+}
+.trData{
+height: 75px;
+}
+tr:nth-child(even) {
+    background-color: #ffffff;
+ }
+ tr:nth-child(odd) {
+    background-color: #f9f9f9;
+ }
+ table{
+    font-size: 15px;
+ }
+ td{
+    padding: 15px;
+    text-wrap: balance
+ }
+ .width50{
+
+    width : 50%;
+
+}
+.slds-form-element__label{
+    width: max-content;
+}
+input{
+    --slds-c-input-spacing-horizontal-end:50px;
+    --slds-c-input-spacing-horizontal-start:55px;
+
+}
+
+.title{
+    font-size:12px;
+    color: grey;
+}
+
+/*.uploadFileBox{
+    padding-top:5rem;
+}*/
+
+.cancelButton{
+    margin-top:8px;
+}
+.errorMessage{
+    color: red;
+    text-align: center;
+}
+.noRecFoundLabel{
+    display: flex;
+    justify-content: center;
+    /* font-style: italic; */
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+.slds-icon{
+    height: 15px;
+}

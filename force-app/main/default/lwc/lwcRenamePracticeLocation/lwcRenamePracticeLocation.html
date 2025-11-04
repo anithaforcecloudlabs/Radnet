@@ -1,0 +1,11 @@
+<template>
+	<template if:true={isModalOpened}>
+	<c-lwc-rename-merge-location 
+		onclose={closeModal} 
+		record-id={recordId} 
+		show-process="true" 
+		is-screen-action="true"
+		object-api-name="Account">
+	</c-lwc-rename-merge-location>
+	</template>
+</template>

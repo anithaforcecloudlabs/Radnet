@@ -1,0 +1,19 @@
+.slds-page-header{
+    background-color: #fff;
+    padding:0px;
+    margin: 0px;
+}
+.table-size {
+    max-height:400px;
+    width: auto; 
+    background-color:white;
+}
+:host {
+    --slds-c-accordion-section-background-color: white;
+    --slds-c-accordion-summary-color-background: rgb(243, 243, 243);
+    --slds-c-accordion-heading-text-color:#181818;
+    --slds-c-accordion-heading-line-height: 1.75;
+    --sds-c-accordion-heading-color-background:rgb(243, 243, 243);
+    --sds-c-accordion-heading-font-size:16px;
+   
+}

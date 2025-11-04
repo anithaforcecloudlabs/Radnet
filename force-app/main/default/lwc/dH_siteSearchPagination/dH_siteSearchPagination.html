@@ -1,0 +1,51 @@
+<template>
+    <div >
+        <lightning-card>            
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" margin="around-small">
+                        <ul class="slds-button-group-row">
+                            <template if:true={hasPrev}>
+                                <li class="slds-button-group-item">
+                                    <button class="slds-button slds-button_brand " onclick={onPrev}>
+                                        &lt;
+                                    </button>
+                                </li>
+                            </template>
+                            <template if:false={hasPrev}>
+                                <template if:true={showPage}>
+                                    <li class="prevStyling slds-button-group-item ">
+                                        <span>
+                                            &lt;
+                                        </span>
+                                    </li>
+                                </template>
+                            </template>
+                            <template for:each={pagesList} for:item="pageNumber">
+                                <li class="slds-button-group-item" key={pageNumber}>
+                                    <button data-id={pageNumber} class="slds-button slds-button_brand" onclick={onPageClick}>
+                                        {pageNumber}
+                                    </button>
+                                </li>
+                            </template>
+                            <template if:true={hasNext}>
+                                <li class="slds-button-group-item">
+                                    <button class="slds-button slds-button_brand" onclick={onNext}>
+                                        &gt;
+                                    </button>
+                                </li>
+                            </template>
+                            <template if:false={hasNext}>
+                                <li class="prevStyling slds-button-group-item">
+                                    <span>
+                                        &gt;
+                                    </span>
+                                </li>
+                            </template>
+                        </ul>
+                    
+                </lightning-layout-item>
+            </lightning-layout>
+       
+        </lightning-card>
+    </div>
+</template>

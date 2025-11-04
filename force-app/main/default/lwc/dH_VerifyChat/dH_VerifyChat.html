@@ -1,0 +1,72 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-07-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<!doctype html>
+<html>
+ 
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Embedded Messaging — Prepopulated Pre-Chat</title>
+</head>
+ 
+<body>
+  <h1>Salesforce Embedded Messaging — Pre-Chat Prefill Test</h1>
+  <p>This page loads the Embedded Messaging widget and prepopulates First Name, Last Name, and Email.</p>
+ 
+ 
+  <script>
+    function initEmbeddedMessaging() {
+      try {
+        embeddedservice_bootstrap.settings.language = 'en_US'; // Set language
+ 
+        embeddedservice_bootstrap.init(
+          '00DVG000005T3Fu', // Org Id
+          'CustomMessagingForInAppandWeb', // Deployment Name
+          'https://radnetprm--sutherland.sandbox.my.site.com/ESWCustomMessagingForInAp1757324202673', // Deployment URL
+          {
+            scrt2URL: 'https://radnetprm--sutherland.sandbox.my.salesforce-scrt.com'
+          }
+        );
+      } catch (err) {
+        console.error('Error loading Embedded Messaging: ', err);
+      }
+    }
+ 
+    // Pre-chat field prefill after widget is ready
+    window.addEventListener("onEmbeddedMessagingReady", function () {
+      try {
+        const esw = window.embeddedservice_bootstrap;
+ 
+        // Prepopulate visible fields
+        esw.prechatAPI.setVisiblePrechatFields({
+          "Full Name": { value: "Punith", readOnly: false },
+          "_email": { value: "punith@example.com", readOnly: false },
+          "WebsiteURL": { value: "https://eastxrayhours.com", readOnly: false }
+        });
+ 
+        // Prepopulate hidden fields
+        esw.prechatAPI.setHiddenPrechatFields({
+          "Region_h": "East",
+          "Site URL": "https://eastxrayhours.com",
+          "RIS Region": "TX"
+        });
+ 
+      } catch (e) {
+        console.error("Failed to set pre-chat fields:", e);
+      }
+    });
+  </script>
+ 
+  <!-- Load the MIAW bootstrap -->
+  <script type="text/javascript"
+    src="https://radnetprm--sutherland.sandbox.my.site.com/ESWCustomMessagingForInAp1757324202673/assets/js/…
+    onload="initEmbeddedMessaging()">
+    </script>
+</body>
+ 
+</html>

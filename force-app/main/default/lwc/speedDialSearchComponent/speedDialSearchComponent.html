@@ -1,0 +1,31 @@
+<template>
+    <div style="position: fixed; top: 20; left: 0; right: 0; background-color: white; z-index: 1;">
+        <div class="slds-p-bottom_medium slds-p-horizontal_medium">
+            <lightning-input 
+                type="search"
+                placeholder="Search..."
+                onchange={handleSearch}
+            ></lightning-input>
+        </div>
+    </div>
+    <div style="margin-top: 70px; overflow-y: auto; height: calc(100vh - 70px);">
+        <ul class="slds-has-dividers_bottom-space">
+            <template for:each={uiResults} for:item="number">
+                <li key={number.id} class="slds-item">
+                    <div class="slds-grid slds-grid_horizontal-align-center slds-grid_vertical-align-center">
+                        <lightning-icon class="slds-m-horizontal_small" icon-name="standard:call" size="small"></lightning-icon>
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-col">
+                                <p>{number.description}</p>
+                                <lightning-click-to-dial
+                                    value={number.phoneNumber}
+                                    onclick={openOmniChannelPopUp}
+                                ></lightning-click-to-dial>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </template>
+        </ul>
+    </div>
+  </template>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    
+    <types>
+        <members>DH_MessagingSessionFileHandlerTest</members>
+        <members>DH_DexOutServiceRisOpenParsnerMSTest</members>
+        <members>DH_DexOutServiceRisOpenPatientMSTest</members>
+        <members>DH_DexOutServiceRisOpenPatientMS</members>
+        <members>DH_DexOutServiceRisOpenPatientParserMS</members>
+        <members>DH_MessagingSessionHandler</members>
+        <members>DH_MessagingSessionTriggerHelper</members>
+        <members>DH_MessagingSessionHandlerTest</members>
+        <members>DH_MessagingSessionFileHandler</members>
+         <members>DH_MessagingSessionTriggerHelperTest</members>
+        <name>ApexClass</name>
+    </types>
+
+     <types>
+        <members>DH_MessagingSessionTrigger</members>
+        <members>DH_ContentDocumentLinkTrigger</members>
+        <name>ApexTrigger</name>
+    </types>
+
+    <!-- Lightning Web Components -->
+    <types>
+        <members>dH_VerifyChat</members>
+        <members>dH_PatientSearchMS</members>
+        <name>LightningComponentBundle</name>
+    </types>
+     <types>
+        <members>DH_LiveChat_CaseAssignment</members>
+        <members>DH_Articlelinktocase</members>
+        <members>Dh_CaseClose_ForChat</members>
+        <name>Flow</name>
+    </types>
+        <!-- Flexi Pages -->
+    <types>
+        <members>Messaging_Session_Record_Page</members>
+        <members>DH_CaseRecordPageForChat</members>
+        <name>FlexiPage</name>
+    </types>
+
+    <!-- Page Layouts -->
+    <types>
+        <members>Case-DH_ContactCenterCasePageForChat</members>
+        <members>Messaging_Session-Messaging Session Layout</members>
+        <name>Layout</name>
+    </types>
+
+    <!-- Quick Actions -->
+    <types>
+        <members>Chat_Case_Close</members>
+        <members>Assign_to_me</members>
+        <name>QuickAction</name>
+    </types>
+    <version>64.0</version>
+</Package>

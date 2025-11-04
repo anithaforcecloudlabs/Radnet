@@ -1,0 +1,57 @@
+<!-- 
+***********************************************************
+LWC               :   topArticlesManagerArticlesEast
+
+Created Date      :   21-May-2025
+
+@description      :   Used to display Top 5 KM Articles on Home Page
+
+@jiraId           :   CC-1534
+
+***********************************************************
+-->
+<template>
+    <lightning-card title="Top 5 Knowledge Articles">
+        <div class="header">
+            <template if:true={isEditable}>
+                <lightning-button label="Select Articles" onclick={openModal} class="slds-m-bottom_small"></lightning-button>
+            </template>
+        </div>
+
+        <template for:each={topArticles} for:item="article">
+            <div key={article.Id} class="article-link">
+                <a href="#" data-id={article.Id} onclick={handleArticleClick}>{article.Title}</a>
+            </div>
+        </template>
+    </lightning-card>
+
+    <template if:true={showModal}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2>Select Top 5 Articles</h2>
+                </header>
+                <div class="slds-modal__content">
+                    <input type="text" class="search-input" placeholder="Search articles..." oninput={handleSearch} />
+
+                    <lightning-dual-listbox
+                        name="selectArticles"
+                        label="Available Articles"
+                        source-label="Available"
+                        selected-label="Selected"
+                        field-level-help="Select exactly 5 articles"
+                        options={filteredOptions}
+                        value={selectedArticleIds}
+                        onchange={handleSelectionChange}
+                        size="10">
+                    </lightning-dual-listbox>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+                    <lightning-button variant="brand" label="Save" onclick={saveSelection}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

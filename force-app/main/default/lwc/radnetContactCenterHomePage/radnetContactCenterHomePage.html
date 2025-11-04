@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="LINKS">
+        <lightning-layout class="top-layout">
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="action-item" onclick={openSiteSearch}>
+                    <img src={siteSearchURL} alt="Site Search" />
+                    <p class="label">Site Search</p>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="action-item" onclick={openKnowledgeArticles}>
+                    <img src={knowledgeURL} alt="Knowledge Article" />
+                    <p class="label">Knowledge Articles</p>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

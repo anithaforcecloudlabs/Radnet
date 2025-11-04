@@ -1,0 +1,71 @@
+<!-- 
+********************************************************************
+* LWC               :   DH_searchPhoneDirectory
+* 
+* Created Date      :   13/06/2024
+* 
+* @description      :   HTML class of DH_searchPhoneDirectory LWC component
+* 
+* @Jira Id          :   CC-341
+* 
+********************************************************************
+-->
+<template>
+	
+	<lightning-card>
+		<div class = "Border divColor">
+				
+		<div class="slds-align_absolute-center">RadNet</div><br/>
+		<div class="slds-align_absolute-center">*** WxCC PHONE DIRECTORY ***</div>
+
+
+		<div class="slds-p-around_x-large slds-size_2-of-4 ">
+						<!--<label class="custom-combobox-label slds-form-element__label">Region</label>-->
+						<lightning-input type="search" variant="label-inline" style="font-weight: bold;"  label="Filter by REGION: " onchange={handleRegionChange}></lightning-input>
+						<lightning-input type="search" variant="label-inline" style="font-weight: bold;"  label="Filter by ENTRY POINT NAME: " onchange={handleEntryChange}></lightning-input>
+					</div>
+					<!--<div class="slds-col slds-p-around_small">
+						<lightning-input type="search" label="Filter by Entry Point Name"  placeholder="Search in Entry Point Name " onchange={handleEntryChange}></lightning-input>
+					</div>
+				</div>-->
+			</div>
+		
+					<div class="slds-p-around_small slds-text-align_center">
+					<lightning-button class="table-buttons" variant="brand" label="Reset Filter" onclick={handleClear}> </lightning-button>
+					<lightning-button class="table-buttons" variant="brand" label="Print Results" onclick={print}> </lightning-button>
+					</div>
+					
+						<!--<lightning-button variant="brand" label="Search" title="Search input" onclick={handleClick}>
+						</lightning-button>-->
+
+					<div if:true={showResult}>
+						<p>No result to display.</p>
+					</div>
+					<div if:true={isConnected} >
+						<div if:true={searchData}>
+						<!--<div class="searchInput slds-grid slds-p-around_small slds-grid_align-end"> <class="searchInput slds-col slds-p-around_small slds-size_1-of-4"-->
+						<!--<lightning-input type="search"  placeholder="Search in table" onchange={handleSearch}></lightning-input>-->
+						</div>
+					</div>
+					<div class = "Border">
+					<div class="dataTable" style="display:block;">
+						<lightning-datatable  
+											data={searchData} 
+											columns={columns} 
+											key-field="id" 
+											onrowaction={handleRowActions}
+											hide-checkbox-column="true">
+						</lightning-datatable>
+					</div>
+				</div>
+					<!--<div class="slds-m-top_small">
+						<lightning-button-group>
+							<lightning-button label="First" onclick={handleFirst} disabled={isFirstDisabled}></lightning-button>
+							<lightning-button label="Previous" onclick={handlePrevious} disabled={isPreviousDisabled}></lightning-button>
+							<lightning-button label="Next" onclick={handleNext} disabled={isNextDisabled}></lightning-button>
+							<lightning-button label="Last" onclick={handleLast} disabled={isLastDisabled}></lightning-button>
+						</lightning-button-group>
+					</div>-->
+	
+</lightning-card>
+</template>

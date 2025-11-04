@@ -1,0 +1,41 @@
+.slds-page-header{
+    background-color: #fff;
+    padding:0px;
+    margin: 0px;
+}
+.table-size {
+    max-height:500px;
+    width: auto; 
+    background-color:white;
+}
+:host {
+    --slds-c-accordion-section-background-color: white;
+    --slds-c-accordion-summary-color-background: rgb(243, 243, 243);
+    --slds-c-accordion-heading-text-color:#181818;
+    --slds-c-accordion-heading-line-height: 1.25;
+    --sds-c-accordion-heading-color-background:rgb(243, 243, 243);
+    --sds-c-accordion-heading-font-size:16px;
+   
+}
+.slds-modal__content {
+    overflow: visible;
+    overflow-y: visible;
+}
+.address-location {
+    font-size:16px;
+    font-weight: 700;
+    line-height: 3em;
+
+}
+.submitted-ris{
+    color:#014486;
+    font-size:16px;
+    font-weight: 700;
+    line-height: 1.2em;
+}
+.created-ris{
+    color:#396547;
+    font-size:16px;
+    font-weight: 700;
+    line-height: 1.2em;
+}

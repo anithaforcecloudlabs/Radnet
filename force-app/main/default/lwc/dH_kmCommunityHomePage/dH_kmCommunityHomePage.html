@@ -1,0 +1,230 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!--
+*********************************************************
+LWC Component Name    : dH_kmCommunityHomePage
+
+Created Date       : 7/3/2024
+
+@description       : Container for community portal components / home page modal to select region
+
+@jiraid            : CC-786, CC-787, CC-789, CC-646
+
+*********************************************************
+-->
+<template>
+    <div class="accdet slds-hide" >
+        <c-d-h_-previous-page onhideaccountdetailpage={handleHideDetailPage}></c-d-h_-previous-page>
+        <iframe class="iframeclass" id="vfIframe" src={ccAccountDetailPageURL}> </iframe>
+    </div>
+    <div class="containerbg sscomp">
+        <lightning-layout>
+            <lightning-layout-item size="12">
+                <div class="headerpanel">
+                    <div class="logopanel">
+                        <img src={logoURL} class="logoimg" />
+                        <div class="slds-text-heading_medium coastheader">
+                            {coastHeader}
+                        </div>
+                        <div class="afterlogo">
+                        </div>
+                        <div class="slds-clearfix regionselection">
+                            <div class="slds-float_right">
+                                <template if:true={selectedCoast}>
+                                    <label for="Change Region" class="label_ChangeRegion">
+                                        Change Region</label>
+                                    <lightning-button-menu alternative-text="Change Region" variant="bare-inverse"
+                                        menu-alignment="right" onselect={handleChangeRegion} class="label_regionMargin">
+                                        <lightning-menu-item value="East Coast" label="East"
+                                            disabled={eastDisabled}></lightning-menu-item>
+                                        <lightning-menu-item value="West Coast" label="West"
+                                            disabled={westDisabled}></lightning-menu-item>
+                                    </lightning-button-menu>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tabset -->
+                    <div class="slds-tabs_default slds-sub-tabs">
+                        <ul class="slds-tabs_default__nav tabList" role="tablist">
+
+                            <li class="slds-tabs_default__item slds-sub-tabs__item slds-grid slds-grid_vertical-align-center li_tablist"
+                                role="presentation">
+
+                            </li>
+                            <li lwc:ref="hometab"
+                                class="tabselection slds-tabs_default__item slds-sub-tabs__item slds-grid slds-grid_vertical-align-center home_Tab"
+                                role="presentation" onclick={handleHomeTabClick}>
+                                <a aria-controls="homecontainer" aria-selected={homeTabSelected}
+                                    class="slds-tabs_default__link slds-p-horizontal_x-large" id="homecontainerTab"
+                                    role="tab" tabindex="0" title="Home" onclick={handleHomeTabClick}>
+                                    <span class="slds-truncate span_Tab" title="Home">Home</span>
+                                </a>
+                            </li>
+                            <template if:true={showModalitySearch}>
+                                <li lwc:ref="modalitytab"
+                                    class="tabselection slds-tabs_default__item slds-sub-tabs__item slds-grid slds-grid_vertical-align-center "
+                                    role="presentation" onclick={handleModalitySearchClick}>
+                                    <a aria-controls="modalitycontainer" aria-selected={modalityTabSelected}
+                                        class="slds-tabs_default__link slds-p-horizontal_x-large"
+                                        id="modalitycontainerTab" role="tab" tabindex="0" title="Modality Search"
+                                        onclick={handleModalitySearchClick}>
+                                        <span class="slds-truncate span_Tab" title="Modality Search">Modality
+                                            Search</span>
+                                    </a>
+                                </li>
+                            </template>
+                            <li lwc:ref="sitesearchtab"
+                                class="tabselection slds-tabs_default__item slds-sub-tabs__item slds-grid slds-grid_vertical-align-center"
+                                role="presentation" onclick={handleSiteSearchClick}>
+                                <a aria-controls="sitesearchcontainer" aria-selected={siteSearchTabSelected}
+                                    class="slds-tabs_default__link slds-p-horizontal_x-large"
+                                    id="sitesearchcontainerTab" role="tab" tabindex="0" title="Site Search"
+                                    onclick={handleSiteSearchClick}>
+                                    <span class="slds-truncate span_Tab" title="Site Search">Site Search</span>
+                                </a>
+                            </li>
+                            <li lwc:ref="knowledgearticletab"
+                                class="tabselection slds-tabs_default__item slds-sub-tabs__item slds-grid slds-grid_vertical-align-center "
+                                role="presentation" onclick={handleKnowledgeArticleClick}>
+                                <a aria-controls="knowledgearticlecontainer" aria-selected={knowledgeArticleTabSelected}
+                                    class="slds-tabs_default__link slds-p-horizontal_x-large"
+                                    id="knowledgearticlecontainerTab" role="tab" tabindex="0" title="Knowledge Articles"
+                                    onclick={handleKnowledgeArticleClick}>
+                                    <span class="slds-truncate span_Tab" title="Knowledge Article">Knowledge
+                                        Articles</span>
+
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Tabset -->
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="12">
+                <div>
+                    <div lwc:ref="homecontainer" aria-labelledby="homecontainer"
+                        class="tabcontainer slds-tabs_default__content slds-show" id="homecontainer" role="tabpanel">
+                        <lightning-layout>
+                            <lightning-layout-item size="8" padding="around-small">
+                            </lightning-layout-item>
+                            <lightning-layout-item size="4" padding="around-small">
+                                <c-d-h_most-viewed-articles selectedcoast={selectedCoast}></c-d-h_most-viewed-articles>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <div lwc:ref="modalitycontainer" aria-labelledby="modalitycontainer"
+                        class="tabcontainer slds-tabs_default__content slds-hide" id="modalitycontainer"
+                        role="tabpanel">
+                        <template if:true={showModalitySearch}>
+                            <c-d-h_modality-search-container
+                                selectedcoast={selectedCoast}></c-d-h_modality-search-container>
+                        </template>
+                    </div>
+                    <div lwc:ref="sitesearchcontainer" aria-labelledby="sitesearchcontainer"
+                        class="tabcontainer slds-tabs_default__content slds-hide" id="sitesearchcontainer"
+                        role="tabpanel">
+                        <c-d-h_site-search lwc:ref="sitesearchcmp" selectedcoast={selectedCoast}
+                            oncchometab={handleHomeNavigation}
+                            onshowaccountdetailpage={handleShowDetailPage}></c-d-h_site-search>
+                    </div>
+                    <div lwc:ref="knowledgearticlecontainer" aria-labelledby="knowledgearticlecontainer"
+                        class="tabcontainer slds-tabs_default__content slds-hide" id="knowledgearticlecontainer"
+                        role="tabpanel">
+                        <c-d-h_knowledge-search-base-l-w-c lwc:ref="knowledgearticlecmp"
+                            selectedcoast={selectedCoast}></c-d-h_knowledge-search-base-l-w-c>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__content slds-p-around_medium modalpadding" id="modal-content-id-1">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="3">
+                            </lightning-layout-item>
+                            <lightning-layout-item size="3">
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="region_Selection">
+                                <div class="slds-align_absolute-center">
+                                    <div class="slds-text-heading_medium">
+                                        Select the Region
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="coast1">
+                                <div class="slds-align_absolute-center coast2">
+                                    Please choose a region to get started
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="handleWestClick">
+                                <div class="slds-align_absolute-center">
+                                    <div class="handleWestClick2" onclick={handleWestClick}>
+
+                                        <div>
+                                            <div class="slds-align_absolute-center">
+                                                <img src={westSvg} alt="West" />
+                                            </div>
+                                            <br>
+                                            <div class="slds-align_absolute-center slds-text-heading_medium">
+                                                West
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="handleEastClick" onclick={handleEastClick}>
+
+                                        <div>
+                                            <div class="slds-align_absolute-center">
+                                                <img src={eastSvg} alt="East" />
+                                            </div>
+                                            <br>
+                                            <div class="slds-align_absolute-center slds-text-heading_medium">
+                                                East
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open">
+            </div>
+        </template>
+        <template if:true={openConfirmationModal}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        onclick={closeRegionConfirmation}>
+                        <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Cancel and close</span>
+                    </button>
+                    <div class="slds-modal__header">
+                        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">
+                            Confirmation
+                        </h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium" id="confirmationmodal">
+                        <p class="slds-align_absolute-center">Do you want to Change knowledge base from
+                            {coastHeader} to {unselectCoastHeader} Region?</p>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <lightning-button label="No" title="No" onclick={closeRegionConfirmation}
+                            class="slds-m-left_x-small"></lightning-button>
+                        <lightning-button variant="brand" label="Yes" title="Yes" onclick={handleCoastSelect}
+                            class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </template>
+    </div>
+</template>

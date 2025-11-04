@@ -1,0 +1,60 @@
+<template>
+    
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open slds-modal_large"
+    >
+      <div class="slds-modal__container" style="width: 900px;">
+        <!-- Header Start -->
+        <header class="slds-modal__header">
+          <lightning-button-icon
+            class="slds-modal__close"
+            title="Close"
+            icon-name="utility:close"
+            icon-class="slds-button_icon-inverse"
+            onclick={handleDialogClose}
+          ></lightning-button-icon>
+
+          <h2 class="slds-text-heading_large slds-hyphenate header-string">
+          </h2>
+        </header>
+        <!-- Header End -->
+        <div
+          class="slds-modal__content slds-p-around_large"
+          id="modal-content-id-1"
+          style="overflow-x: auto;"
+        >
+        <template if:true={accounts}>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width: 850px;">
+            <thead>
+            <tr class="slds-line-height_reset">
+            <th scope="col" style="width: 100px;">Site Code</th>
+            <th scope="col" style="width: 200px;">Site Name</th>
+            <th scope="col" style="width: 300px;">Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <template for:each={accounts} for:item="acc">
+            <tr key={acc.Id}>
+            <td style="width: 100px;">{acc.Site_Code__c}</td>
+            <td style="width: 200px;">{acc.Site_Name__c}</td>
+            <td style="width: 300px;">{acc.Address__c}</td>
+            </tr>
+            </template>
+            </tbody>
+            </table>
+            </template>
+            <template if:true={error}>
+            <p>Error: {error.body.message}</p>
+            </template>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  
+
+</template>

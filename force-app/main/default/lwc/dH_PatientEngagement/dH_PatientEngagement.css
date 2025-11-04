@@ -1,0 +1,53 @@
+.flex-center {
+    display: flex;
+    justify-content: center;
+    object-fit: contain;
+}
+
+.iconBox {
+    display: flex;
+    justify-content: center;
+}
+
+.box {
+    width: 100%;
+    height: auto;
+}
+
+.subjectBox {
+    font-weight: bolder;
+}
+
+.truncate-two-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Restrict to two lines */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.sentByBox {
+    font-size: smaller;
+    color: gray;
+}
+
+.timeBox {
+    font-size: small;
+    color: black;
+}
+
+.noRecords {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.buttonPosition {
+    text-align: right;
+}
+
+.scrollable-layout{
+    max-height: 300px;
+    overflow-y: auto;
+}

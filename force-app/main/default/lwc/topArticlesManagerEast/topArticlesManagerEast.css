@@ -1,0 +1,40 @@
+.header {
+    position: absolute;
+    top: 0.5rem;     
+    right: 1rem;    
+    z-index: 1;
+}
+
+lightning-button.slds-m-bottom_small {
+    margin-bottom: 0;
+}
+
+.article-link {
+    padding: 0.125rem 1rem;
+    font-size: 1rem;
+    font-family: "Salesforce Sans", Arial, sans-serif;
+}
+
+.article-link a {
+    color: #0070d2;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.article-link a:hover {
+    text-decoration: underline;
+}
+
+.search-input {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    width: 100%;
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    font-size: 0.8125rem;
+    font-family: "Salesforce Sans", Arial, sans-serif;
+}
+
+.slds-modal__content {
+    padding: 1rem;
+}

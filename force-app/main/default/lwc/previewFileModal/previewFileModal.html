@@ -1,0 +1,128 @@
+<template>
+    <template if:true={showModal}>
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open section"
+      >
+
+
+           <div class="parentClass">
+            <div class="container">
+              <div>
+                <div class="previous" if:false={paginationDisableFirst}>
+                  <!-- <lightning-button disabled={paginationDisableFirst} icon-name="utility:chevronleft" label="" alternative-text="Previous" onclick={previousPage}></lightning-button> -->
+                  <span class="slds-icon_container slds-icon-utility-chevronleft leftbtn" onclick={previousPage}>
+                    <svg class="slds-icon slds-icon-text-default chevronleft slds-p-horizontal_x-large" aria-hidden="true" style="padding: 5px; width:100% ; height:auto;">
+                        <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#chevronleft">
+                        </use>
+                    </svg>
+                </span>
+                </div>
+                <div class="previousdisabled" if:true={paginationDisableFirst}>
+                  <!-- <lightning-button disabled={paginationDisableFirst} icon-name="utility:chevronleft" label="" alternative-text="Previous" onclick={previousPage}></lightning-button> -->
+                  <span class="slds-icon_container slds-icon-utility-chevronleft leftbtn" onclick={previousPage}>
+                    <svg class="slds-icon slds-icon-text-default chevronleft slds-p-horizontal_x-large" aria-hidden="true" style="padding: 5px; width:100% ; height:auto;">
+                        <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#chevronleft">
+                        </use>
+                    </svg>
+                </span>
+                </div>
+              </div>
+              <div class=" imageContainer">
+                <!-- <div class="cross lgc-bg-inverse"> -->
+                  <!-- <lightning-button-icon
+                      class="crossbtn"
+                      title="Close"
+                      icon-name="utility:close"
+                      onclick={closeModal}
+                    ></lightning-button-icon> -->
+                    <!-- <span class="slds-icon_container slds-icon-utility-close closebtn" onclick={closeModal}>
+                      <svg class="slds-icon slds-icon-text-default close" aria-hidden="true" style="padding: 3px;">
+                          <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close">
+                          </use>
+                      </svg>
+                  </span>
+
+                </div> -->
+                <div class="image">
+                  <table>
+                    <tbody style="width: 100%;">
+                      <template for:each={recordsToDisplay} for:item="row" for:index="index">
+                        <tr key={row.Id} class="imageContainer">
+                          
+                          <template if:false={showFrame}>
+                            
+                            <div class="imageInnerContainer">
+                              <div class="cross lgc-bg-inverse">
+                                <span class="slds-icon-utility-close closebtn" onclick={closeModal}>
+                                  <svg class="slds-icon slds-icon-text-default close" aria-hidden="true" style="padding: 6px;">
+                                      <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close">
+                                      </use>
+                                  </svg>
+                              </span>
+            
+                            </div>
+                              <img src={row.downloadUrl} style="height:450px" />
+                            <div>
+                              <span style="margin-top:6px;" class="slds-badge">{pagenumber} &nbsp;of&nbsp; {totalPages} &nbsp;</span>
+                            </div>
+                            </div>
+                            
+                          </template>
+                          <template if:true={showFrame}>
+                            
+                            <div class="innerContainer">
+                              <div class="cross lgc-bg-inverse">
+                                <span class="slds-icon_container slds-icon-utility-close closebtn" onclick={closeModal}>
+                                  <svg class="slds-icon slds-icon-text-default close" aria-hidden="true" style="padding: 3px;">
+                                      <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close">
+                                      </use>
+                                  </svg>
+                              </span>
+            
+                            </div>
+                              <iframe
+                              src={row.downloadUrl}
+                              class="picture"
+                            ></iframe>
+                            </div>
+
+                            
+                          </template>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div>
+                <div class="next" if:false={paginationDisableLast}>
+                   <!-- <lightning-button disabled={paginationDisableLast} icon-name="utility:chevronright" label="" alternative-text="Next" onclick={nextPage} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button> -->
+                   <span class="slds-icon_container slds-icon-utility-chevronright rightbtn" onclick={nextPage}>
+                    <svg class="slds-icon slds-icon-text-default chevronright slds-p-horizontal_x-large" aria-hidden="true" style="padding: 5px; width:100% ; height:auto;">
+                        <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#chevronright">
+                        </use>
+                    </svg>
+                </span>
+                  </div>
+                  <div class="nextdisabled" if:true={paginationDisableLast}>
+                    <!-- <lightning-button disabled={paginationDisableLast} icon-name="utility:chevronright" label="" alternative-text="Next" onclick={nextPage} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button> -->
+                    <span class="slds-icon_container slds-icon-utility-chevronright rightbtn" onclick={nextPage}>
+                     <svg class="slds-icon slds-icon-text-default chevronright slds-p-horizontal_x-large" aria-hidden="true" style="padding: 5px; width:100% ; height:auto;">
+                         <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#chevronright">
+                         </use>
+                     </svg>
+                 </span>
+                   </div>
+              </div>
+             </div>
+           </div>
+          
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+  </template>

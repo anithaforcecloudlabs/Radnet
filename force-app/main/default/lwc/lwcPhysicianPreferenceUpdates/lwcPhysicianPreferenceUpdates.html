@@ -1,0 +1,67 @@
+<template>
+	<template if:true={loadComp}>	
+	<lightning-accordion allow-multiple-sections-open active-section-name={activeSections} class="accordionClass">
+		<lightning-accordion-section class="bg-accordion accordionClass" name="A" label="Physician Preference updates">
+			<div if:true={isLoading}>
+				<lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed"></lightning-spinner>
+			</div>
+			<div class="slds-p-vertical_large slds-p-horizontal_small">
+				<div class="slds-page-header">
+					<div class="slds-page-header__row">
+						<div class="slds-page-header__col-title">
+							<div class="slds-media">
+								<div class="slds-media__figure">
+									<span class="slds-icon_container slds-icon-standard-contact" title="Physician Preference updates">
+										<svg class="slds-icon slds-icon_small" aria-hidden="true">
+										<use xlink:href="/_slds/icons/standard-sprite/svg/symbols.svg#custom"></use>
+										</svg>
+										<span class="slds-assistive-text">Physician Preference updates</span>
+									</span>
+								</div>
+								<div class="slds-media__body">
+									<h2 class="slds-card__header-title">
+										<a href="#" class="slds-card__header-link slds-truncate" title="Physician Preference updates">
+											<span>{physicianUpdatesLabel}</span>
+										</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="slds-page-header__col-actions">
+							<lightning-button variant="success"  onclick={handleApprove} label="Approve" title="Approve" class="slds-m-left_x-small">
+							</lightning-button>
+							<lightning-button variant="destructive-text" onclick={handleReject} label="Reject" title="Reject" class="slds-m-left_x-small">
+							</lightning-button>
+						</div>
+					</div>
+					<div class="table-size slds-scrollable--y slds-p-top_medium slds-m-bottom_medium">
+						<template if:true={showComp}>							
+								<lightning-datatable 
+									key-field="Id" 
+									data={physicianUpdatesData}
+									columns={showColumns}
+									onrowselection={getSelectedRecords} 
+									onrowaction={handleRowAction}
+									sorted-by={sortBy}
+									onsort={handleSortData}
+									sorted-direction={sortDirection}
+									selected-rows={setSelectedRows}
+								></lightning-datatable>
+								<template if:true={showViewAll}>
+								<div slot="footer">  
+									<div class="viewall">
+										<a class="view-all-btn" href={viewAllLink} target="_blank" >View All</a>  												
+									</div> 
+								</div>
+							</template>							
+							<template lwc:if={physicianUpdatesData.error}>
+								{error}
+							</template>
+						</template>
+					</div>
+				</div>
+			</div>
+		</lightning-accordion-section>
+	</lightning-accordion>
+</template>
+</template>

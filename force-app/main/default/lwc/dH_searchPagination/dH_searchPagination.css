@@ -1,0 +1,16 @@
+:host .slds-button-group-row {
+    --slds-c-button-radius-border: 0%;
+    --slds-c-button-brand-color-border:white;
+}
+
+ .prevStyling {
+    background-color: white;
+    color: grey;
+    /* width: 26.899px; */
+    /* height: 30px; */
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 5.5px;
+    border-top: 0.889px;
+    border-bottom: 0.889px;
+}

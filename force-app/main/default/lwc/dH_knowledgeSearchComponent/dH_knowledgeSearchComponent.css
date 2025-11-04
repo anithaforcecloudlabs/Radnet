@@ -1,0 +1,34 @@
+.icon {  
+    width: 20px;
+    height: 15px;
+    top: 15px;} 
+
+.iconposition{
+    width: 36px;
+    height: 31px;
+    --slds-c-icon-color-foreground: white;
+    pointer-events: all;
+}
+
+.iconposition:hover{
+    filter: brightness(120%);
+}
+
+.cross {
+    right: 2.3rem;
+}
+.dH_divClassOne{
+    width: 18rem;
+}
+.dH_spanClassTwo{
+    padding-left:12px;
+    color:#747474;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+.dH_divClass{
+    height:10px;
+    width:100%;
+}

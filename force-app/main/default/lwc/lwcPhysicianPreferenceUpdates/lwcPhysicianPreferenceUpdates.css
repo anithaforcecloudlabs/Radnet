@@ -1,0 +1,37 @@
+.slds-page-header{
+    background-color: #fff;
+    padding:0px;
+    margin: 0px;
+}
+.table-size {
+    max-height:500px;
+    width: auto; 
+    background-color:white;
+}
+.viewall {
+    display:block; 
+    /*background: rgb(243, 243, 243);*/
+    margin: 10px auto;
+}
+.view-all-btn {
+    position: relative;
+    background-color: #ffffff;
+    color: rgb(1, 118, 211);
+    padding: 15px 25px;
+    margin:auto;
+    display: block;
+    width: 120px;
+    text-align: center;
+    border-radius:4px;
+    font-size:11pt;
+}
+
+:host {
+    --slds-c-accordion-section-background-color: white;
+    --slds-c-accordion-summary-color-background: rgb(243, 243, 243);
+    --slds-c-accordion-heading-text-color:#181818;
+    --slds-c-accordion-heading-line-height: 1.25;
+    --sds-c-accordion-heading-color-background:rgb(243, 243, 243);
+    --sds-c-accordion-heading-font-size:16px;
+   
+}
