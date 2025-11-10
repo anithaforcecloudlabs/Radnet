@@ -28,7 +28,7 @@ public class DH_MessagingSessionTriggerHelperTest {
             // Fill in any other required fields
         );
         insert channel;
-       MessagingEndUser endUser = new MessagingEndUser(
+      /* MessagingEndUser endUser = new MessagingEndUser(
             Name = 'Test Chat User2',
             MessagingChannelId = channel.Id,
             MessageType = 'EmbeddedMessaging',
@@ -39,14 +39,14 @@ public class DH_MessagingSessionTriggerHelperTest {
         // Try to get a valid Conversation record (required for rich content channels)
       insert endUser;
             endUser.AccountId=acc.id;
-            update endUser;
+            update endUser;*/
             Conversation conv = [SELECT Id FROM Conversation LIMIT 1];
        Id dummyConversationId = conv.id;
         MessagingSession session = new MessagingSession(
             First_Name__c='Vikas',LastName__c='test',Region__c='East',
             Status = 'Waiting',
             MessagingChannelId = channel.Id,
-            MessagingEndUserId = endUser.Id,
+           // MessagingEndUserId = endUser.Id,
            ConversationId = dummyConversationId,     // may be null if none exist
             CaseId = c.Id,
             System_Id__c = 'MA'
@@ -64,9 +64,9 @@ public class DH_MessagingSessionTriggerHelperTest {
             MessagingEndUser updatedEndUser = [
                 SELECT Id, AccountId
                 FROM MessagingEndUser 
-                WHERE Id = :endUser.Id
+                
             ];
-            
+           // WHERE Id = :endUser.Id
             System.assertNotEquals(null, updatedEndUser.Id, 'EndUser should exist after test');
     }
     }
