@@ -1,72 +1,368 @@
 <!--
-  @description       : 
-  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
-  @group             : 
-  @last modified on  : 10-07-2025
-  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* ***************************************************************************************************************************
+* LWC Component Name - dH_VerifyCaller.html
+* Created Date - 22-May-2024
+* Function - Contact center verify caller screen.
+* Modification Log :
+* ***************************************************************************************************************************
+* Jira#                Date                 Description
+* ***********     ******************     *****************************************************************************************
+* CC-425             22-May-2024            Added logic to display lightning data table.
+* CC-426             27-May-2024            Added logic to invoke handleCreatePatientInRis and handleSearchPatientInRis method.
+* CC-428,429         29-May-2024            Added logic to invoke handleSelectAndLaunchPatient method.
+* CC-474             01-July-2024           Developed the Html as per the requirement in custom
+* CC-480             08-July-2024           Added buttons logic to expand and collapse all duplicate records
+* CC-543             11-July-2024           Added changes related to sequencing of column.
+* CC-724             18-July-2024           Added variable to dynamically take Launch Selected Patient in RIS button variant.
+* CC-622             25-July-2024           Added changes related to showing error message when no patient is selected.
+* CC-962             28-August-2024         Changes related to duplicate patient UI
+* CC-962             28-September-2024      Changes related UI for the patient data
+* CC-1291,1271,1270  04-September-2024      Removed searchPatientError and newPatientError, Added apiError
+* CC-1394            30-September-2024      Updated key as child MRN
+* *****************************************************************************************************************************
 -->
-<!doctype html>
-<html>
- 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Embedded Messaging — Prepopulated Pre-Chat</title>
-</head>
- 
-<body>
-  <h1>Salesforce Embedded Messaging — Pre-Chat Prefill Test</h1>
-  <p>This page loads the Embedded Messaging widget and prepopulates First Name, Last Name, and Email.</p>
- 
- 
-  <script>
-    function initEmbeddedMessaging() {
-      try {
-        embeddedservice_bootstrap.settings.language = 'en_US'; // Set language
- 
-        embeddedservice_bootstrap.init(
-          '00DVG000005T3Fu', // Org Id
-          'CustomMessagingForInAppandWeb', // Deployment Name
-          'https://radnetprm--sutherland.sandbox.my.site.com/ESWCustomMessagingForInAp1757324202673', // Deployment URL
-          {
-            scrt2URL: 'https://radnetprm--sutherland.sandbox.my.salesforce-scrt.com'
-          }
-        );
-      } catch (err) {
-        console.error('Error loading Embedded Messaging: ', err);
-      }
-    }
- 
-    // Pre-chat field prefill after widget is ready
-    window.addEventListener("onEmbeddedMessagingReady", function () {
-      try {
-        const esw = window.embeddedservice_bootstrap;
- 
-        // Prepopulate visible fields
-        esw.prechatAPI.setVisiblePrechatFields({
-          "Full Name": { value: "Punith", readOnly: false },
-          "_email": { value: "punith@example.com", readOnly: false },
-          "WebsiteURL": { value: "https://eastxrayhours.com", readOnly: false }
-        });
- 
-        // Prepopulate hidden fields
-        esw.prechatAPI.setHiddenPrechatFields({
-          "Region_h": "East",
-          "Site URL": "https://eastxrayhours.com",
-          "RIS Region": "TX"
-        });
- 
-      } catch (e) {
-        console.error("Failed to set pre-chat fields:", e);
-      }
-    });
-  </script>
- 
-  <!-- Load the MIAW bootstrap -->
-  <script type="text/javascript"
-    src="https://radnetprm--sutherland.sandbox.my.site.com/ESWCustomMessagingForInAp1757324202673/assets/js/…
-    onload="initEmbeddedMessaging()">
-    </script>
-</body>
- 
-</html>
+<template>
+    <lightning-card title={label.VerifyChatlabel}>
+       <template if:true={previousVerifiedPatientId}>
+           <lightning-button label="Reverify Caller" slot="actions" class="slds-p-left_small" onclick={handleReverifyCaller}></lightning-button>
+       </template>
+        <template if:true={showError}>
+            <div>
+                <lightning-icon icon-name="utility:error" alternative-text="Error!" variant="error" size="x-small"
+                    class="warning-icon"></lightning-icon>
+                <span class="message-color slds-p-left_small">{label.patientSelectionError}</span>
+            </div>
+        </template>
+        <template if:false={disableExpandCollapseAll}>
+        <lightning-layout dir="rtl">
+            <lightning-layout-item class="slds-m-right_medium slds-m-bottom_small">
+                <lightning-button variant="base" icon-name="utility:up" label="Collapse All" title="Looks like a link"
+                    onclick={collapseAll}></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-m-left_medium slds-m-bottom_small">
+                <lightning-button variant="base" icon-name="utility:down" label="Expand All" title="Looks like a link"
+                    onclick={expandAll}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        </template>
+        <div class="slds-p-horizontal_medium">
+            <div class="stepTwo">
+                <lightning-layout class="dH_customWidth">
+                    <template if:true={isDataFetched}>
+                        <lightning-layout-item size="12">
+                            <div class="parentDiv">
+                                <table class="slds-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                            <template for:each={patientColumns} for:item="patient">
+                                                <th key={patient.fieldName} scope="col" width={patient.InitialWidth}>
+                                                    {patient.label}</th>
+                                            </template>
+                                        </tr>
+                                    </thead>
+                                    <tbody  class="parentWrapper">
+                                        <template for:each={patientListCopy} for:item="patient">
+                                            <tr key={patient.parent.mrn}>
+                                            <template if:false={patient.hideParentRecord}>
+                                                    <template if:true={patient.parent.duplicateDropdown}>
+                                                            <td scope="col" colspan="1" class="displayFlex dropDownButton">
+                                                                    <lightning-icon icon-name="utility:right"
+                                                                        size="xx-small" data-id={patient.parent.mrn}
+                                                                        label="" onclick={showChildRecords}></lightning-icon>
+                                                            </td>
+                                                    </template>
+                                                        <td scope="col" colspan="1" class="displayFlex radioButton"></td>
+                                                    <template if:true={patient.parent.enableRadioButton}>
+                                                        <td scope="col">
+                                                            <div>
+                                                                <lightning-input type="radio" name="selectedPatient"
+                                                                    data-id={patient.parent.mrn}
+                                                                    onclick={getAllSelectedRecord}
+                                                                >
+                                                                </lightning-input>
+                                                            </div>
+                                                        </td>
+                                                    </template>
+                                                    <template if:false={patient.parent.enableRadioButton}>
+                                                        <td scope="col">
+                                                            <div>
+                                                                <lightning-input type="radio" name="selectedPatient"
+                                                                    data-id={patient.parent.mrn}
+                                                                    disabled>
+                                                                </lightning-input>
+                                                            </div>
+                                                        </td>
+                                                    </template>
+                                                        <td scope="col">
+                                                            {patient.parent.firstName}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {patient.parent.lastName}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {patient.parent.birthDate}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {patient.parent.address}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {patient.parent.phoneNumber}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {patient.parent.emailAddress}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {patient.parent.mrn}
+                                                        </td>
+                                            </template>
+                                            </tr>
+                                            <template if:true={patient.showChildData}>
+                                                <template for:each={patient.childData} for:item="cData">
+                                                <tr key={cData.mrn}>
+                                                    <template if:true={cData.collapseDropdown}>
+                                                            <lightning-icon icon-name="utility:down" size="xx-small"
+                                                            data-id={patient.parent.mrn} label=""
+                                                            onclick={showChildRecords}></lightning-icon>
+                                                    </template>
+                                                        <td scope="col" colspan="1" class="displayFlex"></td>
+                                                        <td scope="col">
+                                                            <div>
+                                                                <lightning-input type="radio" name="selectedPatient"
+                                                                    data-id={cData.mrn}
+                                                                    onclick={getAllSelectedRecord}
+                                                                >
+                                                                </lightning-input>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="col">
+                                                            {cData.firstName}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {cData.lastName}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {cData.birthDate}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {cData.address}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {cData.phoneNumber}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {cData.emailAddress}
+                                                        </td>
+                                                        <td scope="col">
+                                                            {cData.mrn}
+                                                        </td>
+                                                    </tr>
+                                                        <template if:true={cData.lastContact} >
+                                                            <tr key={cData.mrn} class="childcolor" >
+                                                                <td scope="col" colspan="1" class="displayFlex"></td>
+                                                                <td colspan="100%" class="table-spacing">
+                                                                    <table class ="custom-border-table">
+                                                                            <tr>
+                                                                                <th width="20%" class="childcolor subheader recentOutreach" rowspan="2">
+                                                                                    Recent Outreach
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Date
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Exam
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Referring Physician
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Site
+                                                                                </th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="20%">{cData.lastContact.lastContactDate}</td>
+                                                                                <td width="20%">{cData.lastContact.orderedProcedures}</td>
+                                                                                <td width="20%">{cData.lastContact.requestedBy}</td>
+                                                                                <td width="20%">{cData.lastContact.siteDescription}</td>
+                                                                            </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                        <template if:true={cData.nextScheduledExam}>
+                                                            <tr key={cData.mrn} class="childcolor">
+                                                                <td scope="col" colspan="1" class="displayFlex"></td>
+                                                                <td colspan="100%" class="table-spacing">
+                                                                    <table class ="custom-border-table">
+                                                                            <tr>
+                                                                                <th width="20%" class="childcolor subheader upcomingAppointment" rowspan="2">
+                                                                                    Upcoming Appointment
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Date of Appt
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Exam
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Referring Physician
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Site
+                                                                                </th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="20%">{cData.nextScheduledExam.scheduledDate}</td>
+                                                                                <td width="20%">{cData.nextScheduledExam.examDescription}</td>
+                                                                                <td width="20%">{cData.nextScheduledExam.requestedBy}</td>
+                                                                                <td width="20%">{cData.nextScheduledExam.siteDescription}</td>
+                                                                            </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                        <template if:true={cData.openEMROrder}>
+                                                            <tr key={cData.mrn} class="childcolor">
+                                                                <td scope="col" colspan="1" class="displayFlex"></td>
+                                                                <td colspan="100%" class="table-spacing">
+                                                                    <table class ="custom-border-table">
+                                                                            <tr>
+                                                                                <th width="20%" class="childcolor subheader OpenEMR" rowspan="2">
+                                                                                    Open EMR Orders
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Date Created
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Exam
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Referring Physician
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                     Site
+                                                                                </th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="20%">{cData.openEMROrder.requestedDate}</td>
+                                                                                <td width="20%">{cData.openEMROrder.orderedProcedures}</td>
+                                                                                <td width="20%">{cData.openEMROrder.requestedBy}</td>
+                                                                                <td width="20%">{cData.openEMROrder.siteDescription}</td>
+                                                                            </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                        <template if:true={cData.openNonEMROrder}>
+                                                            <tr key={cData.mrn} class="childcolor">
+                                                                <td scope="col" colspan="1" class="displayFlex"></td>
+                                                                <td colspan="100%" class="table-spacing">
+                                                                    <table class ="custom-border-table">
+                                                                            <tr>
+                                                                                <th width="20%" class="childcolor subheader nonEMR" rowspan="2">
+                                                                                    Non-EMR Order
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Date Created
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Exam
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Referring Physician
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Site
+                                                                                </th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="20%">{cData.openNonEMROrder.requestedDate}</td>
+                                                                                <td width="20%">{cData.openNonEMROrder.orderedProcedures}</td>
+                                                                                <td width="20%">{cData.openNonEMROrder.requestedBy}</td>
+                                                                                <td width="20%">{cData.openNonEMROrder.siteDescription}</td>
+                                                                            </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                        <template if:true={cData.lastPerformedExam}>
+                                                            <tr key={cData.mrn} class="childcolor">
+                                                                <td scope="col" colspan="1" class="displayFlex"></td>
+                                                                <td colspan="100%" class="table-spacing">
+                                                                    <table class ="custom-border-table">
+                                                                            <tr>
+                                                                                <th width="20%" class="childcolor subheader priorAppointment" rowspan="2">
+                                                                                    Prior Apointment
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Date of Service
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Exam
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Referring Physician
+                                                                                </th>
+                                                                                <th width="20%" class="childcolor">
+                                                                                    Site
+                                                                                </th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="20%">{cData.lastPerformedExam.scheduledDate}</td>
+                                                                                <td width="20%">{cData.lastPerformedExam.examDescription}</td>
+                                                                                <td width="20%">{cData.lastPerformedExam.requestedBy}</td>
+                                                                                <td width="20%">{cData.lastPerformedExam.siteDescription}</td>
+                                                                            </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                        <template if:true={cData.noChildDetails}>
+                                                            <tr key={cData.mrn} class="childcolor">
+                                                                <td scope="col" colspan="1" class="displayFlex"></td>
+                                                                <td colspan="100%">
+                                                                    <h2><b> &nbsp; {noAdditionalDataInDuplicate} </b></h2>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </template>
+                                            </template>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={isDataFetchedError}>
+                        <lightning-layout-item size="12">
+                            <div class="dH_noRecordFoundMessage">
+                                <span>{noRecordFoundErrorMessage}</span>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+                <lightning-layout>
+                    <template if:true={isApiError}>
+                        <lightning-layout-item size="12">
+                            <div>
+                                <lightning-icon icon-name="utility:error" alternative-text="Error!" variant="error" size="x-small" class="warning-icon"></lightning-icon> 
+                                <span class="message-color slds-p-left_small">{apiError}</span>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+                <hr>
+            
+                <lightning-button label={label.SelectLaunchPatient} variant={buttonVariant} disabled={disableConfirmPatientInRis}
+                    class="slds-float_right slds-p-left_medium" onclick={handleConfirmPatientInRis}>
+                </lightning-button>
+                <lightning-button label={label.SearchPatientInRis} class="slds-p-left_small" disabled={disableSearchPatientInRis}
+                    onclick={handleSearchPatientInRis}></lightning-button>
+            </div>
+            <div class="verified slds-hide">
+                {label.patientVerified}
+          </div>
+        </div>
+    </lightning-card>
+</template>
