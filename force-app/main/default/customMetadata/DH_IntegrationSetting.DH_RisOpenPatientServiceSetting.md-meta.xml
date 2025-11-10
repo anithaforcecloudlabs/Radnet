@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>RIS Open Patient Service Setting</label>
+    <protected>false</protected>
+    <values>
+        <field>DH_Action__c</field>
+        <value xsi:type="xsd:string">z_api_OpenScheduleOrder</value>
+    </values>
+    <values>
+        <field>DH_ApiKey__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_AutoTriggerApiCount__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_BaseUrl__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Description__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Email_Notification__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>DH_Email__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_ExpiryInSeconds__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Method__c</field>
+        <value xsi:type="xsd:string">POST</value>
+    </values>
+    <values>
+        <field>DH_NameCredential__c</field>
+        <value xsi:type="xsd:string">DH_RISOpenPatient</value>
+    </values>
+    <values>
+        <field>DH_Notification__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_OfRetries__c</field>
+        <value xsi:type="xsd:double">0.0</value>
+    </values>
+    <values>
+        <field>DH_RetryInterval__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_RetryRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>DH_SampleRequest__c</field>
+        <value xsi:type="xsd:string">{ &quot;data&quot;:{&quot;userID&quot;: &quot;userFedId&quot;,&quot;expiryInSeconds&quot;: &quot;timeout&quot;}}</value>
+    </values>
+    <values>
+        <field>DH_SampleResponse__c</field>
+        <value xsi:type="xsd:string">[[{&quot;result&quot;:&quot;{\\&quot;url\\&quot;:\\&quot;apiv1StoredProcedureAggregatorPatientKey96554?action=z_api_CheckDeepLinkingRequestStatus&amp;systemID=CA\\&quot;,\\&quot;body\\&quot;:{\\&quot;data\\&quot;:{\\&quot;requestID\\&quot;: \\&quot;151\\&quot;}}}&quot;}],[{&quot;data&quot;:&quot;[{\\&quot;patient_key\\&quot;:96554,\\&quot;first_name\\&quot;:\\&quot;Bobby\\&quot;,\\&quot;last_name\\&quot;:\\&quot;Brandt\\&quot;,\\&quot;middle_name\\&quot;:\\&quot;\\&quot;,\\&quot;patient_id\\&quot;:\\&quot;96554\\&quot;,\\&quot;issuer_of_patient_id\\&quot;:\\&quot;system\\&quot;,\\&quot;birth_date\\&quot;:\\&quot;1988-11-13\\&quot;,\\&quot;gender_code\\&quot;:\\&quot;M\\&quot;,\\&quot;primary_address_line1\\&quot;:\\&quot;26 West Rocky Oak Way\\&quot;,\\&quot;primary_address_city\\&quot;:\\&quot;Houston\\&quot;,\\&quot;primary_address_state\\&quot;:\\&quot;Arkansas\\&quot;,\\&quot;primary_address_zipcode\\&quot;:\\&quot;98856\\&quot;,\\&quot;patientPhones\\&quot;:[],\\&quot;patientEmailAddresses\\&quot;:[],\\&quot;patientExtraInfo\\&quot;:[],\\&quot;patientAlerts\\&quot;:[]}]&quot;}]]</value>
+    </values>
+    <values>
+        <field>DH_ServiceName__c</field>
+        <value xsi:type="xsd:string">RIS Open Patient Service</value>
+    </values>
+    <values>
+        <field>DH_TimeOutInMilliseconds__c</field>
+        <value xsi:type="xsd:double">30000.0</value>
+    </values>
+</CustomMetadata>

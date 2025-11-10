@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>DenormToNormSetting</label>
+    <protected>false</protected>
+    <values>
+        <field>DH_CC_Hours_List_View_URL__c</field>
+        <value xsi:type="xsd:string">https://radnetprm--uatfull.sandbox.lightning.force.com/lightning/o/DH_Call_Center_Data_Sheet__c/list?filterName=Call_Center_Hour</value>
+    </values>
+    <values>
+        <field>DH_CC_Mapping_List_View_URL__c</field>
+        <value xsi:type="xsd:string">https://radnetprm--uatfull.sandbox.lightning.force.com/lightning/o/DH_Call_Center_Data_Sheet__c/list?filterName=Call_Center_Mapping</value>
+    </values>
+    <values>
+        <field>DH_Email_address__c</field>
+        <value xsi:type="xsd:string">aman_mundhada@persistent.com,samreet_matharu@persistent.com,Saurav.Bansal@deephealth.com</value>
+    </values>
+    <values>
+        <field>DH_Exclusions_List_View__c</field>
+        <value xsi:type="xsd:string">https://radnetprm--uatfull.sandbox.lightning.force.com/lightning/o/DH_Call_Center_Data_Sheet__c/list?filterName=Exclusion</value>
+    </values>
+    <values>
+        <field>DH_Modality_List_View_URL__c</field>
+        <value xsi:type="xsd:string">https://radnetprm--uatfull.sandbox.lightning.force.com/lightning/o/DH_Call_Center_Data_Sheet__c/list?filterName=Modality_Priority</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Ris Quick Message Service Setting</label>
+    <protected>false</protected>
+    <values>
+        <field>DH_Action__c</field>
+        <value xsi:type="xsd:string">z_api_GetPatientRecentContacts</value>
+    </values>
+    <values>
+        <field>DH_ApiKey__c</field>
+        <value xsi:type="xsd:string">ai12345</value>
+    </values>
+    <values>
+        <field>DH_AutoTriggerApiCount__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>DH_BaseUrl__c</field>
+        <value xsi:type="xsd:string">https://storedprocedureaggregator-api-ris.riosplatform.com/api/v1/StoredProcedureAggregator/</value>
+    </values>
+    <values>
+        <field>DH_Description__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Email_Notification__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>DH_Email__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_ExpiryInSeconds__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Method__c</field>
+        <value xsi:type="xsd:string">POST</value>
+    </values>
+    <values>
+        <field>DH_NameCredential__c</field>
+        <value xsi:type="xsd:string">DH_RisQuickMessageService</value>
+    </values>
+    <values>
+        <field>DH_Notification__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_OfRetries__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>DH_RetryInterval__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_RetryRequired__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>DH_SampleRequest__c</field>
+        <value xsi:type="xsd:string">{&quot;data&quot;: {}}</value>
+    </values>
+    <values>
+        <field>DH_SampleResponse__c</field>
+        <value xsi:type="xsd:string">[ [{&quot;order_key&quot;: 53768, &quot;notes&quot;: &quot;test&quot;, &quot;contact_date&quot;: &quot;2023-07-12T16:18:04.670Z&quot;, &quot;last_updated_by_user_id&quot;: &quot;stick&quot;, &quot;follow_up_type_code&quot;: &quot;QuickMessageSMS&quot;}, {&quot;order_key&quot;: 53778, &quot;notes&quot;: &quot;asefasdf&quot;, &quot;contact_date&quot;: &quot;2023-06-29T14:17:29.548Z&quot;, &quot;last_updated_by_user_id&quot;: &quot;stick&quot;, &quot;follow_up_type_code&quot;: &quot;QuickMessageSMS&quot;}, {&quot;order_key&quot;: 53766, &quot;notes&quot;: &quot;Thank you for choosing Treesdale Radiology. Unfortunately, we are running behind today. Feel free to arrive 1/2 hour later than your scheduled appointment time.&quot;, &quot;contact_date&quot;: &quot;2022-02-14T18:37:52.536Z&quot;, &quot;last_updated_by_user_id&quot;: &quot;stick&quot;, &quot;follow_up_type_code&quot;: &quot;QuickMessageSMS&quot;}] ]</value>
+    </values>
+    <values>
+        <field>DH_ServiceName__c</field>
+        <value xsi:type="xsd:string">Quick Message</value>
+    </values>
+    <values>
+        <field>DH_TimeOutInMilliseconds__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

@@ -8,6 +8,8 @@
 * Jira#                    Date                 Description
 * ----------------         --------------       ------------------------------
 * CC-526                   24-July-2024         Added populateTriggerData and onBeforeInsert methods.
+* SC-29                    08-Oct-2025          updated onBeforceInsert method. Added DH_CaseTriggerHepler.handleCaseEntitlementSetup(newCases);
+* SC-36                    08-Oct-2025          Added onBeforeUpdate method.
 * *******************************************************************************************************************************************
 */
 public class DH_CaseTriggerHandler extends TriggerHandler{
@@ -40,5 +42,16 @@ public class DH_CaseTriggerHandler extends TriggerHandler{
 	**/
 	protected override void onBeforeInsert() {
 		DH_CaseTriggerHepler.updateCaseSystemId(newCases);
+		DH_CaseTriggerHepler.handleCaseEntitlementSetup(newCases);
+	}
+
+	/**
+	* @Jira SC-36
+    * @description - This method will override the onBeforeUpdate method of TriggerHandler class.
+    * @param       - None
+    * @return      - None
+	**/
+	protected override void onBeforeUpdate() {
+		DH_CaseTriggerHepler.completeMilestone(newCases, System.Label.ResolutionSLAMilestoneName, DateTime.now());
 	}
 }

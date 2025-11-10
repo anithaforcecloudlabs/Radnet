@@ -89,10 +89,9 @@ public class DH_MessagingSessionTriggerHelper {
     public static List<MessagingSession> getMSList(List<Id> vcIds) {
 		List<MessagingSession> vcList = new List<MessagingSession>();
 		try {
-			vcList = [SELECT Id,EndUserAccountId,System_Id__c,LastName__c,First_Name__c,Region__c
+			vcList = [SELECT Id,EndUserAccountId,status,MessagingEndUser.AccountId,System_Id__c,LastName__c,First_Name__c,Region__c
 				FROM MessagingSession
 				WHERE Id IN :vcIds
-				WITH SECURITY_ENFORCED
 			];
 		} catch (Exception e) {
 			System.debug(LoggingLevel.ERROR, e.getMessage());
@@ -113,8 +112,8 @@ public class DH_MessagingSessionTriggerHelper {
 		}
 	}
     /**
-	* Jira CC-572, CC-590,CC-481
-	* @description - This method will Creates the Person Account when the API Service invoked
+	* Author :Anitha
+	* @description - This method will Creates the Person Account when We click on create new patient in ris
 	* @param       - String
 	* @return      - Id (Account Id)
 	**/
@@ -128,55 +127,120 @@ public class DH_MessagingSessionTriggerHelper {
 		}
 		return pat;
 	}
+	 /**
+	* Author :Anitha
+	* @description - This method will get the MessagingSession Record for the given recordId
+	* @param       - String
+	* @return      - Id (MessagingSession Id)
+	**/
     @AuraEnabled
 	public static MessagingSession getMSRecord(String recordId) {
 		MessagingSession callRecord = new MessagingSession();
-		if (recordId != null && Schema.sObjectType.MessagingSession.isAccessible()) {
+		if (recordId != null ) {
 			callRecord = (DH_MessagingSessionTriggerHelper.getMessMap(new Set<id>{ id.valueOf(recordId) })).get(recordId);
 		}
 		return callRecord;
 	}
+	 /**
+	* Author :Anitha
+	* @description - This method will Creates the Person Account when We click on create new patient in ris
+	* @param       - MessagingSession vc
+	* @return      - Id (Account Id)
+	**/
     @AuraEnabled
 	public static Account createNewPatientServicePatient(MessagingSession vc) {
 		Account pat = new Account();
+		system.debug('Inside createNewPatientServicePatient');
+		system.debug('vc.EndUserAccountId'+vc.EndUserAccountId);
+	if (String.isBlank(vc.EndUserAccountId)) {
+   
 		try {
 			pat.lastName = vc.LastName__c;
 			pat.firstName = ' ' + vc.First_Name__c;
 			pat.DH_Status__c = DH_GlobalConstants.PERSON_ACCOUNT_STATUS;
 			pat.Region__c = vc.Region__c;
 			pat.recordTypeId = DH_GlobalConstants.PERSON_ACCOUNT_RECORD_TYPE_ID;
+			pat.DH_Patient_Key__c = vc.System_Id__c;
+			pat.Source_Type__c = 'Chat';
 			if (pat != null){
 				insert pat;
 			}
+			MessagingEndUser meu = [SELECT Id, AccountId FROM MessagingEndUser WHERE Id = :vc.MessagingEndUserId LIMIT 1];
+meu.AccountId = pat.Id;
+update meu;
+			System.debug('New Patient Created with Id: ' + pat.Id);
 			return pat;
 		} catch (Exception e) {
 			System.debug(LoggingLevel.DEBUG + e.getStackTraceString());
 			return null;
 		}
+	}else{
+		pat= [Select Id, FirstName, LastName from Account where Id=:vc.EndUserAccountId];
+	}
+	return pat;
+		
 	}
     /**
 	* Jira CC-572
-	* @description - This method will used for the API Callout
-	* @param       - String
-	* @return      - DH_DexOutGeneralServiceResponse
+	* @description - This method will call the create patient in RIS api and will return the jsonResponseList 
+	* @param       - String recordId, Account patientId
+	* @return      - String (response)
 	**/
 	@AuraEnabled
 	public static DH_DexOutGeneralServiceResponse invokeNewPatientService(String recordId, Account patientId) {
-		
-		MessagingSession vcRecord = new MessagingSession();
-		if (recordId != null) {
-			vcRecord = getMSRecord(recordId);
+		system.debug('Inside invokeNewPatientService');
+		system.debug('recordId'+recordId);
+		system.debug('patientId'+patientId);
+		MessagingSession MSRecord = new MessagingSession();
+		if (recordId != null ) {
+			MSRecord = getMSRecord(recordId);
 		}
 		DH_DexOutServiceRisNewPatientRequest npRequest = new DH_DexOutServiceRisNewPatientRequest();
 		DH_DexOutGeneralServiceResponse npResponse = new DH_DexOutGeneralServiceResponse();
 		npRequest.recordId = recordId;
-		npRequest.systemID = vcRecord.System_Id__c;
-		npRequest.sfId =patientId.id;
+		npRequest.systemID = MSRecord.System_Id__c;
+		npRequest.sfId =patientId.Id;
 		
 		if (npRequest != null) {
-			npResponse = DH_DexOutServiceRisNewPatient.invokeCreatePatientInRisApi(npRequest);
+			npResponse = DH_DexOutServiceRisNewPatientMS.invokeCreatePatientInRisApi(npRequest);
 		}
         system.debug('npResponse'+npResponse.response);
 		return npResponse;
 	}
+	 /**
+	* Jira CC-572
+	* @description - This method will create Contact Center Case for Messaging Session
+	* @param       - Id patientId, Id messagingSessionId
+	* @return      - void
+	**/
+ public static void createContactCenterCaseForMessaging(Id patientId, Id messagingSessionId) {
+    Map<Id, MessagingSession> msMap = DH_MessagingSessionTriggerHelper.getMessMap(new Set<Id>{ messagingSessionId });
+    DH_DexLoggingUtility.Logger logWrapper = new DH_DexLoggingUtility.Logger();
+
+    try {
+        MessagingSession ms = msMap.get(messagingSessionId);
+
+        // Create case only if the session is not completed (optional check)
+        if (ms.Status != 'Ended') {
+            Id currentUserId = UserInfo.getUserId();
+            Case c = new Case();
+
+            c.AccountId = patientId;
+            c.Status = DH_GlobalConstants.CASE_STATUS_NEW;
+            c.Subject =  DH_GlobalConstants.PIPE_DELIMITER ;
+            c.Priority = DH_GlobalConstants.CASE_PRIORITY_LOW;
+            c.OwnerId = currentUserId;
+            c.AccountId=ms.EndUserAccountId;
+
+            insert c;
+        }
+
+    } catch (Exception e) {
+        logWrapper.exp = e;
+        logWrapper.relatedTo = messagingSessionId;
+        logWrapper.className = 'DH_GeneralUtility-createContactCenterCaseForMessaging';
+        DH_DexLoggingUtility.createLogRecord(logWrapper);
+    }
+}
+
 }

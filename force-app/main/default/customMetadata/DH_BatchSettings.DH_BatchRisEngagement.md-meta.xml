@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>DH_BatchRisEngagement</label>
+    <protected>false</protected>
+    <values>
+        <field>DH_BatchName__c</field>
+        <value xsi:type="xsd:string">DH_BatchRisEngagement</value>
+    </values>
+    <values>
+        <field>DH_BatchSize__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_WhereCondition1__c</field>
+        <value xsi:type="xsd:string">(CommunicationChannel = &apos;DH_Email&apos; OR CommunicationChannel = &apos;DH_SMS&apos;) AND DH_isSynced__c = false AND (DH_NumberOfRetries__c &lt;3 OR DH_NumberOfRetries__c = null)</value>
+    </values>
+    <values>
+        <field>DH_WhereCondition2__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_WhereCondition3__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

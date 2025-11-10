@@ -41,6 +41,7 @@ public without sharing class DH_GeneralUtility {
 			}
 			if (userInfo != null && userInfo.FederationIdentifier != null) {
 				List<String> userList = userInfo.FederationIdentifier.split('@');
+                
 				userFederationId = userList[0];
 			}
 		} catch (Exception ex) {
@@ -174,6 +175,7 @@ public without sharing class DH_GeneralUtility {
 	 **/
 	public static String createRequestBody(DH_DexOutGeneralServiceRequest apiRequest) {
 		String requestBody;
+        System.debug('apiRequest'+apiRequest);
 		if (apiRequest != null) {
 			DH_IntegrationSetting__mdt integrationMetadata = DH_CustomMetadataDao.getIntegrationSetting('DH_RisNewPatientServiceSetting');
 			requestBody = integrationMetadata.DH_SampleRequest__c;

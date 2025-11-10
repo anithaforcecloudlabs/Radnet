@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>PAP</fullName>
+        <default>false</default>
+        <label>PAP</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Practice Overview</fullName>
+        <default>false</default>
+        <label>Practice Overview</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Practice Location</fullName>
+        <default>false</default>
+        <label>Practice Location</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Change Physician Details</fullName>
+        <default>false</default>
+        <label>Change Physician Details</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Add New Physician</fullName>
+        <default>false</default>
+        <label>Add New Physician</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Merges</fullName>
+        <default>false</default>
+        <label>Merges</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Email</fullName>
+        <default>false</default>
+        <label>Email</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Delete Competition</fullName>
+        <default>false</default>
+        <label>Delete Competition</label>
+    </standardValue>
+</StandardValueSet>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Ris Engagement Service Setting</label>
+    <protected>false</protected>
+    <values>
+        <field>DH_Action__c</field>
+        <value xsi:type="xsd:string">z_api_UpdateEngagementData</value>
+    </values>
+    <values>
+        <field>DH_ApiKey__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_AutoTriggerApiCount__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>DH_BaseUrl__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Description__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Email_Notification__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>DH_Email__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_ExpiryInSeconds__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Method__c</field>
+        <value xsi:type="xsd:string">POST</value>
+    </values>
+    <values>
+        <field>DH_NameCredential__c</field>
+        <value xsi:type="xsd:string">DH_RISEngagementService</value>
+    </values>
+    <values>
+        <field>DH_Notification__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_OfRetries__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>DH_RetryInterval__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_RetryRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>DH_SampleRequest__c</field>
+        <value xsi:type="xsd:string">{
+    &quot;data&quot;: [
+        {
+            &quot;SystemId&quot;: &quot;systemIdRep&quot;,
+            &quot;DH_Patient_Key__c&quot;: patientKeyRep,
+            &quot;Emails&quot;: [
+               ${
+                    &quot;SentDate&quot;: &quot;emailSentDateRep&quot;,
+                    &quot;SubjectLine&quot;: &quot;emailSubjectLineRep&quot;,
+                    &quot;DH_JobId__c&quot;: emailJobIdRep,
+                    &quot;DH_Order_Key__c&quot;: emailOrderkeyRep,
+                    &quot;DH_BatchId__c&quot;: emailBatchIdRep,
+                    &quot;SubscriberID&quot;: emailSubscriberIdRep,
+                    &quot;DateBounced&quot;: &quot;emailDataBouncedRep&quot;,
+                    &quot;NotSent&quot;: emailNotSentRep,
+                    &quot;NumberOfTotalClicks&quot;: emailNoOfTotalClicksRep,
+                    &quot;DH_JourneyName__c&quot;: &quot;emailJourneyNameRep&quot;,
+                    &quot;DH_JourneyTouchPoint__c&quot;: &quot;emailJourneyTouchPointRep&quot;
+                }$
+            ],
+            &quot;Sms&quot;: [
+                *{
+                    &quot;SentDate&quot;: &quot;smsSentDateRep&quot;,
+                    &quot;DH_Content_Body__c&quot;: &quot;smsContentRep&quot;,
+                    &quot;DH_JobId__c&quot;: smsJobIdRep,
+                    &quot;DH_Order_Key__c&quot;: smsOrderkeyRep,
+                    &quot;DH_BatchId__c&quot;: smsBatchIdRep,
+                    &quot;SubscriberID&quot;: smsSubscriberIdRep,
+                    &quot;Sent&quot;: smsSentRep,
+                    &quot;NotSent&quot;: smsNotSentRep,
+                    &quot;PhoneNumber&quot;: &quot;smsPhoneNumberRep&quot;,
+                    &quot;DH_JourneyName__c&quot;: &quot;smsJourneyNameRep&quot;,
+                    &quot;DH_JourneyTouchPoint__c&quot;: &quot;smsJourneyTouchPointRep&quot;
+                }*
+            ]
+        }
+    ]
+}</value>
+    </values>
+    <values>
+        <field>DH_SampleResponse__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_ServiceName__c</field>
+        <value xsi:type="xsd:string">RIS Engagement Service</value>
+    </values>
+    <values>
+        <field>DH_TimeOutInMilliseconds__c</field>
+        <value xsi:type="xsd:double">15000.0</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Default</label>
+    <protected>false</protected>
+    <values>
+        <field>CacheTimeout__c</field>
+        <value xsi:type="xsd:double">300.0</value>
+    </values>
+    <values>
+        <field>DirectionHelpers__c</field>
+        <value xsi:type="xsd:string">cache,locationiq,mapbox,osrm</value>
+    </values>
+    <values>
+        <field>DistancesHelpers__c</field>
+        <value xsi:type="xsd:string">cache,locationiq,mapbox,osrm</value>
+    </values>
+    <values>
+        <field>SearchHelpers__c</field>
+        <value xsi:type="xsd:string">cache,locationiq,mapbox,osrm</value>
+    </values>
+</CustomMetadata>

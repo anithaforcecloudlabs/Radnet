@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>DH_EmailSfIdRep</label>
+    <protected>false</protected>
+    <values>
+        <field>DH_AttributeDataType__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_AttributeDisplayWidth__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_AttributeLabel__c</field>
+        <value xsi:type="xsd:string">sf_id</value>
+    </values>
+    <values>
+        <field>DH_AttributeName__c</field>
+        <value xsi:type="xsd:string">Id</value>
+    </values>
+    <values>
+        <field>DH_AttributeSequenceNumber__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Component__c</field>
+        <value xsi:type="xsd:string">DH_DexOutServiceRisEIEmailRequest</value>
+    </values>
+    <values>
+        <field>DH_IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>DH_TypeAttributeDateDay__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_TypeAttributeDateMonth__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_dateStyle__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_validationCheck__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>DH_validationMessage__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

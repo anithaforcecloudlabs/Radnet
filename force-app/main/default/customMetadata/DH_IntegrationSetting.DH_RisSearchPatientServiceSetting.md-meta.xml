@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>RIS Search Patient Service Setting</label>
+    <protected>false</protected>
+    <values>
+        <field>DH_Action__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_ApiKey__c</field>
+        <value xsi:type="xsd:string">ai12345</value>
+    </values>
+    <values>
+        <field>DH_AutoTriggerApiCount__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>DH_BaseUrl__c</field>
+        <value xsi:type="xsd:string">https://patientsearchaggregator-api-ris.riosplatform.com/api/v1/patientsearchaggregator/patients?</value>
+    </values>
+    <values>
+        <field>DH_Description__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Email_Notification__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>DH_Email__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_ExpiryInSeconds__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_Method__c</field>
+        <value xsi:type="xsd:string">GET</value>
+    </values>
+    <values>
+        <field>DH_NameCredential__c</field>
+        <value xsi:type="xsd:string">DH_RisSearchPatientService</value>
+    </values>
+    <values>
+        <field>DH_Notification__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_OfRetries__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>DH_RetryInterval__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_RetryRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>DH_SampleRequest__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DH_SampleResponse__c</field>
+        <value xsi:type="xsd:string">[{&quot;patientKey&quot;:&quot;1964&quot;,&quot;firstName&quot;:&quot;Amanda&quot;,&quot;lastName&quot;:&quot;Ali&quot;,&quot;middleInitial&quot;:&quot;&quot;,&quot;birthDate&quot;:&quot;1984-02-09&quot;,&quot;mrn&quot;:&quot;1964&quot;,&quot;address&quot;:&quot;399WestWhiteClarendonFreewayLincoln,Nevada32527&quot;,&quot;phoneNumber&quot;:&quot;(444)444-4444(primary)&quot;,&quot;emailAddress&quot;:&quot;&quot;,&quot;systemID&quot;:&quot;CA&quot;,&quot;openEMROrder&quot;:null,&quot;openNonEMROrder&quot;:null,&quot;lastPerformedExam&quot;:null,&quot;nextScheduledExam&quot;:{&quot;scheduledDate&quot;:&quot;2016-03-09T13:00:00Z&quot;,&quot;examDescription&quot;:&quot;MRBrainW[70552]-Head&quot;,&quot;requestedBy&quot;:&quot;Jackson,Bob&quot;,&quot;modalityType&quot;:&quot;MR&quot;,&quot;siteDescription&quot;:&quot;Cedarville&quot;},&quot;groupingKey&quot;:&quot;0&quot;,&quot;previousFirstName&quot;:&quot;&quot;,&quot;previousLastName&quot;:&quot;&quot;,&quot;lastContact&quot;:null},{&quot;patientKey&quot;:&quot;152339&quot;,&quot;firstName&quot;:&quot;Magnus&quot;,&quot;lastName&quot;:&quot;Magnusson&quot;,&quot;middleInitial&quot;:&quot;&quot;,&quot;birthDate&quot;:&quot;1986-02-09&quot;,&quot;groupingKey&quot;:&quot;1&quot;},{&quot;patientKey&quot;:&quot;1345639&quot;,&quot;firstName&quot;:&quot;Magnus&quot;,&quot;lastName&quot;:&quot;Magnusson&quot;,&quot;middleInitial&quot;:&quot;&quot;,&quot;nextScheduledExam&quot;:{&quot;scheduledDate&quot;:&quot;2016-03-09T13:00:00Z&quot;,&quot;examDescription&quot;:&quot;MRBrainW[70552]-Head&quot;,&quot;requestedBy&quot;:&quot;Jackson,Bob&quot;,&quot;modalityType&quot;:&quot;MR&quot;,&quot;siteDescription&quot;:&quot;Cedarville&quot;},&quot;birthDate&quot;:&quot;1994-03-09&quot;,&quot;groupingKey&quot;:&quot;1&quot;},{&quot;patientKey&quot;:175393,&quot;firstName&quot;:&quot;Jayne&quot;,&quot;lastName&quot;:&quot;ODell&quot;,&quot;middleInitial&quot;:&quot;D&quot;,&quot;birthDate&quot;:&quot;&quot;,&quot;mrn&quot;:&quot;z40000009&quot;,&quot;address&quot;:&quot;9HamptonDriveBerkeley,CA60163&quot;,&quot;phoneNumber&quot;:&quot;(902)888-7610(primary)(mobile)(222)222-2222(333)333-3333(mobile)(444)444-4444(mobile)&quot;,&quot;emailAddress&quot;:&quot;eradjayne@gmail.com&quot;,&quot;systemID&quot;:&quot;CA&quot;,&quot;openEMROrder&quot;:{&quot;requestedDate&quot;:&quot;2021-01-18T13:46:38.4577503Z&quot;,&quot;orderedProcedures&quot;:&quot;MRChestWo[71550]&quot;,&quot;requestedBy&quot;:&quot;Adams,John&quot;},&quot;openNonEMROrder&quot;:{&quot;requestedDate&quot;:&quot;2023-09-07T19:59:36.1470967Z&quot;,&quot;emrCode&quot;:null,&quot;requestedBy&quot;:&quot;Chang,Henry&quot;,&quot;orderedProcedures&quot;:&quot;BreastImagingtobeDetermined[BID]&quot;},&quot;lastPerformedExam&quot;:{&quot;scheduledDate&quot;:&quot;2023-09-07T17:36:00Z&quot;,&quot;examDescription&quot;:&quot;MADigitalMammoScreenBilat[G0202]-Breast-Bilateral&quot;,&quot;requestedBy&quot;:&quot;Chang,Henry&quot;,&quot;modalityType&quot;:&quot;MA&quot;,&quot;siteDescription&quot;:&quot;PineGrove&quot;},&quot;nextScheduledExam&quot;:{&quot;scheduledDate&quot;:&quot;2020-02-25T18:50:00Z&quot;,&quot;examDescription&quot;:&quot;MRAbdomenW/Wo[74183]-Abdomen&quot;,&quot;requestedBy&quot;:&quot;Adams,John&quot;,&quot;modalityType&quot;:&quot;MR&quot;,&quot;siteDescription&quot;:&quot;PineGrove&quot;},&quot;groupingKey&quot;:2,&quot;previousFirstName&quot;:&quot;&quot;,&quot;previousLastName&quot;:&quot;ODell&quot;,&quot;lastContact&quot;:{&quot;lastContactDate&quot;:&quot;2023-07-12T16:18:04.670413Z&quot;,&quot;lastFollowUpTypeCode&quot;:&quot;QuickMessageSMS&quot;,&quot;lastContactNotes&quot;:&quot;test&quot;,&quot;orderedProcedures&quot;:&quot;MRCervicalSpineW[72142]-Cervicalspine&quot;,&quot;requestedBy&quot;:&quot;Adams,John&quot;}}]</value>
+    </values>
+    <values>
+        <field>DH_ServiceName__c</field>
+        <value xsi:type="xsd:string">RIS Search Patient Service</value>
+    </values>
+    <values>
+        <field>DH_TimeOutInMilliseconds__c</field>
+        <value xsi:type="xsd:double">15000.0</value>
+    </values>
+</CustomMetadata>

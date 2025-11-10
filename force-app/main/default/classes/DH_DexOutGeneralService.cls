@@ -45,6 +45,8 @@ public class DH_DexOutGeneralService {
                     request.setTimeout(Integer.valueOf(httpRequestParameters.apiSetting.DH_TimeOutInMilliseconds__c));
                 }
             }
+            System.debug('API Request Endpoint: ' + request.getEndpoint());
+
             response = http.send(request);
             responseWrapper.response = response.getBody();
             responseWrapper.statusCode = response.getStatusCode();

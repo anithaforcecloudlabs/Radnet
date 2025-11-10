@@ -63,4 +63,57 @@ public class DH_CaseTriggerHeplerTest {
 		}
         return caseRecord;
     }
+
+        /**
+	* @Jira CC-29
+    * @description - Method which covers the Entitlement code.
+    * @param       - None
+    * @return      - void
+	**/
+    @isTest
+    public static void caseEntitlemtMatchingAccountTest(){
+       
+        Account acc = [Select Id from Account Limit 1];
+        acc.DH_Contact_Point_Email__c = 'example@gmail.com';
+        acc.DH_Contact_Point_Phone__c = '8964549354';
+        update acc;
+
+        Entitlement entl = new Entitlement(Name='TestEntitlement', AccountId=acc.Id);
+        insert entl;
+
+        Case caseRec = DH_TestDataFactory.createCase('Test Case Created One',acc.Id);
+        caseRec.Origin = 'Chat';
+        caseRec.Inquiry_Type__c = 'BillingInquiry';
+        caseRec.Phone__C = '8964549354';
+        caseRec.Email__C = 'example@gmail.com';
+        caseRec.Status = 'In Progress';
+        caseRec.RecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('Chat Support Case').getRecordTypeId();
+        caseRec.EntitlementId = entl.Id;
+        Insert caseRec;
+
+        Test.startTest();
+        caseRec.Status = 'Closed';
+        update caseRec;
+        Test.stopTest();
+    }
+
+    /**
+	* @Jira CC-29
+    * @description - Method which covers the Entitlement code.
+    * @param       - None
+    * @return      - void
+	**/
+    @isTest
+     public static void caseEntitlemtNotMatchingAccountTest(){
+
+        Test.startTest();
+        Case caseRec = DH_TestDataFactory.createCase('Test Case Created One', null);
+        caseRec.Origin = 'Chat';
+        caseRec.Inquiry_Type__c = 'BillingInquiry';
+        caseRec.Phone__C = '8964549354';
+        caseRec.Status = 'In Progress';
+        caseRec.RecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('Chat Support Case').getRecordTypeId();
+        Insert caseRec;
+        Test.stopTest();
+    }
 }
