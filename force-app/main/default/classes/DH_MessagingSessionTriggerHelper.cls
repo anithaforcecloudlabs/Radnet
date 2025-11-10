@@ -24,7 +24,7 @@ public class DH_MessagingSessionTriggerHelper {
 	* @description - This method returns the Id previously selected record by a scheduler.
 	* @param       - String
 	* @return      - Account
-	**/
+	*/
     @AuraEnabled
     public static Account getPreviousVerifiedPatient(String recordId) {
         String idOfPreviousCall;
@@ -92,7 +92,7 @@ public class DH_MessagingSessionTriggerHelper {
 			vcList = [SELECT Id,EndUserAccountId,System_Id__c,LastName__c,First_Name__c,Region__c
 				FROM MessagingSession
 				WHERE Id IN :vcIds
-				WITH SECURITY_ENFORCED
+				
 			];
 		} catch (Exception e) {
 			System.debug(LoggingLevel.ERROR, e.getMessage());
@@ -154,29 +154,5 @@ public class DH_MessagingSessionTriggerHelper {
 			return null;
 		}
 	}
-    /**
-	* Jira CC-572
-	* @description - This method will used for the API Callout
-	* @param       - String
-	* @return      - DH_DexOutGeneralServiceResponse
-	**/
-	@AuraEnabled
-	public static DH_DexOutGeneralServiceResponse invokeNewPatientService(String recordId, Account patientId) {
-		
-		MessagingSession vcRecord = new MessagingSession();
-		if (recordId != null) {
-			vcRecord = getMSRecord(recordId);
-		}
-		DH_DexOutServiceRisNewPatientRequest npRequest = new DH_DexOutServiceRisNewPatientRequest();
-		DH_DexOutGeneralServiceResponse npResponse = new DH_DexOutGeneralServiceResponse();
-		npRequest.recordId = recordId;
-		npRequest.systemID = vcRecord.System_Id__c;
-		npRequest.sfId =patientId.id;
-		
-		if (npRequest != null) {
-			npResponse = DH_DexOutServiceRisNewPatient.invokeCreatePatientInRisApi(npRequest);
-		}
-        system.debug('npResponse'+npResponse.response);
-		return npResponse;
-	}
+   
 }
